@@ -22,13 +22,7 @@ const routes = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route path="/" element={<App />}>
-        <Route path="/" element={<Home />} 
-        // loader={() => {
-        //   return fetch("https://pokeapi.co/api/v2/pokemon/")
-        //     .then((res) => res.json())
-        //     .then((data) => data.results);
-        // }} 
-        />
+        <Route path="/" element={<Home />} />
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/categories/:id" element={<Categories />}/>
         <Route path="/settingscategories" element={<SettingsCategories />}></Route>

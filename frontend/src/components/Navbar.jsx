@@ -1,9 +1,9 @@
 function Navbar() {
-    return (
-      <main>
-        <h1>Navbar page</h1>
-      </main>
-    )
-  }
-  
-  export default Navbar;
+  return (
+    <main>
+      <h1>Navbar component</h1>
+    </main>
+  );
+}
+
+export default Navbar;

@@ -1,9 +1,12 @@
+import Header from "../../components/Header";
+
 function Favorites() {
-    return (
-      <main>
-        <h1>Favorites page</h1>
-      </main>
-    )
-  }
-  
-  export default Favorites;
+  return (
+    <main>
+      <Header />
+      <h1>Favorites page</h1>
+    </main>
+  );
+}
+
+export default Favorites;

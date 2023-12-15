@@ -1,9 +1,12 @@
+import Header from "../../components/Header";
+
 function UserProfile() {
-    return (
-      <main>
-        <h1>User Profile</h1>
-      </main>
-    )
-  }
-  
-  export default UserProfile;
+  return (
+    <main>
+      <Header />
+      <h1>User Profile</h1>
+    </main>
+  );
+}
+
+export default UserProfile;

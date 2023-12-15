@@ -1,9 +1,12 @@
+import Header from "../../components/Header";
+
 function Categories() {
-    return (
-      <main>
-        <h1>Categories page</h1>
-      </main>
-    )
-  }
-  
-  export default Categories;
+  return (
+    <main>
+      <Header />
+      <h1>Categories page</h1>
+    </main>
+  );
+}
+
+export default Categories;

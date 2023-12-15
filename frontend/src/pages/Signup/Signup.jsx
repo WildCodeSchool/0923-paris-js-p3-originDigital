@@ -1,3 +1,5 @@
+import { Icon } from "@iconify/react";
+import Header from "../../components/Header/Header";
 import "./Signup.css";
 
 function Signup() {
@@ -5,11 +7,16 @@ function Signup() {
     <section className="container_body">
       <div className="container_logo">
         <img id="logo_sign" src="src/assets/logoprin.png" alt="" />
-        <img
-          id="logo_prof"
-          src="src/assets/User profile button - Desktop.png"
-          alt=""
+        <Header />
+        <Icon
+          id="icon_sign"
+          icon="ph:user-circle-thin"
+          color="#f3f3e6"
+          width="90"
+          height="90"
         />
+      </div>
+      <div className="text_title">
         <h1 className="title_signup">SIGN UP</h1>
         <p id="join_us">Join us!</p>
       </div>

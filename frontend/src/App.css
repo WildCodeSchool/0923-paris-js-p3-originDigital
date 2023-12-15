@@ -2,6 +2,11 @@
    v2.0 | 20110126
    License: none (public domain)
 */
+:root {
+  --black: #272a31;
+  --white: #f3f3e6;
+  --orange: #dda74f;
+}
 
 html,
 body,
@@ -127,4 +132,15 @@ q:after {
 table {
   border-collapse: collapse;
   border-spacing: 0;
+}
+.main {
+  padding-bottom: 7rem;
+  background-color: #272a31;
+}
+.footer {
+  bottom: 0;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  height: 5.5rem;
 }

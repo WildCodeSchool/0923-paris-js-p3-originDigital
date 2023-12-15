@@ -1,0 +1,11 @@
+.bloc_Navbar {
+  border-top: 0.0002rem solid;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
+  background-color: #272a31;
+  height: 5.5rem;
+}

@@ -53,7 +53,7 @@ function Navbar() {
               width="39"
               height="39"
               onClick={() => {
-                Navigate("/settingscategories/");
+                Navigate("/signup");
               }}
             />
           </>
@@ -64,12 +64,18 @@ function Navbar() {
               color="var(--white)"
               width="33"
               height="33"
+              onClick={() => {
+                Navigate("/settingscategories");
+              }}
             />
             <Icon
               icon="grommet-icons:validate"
               color="var(--white)"
               width="33"
               height="33"
+              onClick={() => {
+                Navigate("/adminreviews");
+              }}
             />
           </>
         )}

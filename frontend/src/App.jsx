@@ -1,8 +1,14 @@
+import { Outlet } from "react-router-dom";
+import Navbar from "./components/Navbar";
 import "./App.css";
-import Signup from "./pages/Signup";
 
 function App() {
-  return <Signup />;
+  return (
+    <>
+      <Outlet />
+      <Navbar />
+    </>
+  );
 }
 
 export default App;

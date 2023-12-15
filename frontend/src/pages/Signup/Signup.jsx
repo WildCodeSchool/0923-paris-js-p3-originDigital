@@ -5,6 +5,11 @@ function Signup() {
     <section className="container_body">
       <div className="container_logo">
         <img id="logo_sign" src="src/assets/logoprin.png" alt="" />
+        <img
+          id="logo_prof"
+          src="src/assets/User profile button - Desktop.png"
+          alt=""
+        />
         <h1 className="title_signup">SIGN UP</h1>
         <p id="join_us">Join us!</p>
       </div>

@@ -1,4 +1,3 @@
-import { Icon } from "@iconify/react";
 import Navbar from "../../components/NavBar/Navbar";
 import Header from "../../components/Header/Header";
 import "./Login.css";
@@ -6,18 +5,8 @@ import "./Login.css";
 function Login() {
   return (
     <>
-      <main className="container_body">
-        <div className="container_logo">
-          <img id="logo_sign" src="src/assets/logoprin.png" alt="" />
-          <Header />
-          <Icon
-            id="icon_sign"
-            icon="ph:user-circle-thin"
-            color="#f3f3e6"
-            width="90"
-            height="90"
-          />
-        </div>
+      <section className="container_Body_Header">
+        <Header />
         <div className="text_title_log">
           <h1 className="title_log">LOG IN</h1>
           <p id="text_log">Hey! Welcome back!</p>
@@ -52,7 +41,7 @@ function Login() {
             Sign up
           </button>
         </div>
-      </main>
+      </section>
       <Navbar />
     </>
   );

@@ -1,3 +1,15 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding-top: 0.5rem;
+}
+
+#logo_sign {
+  width: 63px;
+  height: 63px;
+}
+
 .container_search {
   display: flex;
   align-items: center;
@@ -6,9 +18,6 @@
   border-radius: 50px 50px 50px 50px;
   background-color: rgba(50, 50, 50, 1);
   border: solid 2px rgba(255, 255, 255, 1);
-  margin-left: 15%;
-  padding-bottom: 1rem;
-  padding-left: 5%;
   color: rgba(255, 255, 255, 1);
   font-family: "poppins";
   font-weight: bold;
@@ -16,18 +25,17 @@
 }
 
 .input_search {
-  width: 89%;
-  height: 3.8rem;
+  width: 100%;
+  height: 90%;
   background-color: rgba(50, 50, 50, 1);
   border-style: none;
   color: rgba(255, 255, 255, 1);
-  margin-top: 1rem;
   font-size: 15px;
+  border-radius: 50px;
 }
 
 #icon_search {
-  padding-top: 0.5rem;
-  padding-right: 0.5rem;
+  margin-right: 5px;
 }
 
 .input_search:hover {

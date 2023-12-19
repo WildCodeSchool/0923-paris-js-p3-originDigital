@@ -1,11 +1,12 @@
 import { Icon } from "@iconify/react";
-import { useState } from "react";
+
 import "./Navbar.css";
 import { useNavigate } from "react-router-dom";
+import useOverview from "../../context/Overviewcontext";
 
 function Navbar() {
   const Navigate = useNavigate();
-  const [isAdmin] = useState(false);
+  const { isAdmin } = useOverview();
   return (
     <main>
       <div className="bloc_Navbar">
@@ -19,7 +20,7 @@ function Navbar() {
             Navigate("/");
           }}
         />
-        {isAdmin ? (
+        {!isAdmin ? (
           <>
             <div className="favoritesNavbar_bloc">
               <Icon

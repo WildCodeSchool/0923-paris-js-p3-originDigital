@@ -1,15 +1,29 @@
+import { useState } from "react";
+import { Icon } from "@iconify/react";
+import Header from "../../components/Header/Header";
 import "./Signup.css";
+import Navbar from "../../components/NavBar/Navbar";
+import useOverview from "../../context/Overviewcontext";
 
 function Signup() {
+  const [adminRegister] = useState(true);
+  const { setIsAdmin } = useOverview();
+  setIsAdmin(adminRegister);
+
   return (
     <section className="container_body">
       <div className="container_logo">
         <img id="logo_sign" src="src/assets/logoprin.png" alt="" />
-        <img
-          id="logo_prof"
-          src="src/assets/User profile button - Desktop.png"
-          alt=""
+        <Header />
+        <Icon
+          id="icon_sign"
+          icon="ph:user-circle-thin"
+          color="#f3f3e6"
+          width="90"
+          height="90"
         />
+      </div>
+      <div className="text_title">
         <h1 className="title_signup">SIGN UP</h1>
         <p id="join_us">Join us!</p>
       </div>
@@ -46,6 +60,7 @@ function Signup() {
           SIGN UP
         </button>
       </div>
+      <Navbar />
     </section>
   );
 }

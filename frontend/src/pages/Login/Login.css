@@ -1,0 +1,70 @@
+.title_log {
+  color: rgba(255, 255, 255, 1);
+  margin-left: 36%;
+  margin-bottom: 0.5rem;
+  margin-top: 1rem;
+  font-size: 35px;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 1);
+}
+
+#text_log {
+  color: rgba(255, 255, 255, 1);
+  margin-left: 22%;
+  margin-bottom: 1.5rem;
+  font-size: 25px;
+  margin-top: 1rem;
+}
+.container_password {
+  display: flex;
+  flex-direction: column;
+}
+
+.link_log {
+  flex-direction: column;
+  margin-top: 1rem;
+  margin-left: 20%;
+  color: var(--white);
+}
+
+.text_log_end {
+  color: var(--white);
+  margin-top: 1rem;
+  margin-left: 22%;
+}
+
+.signup_end {
+  color: rgba(221, 167, 79, 1);
+  margin-left: 37%;
+  background-color: var(--black);
+  border-style: none;
+  font-weight: bold;
+  font-size: 22px;
+  font-family: "poppins";
+}
+
+@media only screen and (min-width: 768px) {
+  .main {
+    background-color: var(--black);
+    padding-bottom: 11rem;
+  }
+
+  .title_log {
+    margin-left: 44%;
+  }
+
+  #text_log {
+    margin-left: 39%;
+  }
+
+  .link_log {
+    margin-left: 36%;
+  }
+
+  .text_log_end {
+    margin-left: 40%;
+  }
+
+  .signup_end {
+    margin-left: 44.5%;
+  }
+}

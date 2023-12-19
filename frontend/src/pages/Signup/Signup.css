@@ -1,5 +1,5 @@
 .container_body {
-  background-color: rgba(50, 50, 50, 1);
+  background-color: var(--black);
 }
 
 #logo_sign {
@@ -21,7 +21,7 @@
   color: rgba(255, 255, 255, 1);
   margin-left: 36%;
   margin-bottom: 0.5rem;
-  margin-top: 1rem;
+  margin-top: 0.5rem;
   font-size: 35px;
   -webkit-text-stroke: 1px rgba(255, 255, 255, 1);
 }
@@ -29,9 +29,9 @@
 #join_us {
   color: rgba(255, 255, 255, 1);
   margin-left: 40%;
-  margin-bottom: 3rem;
+  margin-bottom: 1rem;
   font-size: 25px;
-  margin-top: 6%;
+  margin-top: 1rem;
 }
 #text_sign {
   margin-left: 4%;
@@ -41,14 +41,14 @@
 .container_email {
   color: rgba(255, 255, 255, 1);
   margin-left: 8%;
-  margin-bottom: 5%;
+  margin-bottom: 0.5rem;
 }
 
 #email {
   width: 85%;
   height: 3.8rem;
   border-radius: 50px 50px 50px 50px;
-  background-color: rgba(50, 50, 50, 1);
+  background-color: var(--black);
   border: solid 2px rgba(255, 255, 255, 1);
   padding-left: 4.5%;
   color: rgba(255, 255, 255, 1);
@@ -58,7 +58,7 @@
 .container_username {
   color: rgba(255, 255, 255, 1);
   margin-left: 8%;
-  margin-bottom: 5%;
+  margin-bottom: 0.5rem;
 }
 
 #text_user {
@@ -71,7 +71,7 @@
   width: 85%;
   height: 3.8rem;
   border-radius: 50px 50px 50px 50px;
-  background-color: rgba(50, 50, 50, 1);
+  background-color: var(--black);
   border: solid 2px rgba(255, 255, 255, 1);
   padding-left: 4.5%;
   color: rgba(255, 255, 255, 1);
@@ -82,7 +82,6 @@
 .container_password {
   color: rgba(255, 255, 255, 1);
   margin-left: 8%;
-  margin-bottom: 5%;
 }
 
 #text_pass {
@@ -95,7 +94,7 @@
   width: 85%;
   height: 3.8rem;
   border-radius: 50px 50px 50px 50px;
-  background-color: rgba(50, 50, 50, 1);
+  background-color: var(--black);
   border: solid 2px rgba(255, 255, 255, 1);
   padding-left: 4.5%;
   color: rgba(255, 255, 255, 1);
@@ -149,7 +148,7 @@
     width: 265%;
     height: 3rem;
     border-radius: 50px 50px 50px 50px;
-    background-color: rgba(50, 50, 50, 1);
+    background-color: var(--black);
     border: solid 2px rgba(255, 255, 255, 1);
     margin-left: 85%;
     padding-bottom: 1rem;
@@ -158,6 +157,10 @@
     font-family: "poppins";
     font-size: 15px;
     margin-top: 37px;
+  }
+
+  .input_search {
+    background-color: var(--black);
   }
 
   .title_signup {
@@ -191,7 +194,7 @@
     width: 25%;
     height: 3.8rem;
     border-radius: 50px 50px 50px 50px;
-    background-color: rgba(50, 50, 50, 1);
+    background-color: var(--black);
     border: solid 2px rgba(255, 255, 255, 1);
     padding-left: 1.5%;
     color: rgba(255, 255, 255, 1);
@@ -214,7 +217,7 @@
     width: 25%;
     height: 3.8rem;
     border-radius: 50px 50px 50px 50px;
-    background-color: rgba(50, 50, 50, 1);
+    background-color: var(--black);
     border: solid 2px rgba(255, 255, 255, 1);
     padding-left: 1.5%;
     color: rgba(255, 255, 255, 1);
@@ -237,7 +240,7 @@
     width: 25%;
     height: 3.8rem;
     border-radius: 50px 50px 50px 50px;
-    background-color: rgba(50, 50, 50, 1);
+    background-color: var(--black);
     border: solid 2px rgba(255, 255, 255, 1);
     padding-left: 1.5%;
     color: rgba(255, 255, 255, 1);

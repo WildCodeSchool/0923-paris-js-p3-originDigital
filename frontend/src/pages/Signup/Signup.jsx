@@ -1,8 +1,15 @@
+import { useState } from "react";
 import { Icon } from "@iconify/react";
 import Header from "../../components/Header/Header";
 import "./Signup.css";
+import Navbar from "../../components/NavBar/Navbar";
+import useOverview from "../../context/Overviewcontext";
 
 function Signup() {
+  const [adminRegister] = useState(true);
+  const { setIsAdmin } = useOverview();
+  setIsAdmin(adminRegister);
+
   return (
     <section className="container_body">
       <div className="container_logo">
@@ -53,6 +60,7 @@ function Signup() {
           SIGN UP
         </button>
       </div>
+      <Navbar />
     </section>
   );
 }

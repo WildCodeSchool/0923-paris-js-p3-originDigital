@@ -1,18 +1,14 @@
-import { useState } from "react";
 import { Icon } from "@iconify/react";
+import { useNavigate } from "react-router-dom";
 import Header from "../../components/Header/Header";
-import "./Signup.css";
-import Navbar from "../../components/NavBar/Navbar";
-import useOverview from "../../context/Overviewcontext";
+import "./ForgotPassword.css";
 
-function Signup() {
-  const [adminRegister] = useState(false);
-  const { setIsAdmin } = useOverview();
-  setIsAdmin(adminRegister);
+function ForgotPassword() {
+  const Navigate = useNavigate();
 
   return (
-    <section className="container_Body_Signup">
-      <div className="container_logo">
+    <>
+      <div className="container_Logo">
         <img id="logo_sign" src="src/assets/logoprin.png" alt="" />
         <Header />
         <Icon
@@ -21,11 +17,14 @@ function Signup() {
           color="#f3f3e6"
           width="90"
           height="90"
+          onClick={() => {
+            Navigate("/usersprofile/:id");
+          }}
         />
       </div>
-      <div className="text_title">
-        <h1 className="title_signup">SIGN UP</h1>
-        <p id="join_us">Join us!</p>
+      <div className="text_Forgot">
+        <p id="text_Oups">OUPS</p>
+        <p id="text_Oups2">We’ll send you a link to reset your password</p>
       </div>
       <div className="container_email">
         <p id="text_sign">Email</p>
@@ -46,23 +45,13 @@ function Signup() {
           name="username"
         />
       </div>
-      <div className="container_password">
-        <p id="text_pass">Password</p>
-        <input
-          type="password"
-          id="pass"
-          placeholder="Password"
-          name="password"
-        />
-      </div>
       <div className="container_butsignup">
         <button className="signup_button" type="button">
-          SIGN UP
+          RESET
         </button>
       </div>
-      <Navbar />
-    </section>
+    </>
   );
 }
 
-export default Signup;
+export default ForgotPassword;

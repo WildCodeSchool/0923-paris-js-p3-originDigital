@@ -1,4 +1,4 @@
-.container_Body {
+.container_Body_Upload {
   background-color: var(--black);
   display: flex;
   flex-direction: column;
@@ -11,38 +11,26 @@
 .upload_Main_Title {
   font-size: 35px;
   margin-top: 4rem;
+  width: 80%;
+  margin-left: 10%;
 }
 
 .short_Or_Video_Container {
   width: 85%;
-  height: 30%;
+  height: 60%;
   margin: auto;
   display: grid;
   gap: 1rem;
 }
-.add_A_Short_Container {
-  border: dashed var(--orange);
-  padding: 1rem;
-}
+
+.add_A_Short_Container,
 .add_A_Video_Container {
-  border: dashed var(--orange);
+  border: dashed var(--white);
   padding: 1rem;
 }
 
-.next_btn {
-  background-color: var(--orange);
-  color: var(--black);
-  border-radius: 50px;
-  font-size: 30px;
-  font-weight: 400;
-  display: flex;
-  padding: 0.625rem;
-  justify-content: center;
-  align-items: center;
-  width: 80%;
-  margin-left: 10%;
-  margin-bottom: 2rem;
-}
-
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 1024px) {
+  .short_Or_Video_Container {
+    width: 50%;
+  }
 }

@@ -44,5 +44,8 @@
   margin-bottom: 2rem;
 }
 
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 1024px) {
+  .container_Body {
+    min-height: calc(100vh);
+  }
 }

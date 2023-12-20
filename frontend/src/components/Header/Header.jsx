@@ -13,18 +13,18 @@ function Header() {
   return (
     <main className="header">
       <div className="container_Logo">
-        <img id="logo_sign" src="src/assets/logoprin.png" alt="" />
+        <img id="logo_Sign" src="src/assets/logoprin.png" alt="" />
       </div>
-      <div className="container_search">
+      <div className="container_Search">
         <input
-          className="input_search"
+          className="input_Search"
           type="text"
           placeholder="Search..."
           value={searchTerm}
           onChange={handleInputChange}
         />
         <Icon
-          id="icon_search"
+          id="icon_Search"
           type="button"
           onClick={handleSearch}
           icon="iconoir:search"
@@ -34,7 +34,7 @@ function Header() {
         />
       </div>
       <Icon
-        id="icon_sign"
+        id="icon_Sign"
         icon="ph:user-circle-thin"
         color="#f3f3e6"
         width="90"

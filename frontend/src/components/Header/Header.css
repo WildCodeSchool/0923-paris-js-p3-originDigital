@@ -1,36 +1,66 @@
-.container_search {
+.header {
   display: flex;
   align-items: center;
-  width: 65%;
-  height: 3.8rem;
-  border-radius: 50px 50px 50px 50px;
-  background-color: rgba(50, 50, 50, 1);
-  border: solid 2px rgba(255, 255, 255, 1);
-  margin-left: 15%;
-  padding-bottom: 1rem;
-  padding-left: 5%;
-  color: rgba(255, 255, 255, 1);
-  font-family: "poppins";
-  font-weight: bold;
-  font-size: 15px;
-}
-
-.input_search {
-  width: 89%;
-  height: 3.8rem;
-  background-color: rgba(50, 50, 50, 1);
-  border-style: none;
-  color: rgba(255, 255, 255, 1);
-  margin-top: 1rem;
-  font-size: 15px;
-}
-
-#icon_search {
+  justify-content: space-around;
   padding-top: 0.5rem;
-  padding-right: 0.5rem;
+}
+
+#logo_Sign {
+  width: 63px;
+  height: 63px;
+}
+
+.container_Search {
+  display: none;
+}
+
+.input_Search {
+  display: none;
+}
+
+#icon_Search {
+  display: none;
+}
+
+#icon_Sign {
+  display: none;
 }
 
 .input_search:hover {
   border: none;
   outline: none;
+}
+
+@media only screen and (min-width: 1024px) {
+  #icon_Sign {
+    display: block;
+  }
+  #icon_Search {
+    display: block;
+  }
+  .container_Search {
+    display: block;
+    display: flex;
+    align-items: center;
+    width: 65%;
+    height: 3.8rem;
+    border-radius: 50px 50px 50px 50px;
+    background-color: var(--black);
+    border: solid 2px rgba(255, 255, 255, 1);
+    color: rgba(255, 255, 255, 1);
+    font-family: "poppins";
+    font-weight: bold;
+    font-size: 15px;
+  }
+
+  .input_Search {
+    display: block;
+    width: 95%;
+    height: 90%;
+    background-color: var(--black);
+    border-style: none;
+    color: rgba(255, 255, 255, 1);
+    font-size: 15px;
+    border-radius: 50px;
+  }
 }

@@ -1,51 +1,67 @@
-.container_body {
+.container_Body_Signup {
   background-color: var(--black);
-}
-
-#logo_sign {
-  width: 63px;
-  height: 63px;
-  margin-left: 43%;
-  margin-top: 8%;
+  min-height: calc(100vh - 5.5rem);
+  width: 100%;
 }
 
 .container_search {
   display: none;
 }
 
-#icon_sign {
-  display: none;
+.container_Sign {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
 }
 
-.title_signup {
+.text_Title_Sign {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: var(--white);
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.title_Signup {
   color: rgba(255, 255, 255, 1);
-  margin-left: 36%;
-  margin-bottom: 0.5rem;
-  margin-top: 0.5rem;
   font-size: 35px;
   -webkit-text-stroke: 1px rgba(255, 255, 255, 1);
 }
 
-#join_us {
+#join_Us {
   color: rgba(255, 255, 255, 1);
-  margin-left: 40%;
-  margin-bottom: 1rem;
   font-size: 25px;
-  margin-top: 1rem;
 }
-#text_sign {
-  margin-left: 4%;
-  margin-bottom: 1rem;
+
+#text_Sign {
   font-size: 20px;
-}
-.container_email {
-  color: rgba(255, 255, 255, 1);
-  margin-left: 8%;
   margin-bottom: 0.5rem;
+  margin-left: 1rem;
+}
+
+.container_Input_Sign {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: var(--white);
+  align-items: center;
+  gap: 0.5rem;
+  width: 80%;
+}
+
+.container_Sign {
+  display: flex;
+}
+
+.container_Email {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 #email {
-  width: 85%;
   height: 3.8rem;
   border-radius: 50px 50px 50px 50px;
   background-color: var(--black);
@@ -54,21 +70,22 @@
   color: rgba(255, 255, 255, 1);
   font-family: "poppins";
   font-size: 15px;
-}
-.container_username {
-  color: rgba(255, 255, 255, 1);
-  margin-left: 8%;
   margin-bottom: 0.5rem;
 }
 
-#text_user {
-  margin-left: 4%;
-  margin-bottom: 1rem;
+.container_User {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+#text_User {
   font-size: 20px;
+  margin-bottom: 0.5rem;
+  margin-left: 1rem;
 }
 
 #username {
-  width: 85%;
   height: 3.8rem;
   border-radius: 50px 50px 50px 50px;
   background-color: var(--black);
@@ -77,21 +94,22 @@
   color: rgba(255, 255, 255, 1);
   font-family: "poppins";
   font-size: 15px;
+  margin-bottom: 0.5rem;
 }
 
-.container_password {
-  color: rgba(255, 255, 255, 1);
-  margin-left: 8%;
+.container_Pass {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
-#text_pass {
-  margin-left: 4%;
-  margin-bottom: 1rem;
+#text_Pass {
   font-size: 20px;
+  margin-bottom: 0.5rem;
+  margin-left: 1rem;
 }
 
 #pass {
-  width: 85%;
   height: 3.8rem;
   border-radius: 50px 50px 50px 50px;
   background-color: var(--black);
@@ -108,14 +126,15 @@
   padding-left: 3%;
 }
 
-.container_butsignup {
-  height: 10rem;
+.container_But_Signup {
+  display: flex;
+  justify-content: center;
+  width: 80%;
 }
 
-.signup_button {
-  margin-left: 12%;
+.signup_Button {
+  width: 100%;
   margin-top: 3rem;
-  width: 75%;
   height: 3.8rem;
   background-color: rgba(221, 167, 79, 1);
   border-radius: 50px 50px 50px 50px;
@@ -124,7 +143,7 @@
   border: 1.5px rgba(221, 167, 79, 1);
 }
 
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 1024px) {
   .container_logo {
     display: flex;
     justify-content: center;
@@ -138,60 +157,50 @@
   }
   #icon_sign {
     display: initial;
-    margin-left: 64%;
-    margin-top: 3%;
   }
 
   .container_search {
     display: flex;
     align-items: center;
-    width: 265%;
+    width: 50%;
     height: 3rem;
     border-radius: 50px 50px 50px 50px;
     background-color: var(--black);
     border: solid 2px rgba(255, 255, 255, 1);
-    margin-left: 85%;
-    padding-bottom: 1rem;
-    padding-left: 15%;
     color: rgba(255, 255, 255, 1);
     font-family: "poppins";
     font-size: 15px;
-    margin-top: 37px;
   }
 
   .input_search {
     background-color: var(--black);
   }
-
-  .title_signup {
+  .text_Title_Sign {
+    margin-bottom: 4rem;
+  }
+  .title_Signup {
     color: rgba(255, 255, 255, 1);
-    margin-left: 44%;
-    margin-bottom: 0.5rem;
-    margin-top: 1rem;
     font-size: 35px;
     -webkit-text-stroke: 1px rgba(255, 255, 255, 1);
   }
 
-  #join_us {
+  #join_Us {
     color: rgba(255, 255, 255, 1);
-    margin-left: 45%;
-    margin-bottom: 1rem;
     font-size: 25px;
-    margin-top: 1%;
   }
 
-  #text_sign {
-    margin-left: 32%;
-    margin-bottom: 1rem;
+  #text_Sign {
     font-size: 20px;
   }
 
-  .container_email {
-    margin-bottom: 2%;
+  .container_Email {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
   }
 
   #email {
-    width: 25%;
+    width: 100%;
     height: 3.8rem;
     border-radius: 50px 50px 50px 50px;
     background-color: var(--black);
@@ -200,21 +209,20 @@
     color: rgba(255, 255, 255, 1);
     font-family: "poppins";
     font-size: 15px;
-    margin-left: 30%;
   }
 
-  .container_username {
-    margin-bottom: 2%;
+  .container_User {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
   }
 
-  #text_user {
-    margin-left: 32%;
-    margin-bottom: 1rem;
+  #text_User {
     font-size: 20px;
   }
 
   #username {
-    width: 25%;
+    width: 100%;
     height: 3.8rem;
     border-radius: 50px 50px 50px 50px;
     background-color: var(--black);
@@ -223,21 +231,20 @@
     color: rgba(255, 255, 255, 1);
     font-family: "poppins";
     font-size: 15px;
-    margin-left: 30%;
   }
 
-  .container_password {
-    margin-bottom: 2%;
+  .container_Pass {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
   }
 
-  #text_pass {
-    margin-left: 32%;
-    margin-bottom: 1rem;
+  #text_Pass {
     font-size: 20px;
   }
 
-  #pass {
-    width: 25%;
+  #pass_Sign {
+    width: 100%;
     height: 3.8rem;
     border-radius: 50px 50px 50px 50px;
     background-color: var(--black);
@@ -246,11 +253,9 @@
     color: rgba(255, 255, 255, 1);
     font-family: "poppins";
     font-size: 15px;
-    margin-left: 30%;
   }
 
-  .signup_button {
-    width: 26%;
-    margin-left: 35%;
+  .signup_Button {
+    width: 30%;
   }
 }

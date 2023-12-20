@@ -4,12 +4,25 @@ const OverviewContext = createContext();
 
 export function OverviewProvider({ children }) {
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isRegistered, setIsRegistered] = useState(false);
+  const [videoStats, setVideoStats] = useState([]);
+  const [topTrend, setTopTrend] = useState([]);
+  const [topCategory, setTopCategory] = useState([]);
+
   const value = useMemo(
     () => ({
       isAdmin,
       setIsAdmin,
+      isRegistered,
+      setIsRegistered,
+      videoStats,
+      setVideoStats,
+      topTrend,
+      setTopTrend,
+      topCategory,
+      setTopCategory,
     }),
-    [isAdmin]
+    [isAdmin, isRegistered, videoStats, topTrend, topCategory]
   );
 
   return (

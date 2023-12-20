@@ -22,6 +22,7 @@ import Addvideos from "./pages/Upload/Addvideos/Addvideos";
 import Addshorts from "./pages/Upload/Addshorts/Addshorts";
 import Adminreviews from "./pages/Adminreviews/Adminreviews";
 import NotFound from "./pages/NotFound/NotFound";
+import ForgotPassword from "./pages/Forgot/ForgotPassword";
 import App from "./App";
 
 const routes = createBrowserRouter(
@@ -35,6 +36,7 @@ const routes = createBrowserRouter(
       <Route path="/shorts/:id" element={<Shorts />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/forgotpassword" element={<ForgotPassword />} />
       <Route path="/usersprofile/:id" element={<UsersProfile />} />
       <Route
         path="/usersprofile/:id/subscriptions"

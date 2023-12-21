@@ -4,12 +4,20 @@ const OverviewContext = createContext();
 
 export function OverviewProvider({ children }) {
   const [isAdmin, setIsAdmin] = useState(false);
+
+  const [videoTitle, setVideoTitle] = useState("");
+  const [description, setDescription] = useState("");
+
   const value = useMemo(
     () => ({
       isAdmin,
       setIsAdmin,
+      videoTitle,
+      setVideoTitle,
+      description,
+      setDescription,
     }),
-    [isAdmin]
+    [isAdmin, videoTitle, description]
   );
 
   return (

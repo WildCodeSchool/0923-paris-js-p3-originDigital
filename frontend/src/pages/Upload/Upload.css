@@ -27,9 +27,14 @@
 .add_A_Video_Container {
   border: dashed var(--white);
   padding: 1rem;
+  cursor: pointer;
 }
 
 @media only screen and (min-width: 1024px) {
+  .container_Body_Upload {
+    min-height: 100vh;
+  }
+
   .short_Or_Video_Container {
     width: 50%;
   }

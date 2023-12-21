@@ -1,10 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Icon } from "@iconify/react";
 import "./Addvideos.css";
+import useOverviewContext from "../../../context/Overviewcontext";
 
 function Addvideos() {
-  const [description, setDescription] = useState("");
   const maxCharacters = 255;
+  const { setVideoTitle, description, setDescription } = useOverviewContext();
+
+  const handleVideoTitleChange = (e) => {
+    setVideoTitle(e.target.value);
+  };
 
   const handleDescriptionChange = (e) => {
     const inputValue = e.target.value;
@@ -14,25 +19,25 @@ function Addvideos() {
     }
   };
 
-  const isMobile = window.innerWidth < 1024;
+  // const isMobile = window.innerWidth < 1024;
 
-  // const [rows, setRows] = useState(window.innerWidth > 1024 ? 4 : 7);
+  const [rows, setRows] = useState(window.innerWidth > 1024 ? 4 : 7);
 
-  // useEffect(() => {
-  //   const handleResize = () => {
-  //     setRows(window.innerWidth > 1024 ? 4 : 7);
-  //   };
+  useEffect(() => {
+    const handleResize = () => {
+      setRows(window.innerWidth > 1024 ? 4 : 7);
+    };
 
-  //   window.addEventListener("resize", handleResize);
+    window.addEventListener("resize", handleResize);
 
-  //   return () => {
-  //     window.removeEventListener("resize", handleResize);
-  //   };
-  // }, []);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <section className="container_Body_Add_Video">
-      <h1 className="upload_Main_Title">Video upload settings</h1>
+      <h1 className="upload_Main_Title_Video">Video upload settings</h1>
       <div className="grid_Container">
         <div className="add_An_Element_Container">
           <h2>Add a video</h2>
@@ -65,14 +70,15 @@ function Addvideos() {
             type="text"
             maxLength={255}
             placeholder="Add a video title"
+            onChange={handleVideoTitleChange}
           />
         </div>
         <div className="video_Description">
           <textarea
             className="description_Input"
             wrap
-            // rows={rows}
-            rows={isMobile ? 7 : 4}
+            rows={rows}
+            // rows={isMobile ? 7 : 4}
             maxLength={255}
             placeholder="Add video description"
             onChange={handleDescriptionChange}

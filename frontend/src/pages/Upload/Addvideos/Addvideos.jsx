@@ -20,8 +20,6 @@ function Addvideos() {
     }
   };
 
-  // const isMobile = window.innerWidth < 1024;
-
   const [rows, setRows] = useState(window.innerWidth > 1024 ? 4 : 7);
 
   useEffect(() => {
@@ -83,7 +81,6 @@ function Addvideos() {
               className="description_Input"
               wrap
               rows={rows}
-              // rows={isMobile ? 7 : 4}
               maxLength={255}
               placeholder="Add video description"
               onChange={handleDescriptionChange}

@@ -79,7 +79,6 @@ function Addshorts() {
               className="description_Input"
               wrap
               rows={rows}
-              // rows={isMobile ? 7 : 4}
               maxLength={255}
               placeholder="Add short description"
               onChange={handleDescriptionChange}

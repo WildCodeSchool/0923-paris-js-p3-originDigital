@@ -8,6 +8,7 @@ export function OverviewProvider({ children }) {
   const [videoStats, setVideoStats] = useState([]);
   const [topTrend, setTopTrend] = useState([]);
   const [topCategory, setTopCategory] = useState([]);
+  const [toggleNavbarDesktop, setToggleNavbarDestkop] = useState(true);
 
   const value = useMemo(
     () => ({
@@ -21,8 +22,17 @@ export function OverviewProvider({ children }) {
       setTopTrend,
       topCategory,
       setTopCategory,
+      toggleNavbarDesktop,
+      setToggleNavbarDestkop,
     }),
-    [isAdmin, isRegistered, videoStats, topTrend, topCategory]
+    [
+      isAdmin,
+      isRegistered,
+      videoStats,
+      topTrend,
+      topCategory,
+      toggleNavbarDesktop,
+    ]
   );
 
   return (

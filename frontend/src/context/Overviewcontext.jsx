@@ -4,12 +4,15 @@ const OverviewContext = createContext();
 
 export function OverviewProvider({ children }) {
   const [isAdmin, setIsAdmin] = useState(false);
+
+  const [videoTitle, setVideoTitle] = useState("");
+  const [description, setDescription] = useState("");
   const [isRegistered, setIsRegistered] = useState(false);
 
   const [videoStats, setVideoStats] = useState([]);
   const [topTrend, setTopTrend] = useState([]);
   const [topCategory, setTopCategory] = useState([]);
-  const [toggleNavbarDesktop, setToggleNavbarDestkop] = useState(true);
+  const [toggleNavbarDesktop, setToggleNavbarDestkop] = useState(false);
 
   const value = useMemo(
     () => ({
@@ -25,6 +28,10 @@ export function OverviewProvider({ children }) {
       setTopCategory,
       toggleNavbarDesktop,
       setToggleNavbarDestkop,
+      videoTitle,
+      setVideoTitle,
+      description,
+      setDescription,
     }),
     [
       isAdmin,
@@ -33,6 +40,8 @@ export function OverviewProvider({ children }) {
       topTrend,
       topCategory,
       toggleNavbarDesktop,
+      videoTitle,
+      description,
     ]
   );
 

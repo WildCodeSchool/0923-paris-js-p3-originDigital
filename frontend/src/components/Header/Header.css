@@ -1,7 +1,7 @@
 .header {
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: center;
   padding-top: 0.5rem;
 }
 
@@ -32,6 +32,10 @@
 }
 
 @media only screen and (min-width: 1024px) {
+  .header {
+    justify-content: space-around;
+  }
+
   #icon_Sign {
     display: block;
   }

@@ -1,15 +1,24 @@
 import { Icon } from "@iconify/react";
+import { useNavigate } from "react-router-dom";
 import "./Upload.css";
 import Header from "../../components/Header/Header";
 
 function Upload() {
+  const navigate = useNavigate();
+
   return (
     <>
       <Header />
-      <section className="container_Body">
+      <section className="container_Body_Upload">
         <h1 className="upload_Main_Title">What do you want to upload?</h1>
         <div className="short_Or_Video_Container">
-          <div className="add_A_Short_Container">
+          <div
+            className="add_A_Short_Container"
+            onClick={() => navigate("/upload/addshorts")}
+            onKeyDown={() => navigate("/upload/addshorts")}
+            tabIndex="-8"
+            role="button"
+          >
             <div className="add_A_Short">
               <h2>Add a short</h2>
             </div>
@@ -24,7 +33,13 @@ function Upload() {
               />
             </div>
           </div>
-          <div className="add_A_Video_Container">
+          <div
+            className="add_A_Video_Container"
+            onClick={() => navigate("/upload/addvideos")}
+            onKeyDown={() => navigate("/upload/addvideos")}
+            tabIndex="-9"
+            role="button"
+          >
             <div className="add_A_Video">
               <h2>Add a video</h2>
             </div>
@@ -40,9 +55,6 @@ function Upload() {
             </div>
           </div>
         </div>
-        <button type="button" className="next_btn">
-          NEXT
-        </button>
       </section>
     </>
   );

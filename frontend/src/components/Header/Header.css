@@ -42,7 +42,7 @@
     display: block;
     display: flex;
     align-items: center;
-    width: 65%;
+    width: 55%;
     height: 3.8rem;
     border-radius: 50px 50px 50px 50px;
     background-color: var(--black);

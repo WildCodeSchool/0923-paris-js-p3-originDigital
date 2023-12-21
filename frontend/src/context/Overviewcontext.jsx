@@ -12,7 +12,7 @@ export function OverviewProvider({ children }) {
   const [videoStats, setVideoStats] = useState([]);
   const [topTrend, setTopTrend] = useState([]);
   const [topCategory, setTopCategory] = useState([]);
-  const [toggleNavbarDesktop, setToggleNavbarDestkop] = useState(true);
+  const [toggleNavbarDesktop, setToggleNavbarDestkop] = useState(false);
 
   const value = useMemo(
     () => ({

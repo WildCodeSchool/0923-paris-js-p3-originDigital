@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Icon } from "@iconify/react";
 import "./Header.css";
 import useOverview from "../../context/Overviewcontext";
+import imageSign from "../../assets/logo_Mobile.svg";
 
 function Header() {
   const { setToggleNavbarDestkop } = useOverview();
@@ -18,7 +19,7 @@ function Header() {
   return (
     <main className="header">
       <div className="container_Logo">
-        <img id="logo_Sign" src="src/assets/logoprin.png" alt="" />
+        <img id="logo_Sign" src={imageSign} alt="" />
       </div>
       <div className="container_Search">
         <input

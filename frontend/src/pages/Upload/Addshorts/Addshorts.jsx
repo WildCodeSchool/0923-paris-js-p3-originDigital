@@ -35,9 +35,6 @@ function Addshorts() {
     };
   }, []);
 
-  // const categoryPrefix = "Category: ";
-  // const tagsPrefix = "Tags: ";
-
   const categoryOptions = [
     { label: "Animal", value: "Animal" },
     { label: "Architecture", value: "Architecture" },
@@ -58,16 +55,11 @@ function Addshorts() {
     { label: "Lobster", value: "Lobster" },
   ];
 
-  const handleChange = (selectedOption) => {
-    console.info("handleTagChange", selectedOption);
-  };
-
   const loadCategoryOptions = (searchValue, callback) => {
     setTimeout(() => {
       const filteredOptions = categoryOptions.filter((option) =>
         option.label.toLowerCase().includes(searchValue.toLowerCase())
       );
-      console.info("loadOptions", searchValue, filteredOptions);
       callback(filteredOptions);
     }, 2000);
   };
@@ -77,7 +69,6 @@ function Addshorts() {
       const filteredOptions = tagOptions.filter((option) =>
         option.label.toLowerCase().includes(searchValue.toLowerCase())
       );
-      console.info("loadOptions", searchValue, filteredOptions);
       callback(filteredOptions);
     }, 2000);
   };
@@ -169,7 +160,6 @@ function Addshorts() {
             <AsyncSelect
               loadOptions={loadCategoryOptions}
               defaultOptions
-              onChange={handleChange}
               placeholder="Select Category"
               styles={colorStyles}
             />
@@ -179,7 +169,6 @@ function Addshorts() {
               loadOptions={loadTagOptions}
               defaultOptions
               isMulti
-              onChange={handleChange}
               placeholder="Select Tags"
               styles={colorStyles}
             />

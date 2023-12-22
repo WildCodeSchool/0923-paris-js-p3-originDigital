@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { Icon } from "@iconify/react";
+import { useNavigate } from "react-router-dom";
 import "./Header.css";
 import useOverview from "../../context/Overviewcontext";
 import imageSign from "../../assets/logo_Mobile.svg";
 
 function Header() {
-  const { setToggleNavbarDestkop } = useOverview();
+  const Navigate = useNavigate();
+  const { isRegistered, setToggleNavbarDestkop } = useOverview();
   const [searchTerm, setSearchTerm] = useState("");
   const handleInputChange = (event) => {
     setSearchTerm(event.target.value);
@@ -17,7 +19,7 @@ function Header() {
   };
 
   return (
-    <main className="header">
+    <main className={isRegistered ? "header" : "header header-unregistered"}>
       <div className="container_Logo">
         <img id="logo_Sign" src={imageSign} alt="" />
       </div>
@@ -25,7 +27,7 @@ function Header() {
         <input
           className="input_Search"
           type="text"
-          placeholder="Search..."
+          placeholder="SEARCH"
           value={searchTerm}
           onChange={handleInputChange}
         />
@@ -39,16 +41,26 @@ function Header() {
           height="50"
         />
       </div>
-      <div className="user_Profile_Container">
-        <Icon
-          id="icon_Sign"
-          icon="ph:user-circle-thin"
-          color="#f3f3e6"
-          width="78"
-          height="78"
-          onClick={handleNavbarClick}
-        />
-      </div>
+      {isRegistered ? (
+        <div className="user_Profile_Container">
+          <Icon
+            id="icon_Sign"
+            icon="ph:user-circle-thin"
+            color="#f3f3e6"
+            width="78"
+            height="78"
+            onClick={handleNavbarClick}
+          />
+        </div>
+      ) : (
+        <button
+          type="button"
+          className="logIn_Btn"
+          onClick={() => Navigate("/login")}
+        >
+          Login
+        </button>
+      )}
     </main>
   );
 }

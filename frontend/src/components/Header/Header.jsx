@@ -17,11 +17,20 @@ function Header() {
     e.stopPropagation();
     setToggleNavbarDestkop(true);
   };
+  const handleLogoClick = () => {
+    Navigate("/");
+  };
 
   return (
-    <main className={isRegistered ? "header" : "header header-unregistered"}>
-      <div className="container_Logo">
-        <img id="logo_Sign" src={imageSign} alt="" />
+    <main className={isRegistered ? "header" : "header-unregistered"}>
+      <div
+        className="container_Logo"
+        onClick={handleLogoClick}
+        onKeyDown={handleLogoClick}
+        role="button"
+        tabIndex="0"
+      >
+        <img id="logo_Sign" src={imageSign} alt="Logo Overview" />
       </div>
       <div className="container_Search">
         <input
@@ -58,7 +67,7 @@ function Header() {
           className="logIn_Btn"
           onClick={() => Navigate("/login")}
         >
-          Login
+          Log In
         </button>
       )}
     </main>

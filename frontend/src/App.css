@@ -135,7 +135,7 @@ table {
   border-spacing: 0;
 }
 .main {
-  background-color: #272a31;
+  background-color: var(--black);
 }
 .footer {
   bottom: 0;

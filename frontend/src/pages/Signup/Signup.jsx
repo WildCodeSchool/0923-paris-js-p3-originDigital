@@ -4,7 +4,7 @@ import "./Signup.css";
 import useOverview from "../../context/Overviewcontext";
 
 function Signup() {
-  const [adminRegister] = useState(true);
+  const [adminRegister] = useState(false);
   const { setIsAdmin } = useOverview();
   setIsAdmin(adminRegister);
   const isMobile = window.innerWidth < 1024;

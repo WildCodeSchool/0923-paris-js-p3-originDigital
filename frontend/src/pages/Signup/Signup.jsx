@@ -7,10 +7,21 @@ function Signup() {
   const [adminRegister] = useState(false);
   const { setIsAdmin } = useOverview();
   setIsAdmin(adminRegister);
+  const isMobile = window.innerWidth < 1024;
 
   return (
     <section className="container_Body_Signup">
-      <Header />
+      {isMobile ? (
+        <div className="container_Header_Sign">
+          <img
+            id="logo_Sign"
+            src="src/assets/logoprin.png"
+            alt="logo_Overview"
+          />
+        </div>
+      ) : (
+        <Header />
+      )}
       <div className="container_Sign">
         <div className="text_Title_Sign">
           <h1 className="title_Signup">SIGN UP</h1>
@@ -21,7 +32,7 @@ function Signup() {
             <p id="text_Sign">Email</p>
             <input
               type="email"
-              id="email"
+              id="email_Sign"
               placeholder="Email"
               pattern=".+@example\.com"
               required
@@ -31,7 +42,7 @@ function Signup() {
             <p id="text_User">Username</p>
             <input
               type="text"
-              id="username"
+              id="username_Sign"
               placeholder="Username"
               name="username"
             />

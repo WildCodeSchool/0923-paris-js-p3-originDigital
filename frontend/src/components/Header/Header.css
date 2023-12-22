@@ -13,6 +13,7 @@
   padding-top: 1rem;
   flex-wrap: wrap;
   border-bottom: 0.0002rem solid var(--white);
+  margin-bottom: 1rem;
 }
 
 #logo_Sign {

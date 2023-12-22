@@ -2,16 +2,15 @@
   background-color: var(--black);
   min-height: calc(100vh - 5.5rem);
   width: 100%;
-}
-
-.text_Title_Log {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+}
+
+.container_Header_Log {
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  color: rgba(255, 255, 255, 1);
-  font-size: 25px;
-  -webkit-text-stroke: 1px rgba(255, 255, 255, 1);
+  margin-top: 0.5rem;
   margin-bottom: 1rem;
 }
 
@@ -20,7 +19,21 @@
   flex-direction: column;
   width: 100%;
   align-items: center;
-  margin-bottom: 3rem;
+}
+
+.text_Title_Log {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: var(--white);
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.title_Log {
+  color: rgba(255, 255, 255, 1);
+  font-size: 35px;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 1);
 }
 
 .container_Input_Log {
@@ -37,12 +50,25 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  margin-top: 2rem;
 }
 
-#text_Log {
+#text_User {
+  font-size: 20px;
+  margin-bottom: 0.5rem;
+  margin-left: 1rem;
+}
+
+#username_Login {
+  height: 3.8rem;
+  border-radius: 50px 50px 50px 50px;
+  background-color: var(--black);
+  border: solid 2px rgba(255, 255, 255, 1);
+  padding-left: 4.5%;
   color: rgba(255, 255, 255, 1);
-  font-size: 25px;
-  margin-top: 0.5rem;
+  font-family: "poppins";
+  font-size: 15px;
+  margin-bottom: 0.5rem;
 }
 
 .container_Password {
@@ -51,9 +77,29 @@
   width: 100%;
 }
 
+#text_Pass {
+  font-size: 20px;
+  margin-bottom: 0.5rem;
+  margin-left: 1rem;
+}
+
+#pass_Log {
+  height: 3.8rem;
+  border-radius: 50px 50px 50px 50px;
+  background-color: var(--black);
+  border: solid 2px rgba(255, 255, 255, 1);
+  padding-left: 4.5%;
+  color: rgba(255, 255, 255, 1);
+  font-family: "poppins";
+  font-size: 15px;
+  margin-bottom: 0.5rem;
+}
+
 .link_Log {
   flex-direction: column;
   color: var(--white);
+  text-align: center;
+  margin-top: 0.5rem;
 }
 
 .text_Log_End {
@@ -65,10 +111,21 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 80%;
+  width: 100%;
 }
 
-.signup_End {
+.signup_Button_Log {
+  width: 100%;
+  margin-top: 3rem;
+  height: 3.8rem;
+  background-color: rgba(221, 167, 79, 1);
+  border-radius: 50px 50px 50px 50px;
+  font-family: "poppins";
+  font-size: 25px;
+  border: 1.5px rgba(221, 167, 79, 1);
+}
+
+.signup_End_Log {
   color: rgba(221, 167, 79, 1);
   background-color: var(--black);
   border-style: none;
@@ -79,31 +136,33 @@
 }
 
 @media only screen and (min-width: 1024px) {
-  .container_Body_Header {
-    background-color: var(--black);
-    min-height: 100vh;
+  .text_Title_Log {
+    margin-bottom: 4rem;
   }
 
-  .container_Password {
-    width: 40%;
+  .title_Log {
+    color: rgba(255, 255, 255, 1);
+    font-size: 35px;
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 1);
+  }
+
+  .container_Input_Log {
+    width: 80%;
   }
 
   .container_Username_Log {
-    width: 40%;
-  }
-  .title_Log {
-  }
-
-  #text_Log {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
   }
 
-  .link_Log {
-    margin-left: 4.5rem;
+  .container_Password {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
   }
 
-  .text_Log_End {
-  }
-
-  .signup_End {
+  .signup_Button_Log {
+    width: 30%;
   }
 }

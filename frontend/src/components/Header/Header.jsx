@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { Icon } from "@iconify/react";
+import { useNavigate } from "react-router-dom";
 import "./Header.css";
 import useOverview from "../../context/Overviewcontext";
 import imageSign from "../../assets/logo_Mobile.svg";
 
 function Header() {
-  const { setToggleNavbarDestkop } = useOverview();
+  const Navigate = useNavigate();
+  const { isRegistered, setToggleNavbarDestkop } = useOverview();
   const [searchTerm, setSearchTerm] = useState("");
   const handleInputChange = (event) => {
     setSearchTerm(event.target.value);
@@ -15,17 +17,26 @@ function Header() {
     e.stopPropagation();
     setToggleNavbarDestkop(true);
   };
+  const handleLogoClick = () => {
+    Navigate("/");
+  };
 
   return (
-    <main className="header">
-      <div className="container_Logo">
-        <img id="logo_Sign" src={imageSign} alt="" />
+    <main className={isRegistered ? "header" : "header-unregistered"}>
+      <div
+        className="container_Logo"
+        onClick={handleLogoClick}
+        onKeyDown={handleLogoClick}
+        role="button"
+        tabIndex="0"
+      >
+        <img id="logo_Sign" src={imageSign} alt="Logo Overview" />
       </div>
       <div className="container_Search">
         <input
           className="input_Search"
           type="text"
-          placeholder="Search..."
+          placeholder="SEARCH"
           value={searchTerm}
           onChange={handleInputChange}
         />
@@ -39,16 +50,26 @@ function Header() {
           height="50"
         />
       </div>
-      <div className="user_Profile_Container">
-        <Icon
-          id="icon_Sign"
-          icon="ph:user-circle-thin"
-          color="#f3f3e6"
-          width="78"
-          height="78"
-          onClick={handleNavbarClick}
-        />
-      </div>
+      {isRegistered ? (
+        <div className="user_Profile_Container">
+          <Icon
+            id="icon_Sign"
+            icon="ph:user-circle-thin"
+            color="#f3f3e6"
+            width="78"
+            height="78"
+            onClick={handleNavbarClick}
+          />
+        </div>
+      ) : (
+        <button
+          type="button"
+          className="logIn_Btn"
+          onClick={() => Navigate("/login")}
+        >
+          Log In
+        </button>
+      )}
     </main>
   );
 }

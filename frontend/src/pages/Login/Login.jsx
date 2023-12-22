@@ -1,9 +1,10 @@
+import { useNavigate } from "react-router-dom";
 import Header from "../../components/Header/Header";
-
 import "./Login.css";
 
 function Login() {
   const isMobile = window.innerWidth < 1024;
+  const Navigate = useNavigate();
   return (
     <section className="container_Body_Header">
       {isMobile ? (
@@ -49,7 +50,11 @@ function Login() {
               LOG IN
             </button>
             <p className="text_Log_End">Don’t have an account yet?</p>
-            <button className="signup_End_Log" type="button">
+            <button
+              className="signup_End_Log"
+              type="button"
+              onClick={() => Navigate("/signup")}
+            >
               Sign up
             </button>
           </div>

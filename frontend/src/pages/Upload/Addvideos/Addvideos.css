@@ -19,7 +19,7 @@
 .grid_Container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: auto auto auto;
+  grid-template-rows: auto;
   width: 80%;
   margin: auto;
   gap: 1rem;
@@ -46,7 +46,6 @@
 
 .add_A_Title_Container {
   border-bottom: 1px solid var(--white);
-  /* padding: 0.5rem; */
 }
 
 .video_Description {
@@ -97,6 +96,12 @@
   right: 0.5rem;
 }
 
+.add_Category_Container,
+.add_Tags_Container {
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
+
 .upload_Btn {
   background-color: var(--orange);
   color: var(--black);
@@ -122,6 +127,16 @@
 
   .grid_Container {
     width: 70%;
+  }
+
+  .add_Category_Container {
+    grid-column-start: 1;
+    grid-column-end: 2;
+  }
+
+  .add_Tags_Container {
+    grid-column-start: 2;
+    grid-column-end: 3;
   }
 
   .upload_Btn {

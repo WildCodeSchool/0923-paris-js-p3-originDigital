@@ -1,13 +1,25 @@
 import Header from "../../components/Header/Header";
+
 import "./Login.css";
 
 function Login() {
+  const isMobile = window.innerWidth < 1024;
   return (
     <section className="container_Body_Header">
-      <Header />
+      {isMobile ? (
+        <div className="container_Header_Log">
+          <img
+            id="logo_Sign"
+            src="src/assets/logoprin.png"
+            alt="logo_Overview"
+          />
+        </div>
+      ) : (
+        <Header />
+      )}
       <div className="container_Log">
         <div className="text_Title_Log">
-          <h1 className="Title_Log">LOG IN</h1>
+          <h1 className="title_Log">LOG IN</h1>
           <p id="text_Log">Hey! Welcome back!</p>
         </div>
         <div className="container_Input_Log">
@@ -15,7 +27,7 @@ function Login() {
             <p id="text_User">Username</p>
             <input
               type="text"
-              id="username"
+              id="username_Login"
               placeholder="Username"
               name="username"
             />
@@ -24,7 +36,7 @@ function Login() {
             <p id="text_Pass">Password</p>
             <input
               type="password"
-              id="pass"
+              id="pass_Log"
               placeholder="Password"
               name="password"
             />
@@ -33,11 +45,11 @@ function Login() {
             </a>
           </div>
           <div className="container_But_Log">
-            <button className="signup_Button" type="button">
+            <button className="signup_Button_Log" type="button">
               LOG IN
             </button>
             <p className="text_Log_End">Don’t have an account yet?</p>
-            <button className="signup_End" type="button">
+            <button className="signup_End_Log" type="button">
               Sign up
             </button>
           </div>

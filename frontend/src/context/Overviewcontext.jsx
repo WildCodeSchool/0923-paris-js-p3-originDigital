@@ -7,7 +7,7 @@ export function OverviewProvider({ children }) {
 
   const [videoTitle, setVideoTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [isRegistered, setIsRegistered] = useState(true);
+  const [isRegistered, setIsRegistered] = useState(false);
 
   const [videoStats, setVideoStats] = useState([]);
   const [topTrend, setTopTrend] = useState([]);

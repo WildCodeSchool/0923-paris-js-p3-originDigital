@@ -8,7 +8,6 @@ import imageSign from "../../assets/logo_Mobile.svg";
 function Header() {
   const Navigate = useNavigate();
   const { isRegistered, setToggleNavbarDestkop } = useOverview();
-  const headerClass = isRegistered ? "header" : "header-unregistered";
   const [searchTerm, setSearchTerm] = useState("");
   const handleInputChange = (event) => {
     setSearchTerm(event.target.value);
@@ -20,7 +19,7 @@ function Header() {
   };
 
   return (
-    <main className={headerClass}>
+    <main className={isRegistered ? "header" : "header header-unregistered"}>
       <div className="container_Logo">
         <img id="logo_Sign" src={imageSign} alt="" />
       </div>

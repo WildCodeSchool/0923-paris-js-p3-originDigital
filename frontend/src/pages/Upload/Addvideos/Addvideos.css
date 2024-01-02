@@ -34,6 +34,16 @@
   cursor: pointer;
 }
 
+.add_A_Thumbnail_Container.error,
+.add_An_Element_Container.error {
+  border: dashed var(--red);
+}
+
+.error_Thumbnail,
+.error_File {
+  color: var(--red);
+}
+
 .element_Specs {
   font-size: 1rem;
 }

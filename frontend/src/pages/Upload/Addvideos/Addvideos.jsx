@@ -7,7 +7,49 @@ import Header from "../../../components/Header/Header";
 
 function Addvideos() {
   const maxCharacters = 255;
-  const { setVideoTitle, description, setDescription } = useOverviewContext();
+  const [errorThumbnail, setErrorThumbnail] = useState(false);
+  const [errorFile, setErrorFile] = useState(false);
+  const {
+    setVideoTitle,
+    description,
+    setDescription,
+    setCategory,
+    setTag,
+    tag,
+    videoFile,
+    setVideoFile,
+    videoThumbnail,
+    setVideoThumbnail,
+  } = useOverviewContext();
+
+  const handleVideoFileChange = (e) => {
+    setVideoFile(e.target.files[0]);
+  };
+
+  const handleVideoThumbnailChange = (e) => {
+    setVideoThumbnail(e.target.files[0]);
+  };
+
+  // useEffect here sinon infinite loop à cause du boolean du setErrorThumbnail (toujours "true" => inifinite loop)
+  useEffect(() => {
+    if (videoThumbnail) {
+      const maxImageFileSize = 4 * 1024 * 1024; // 4MB
+      if (videoThumbnail.size > maxImageFileSize) {
+        setVideoThumbnail(null);
+        setErrorThumbnail(true);
+      }
+    }
+  }, [videoThumbnail]);
+
+  useEffect(() => {
+    if (videoFile) {
+      const maxFileSize = 150 * 1024 * 1024;
+      if (videoFile.size > maxFileSize) {
+        setVideoFile(null);
+        setErrorFile(true);
+      }
+    }
+  }, [videoFile]);
 
   const handleVideoTitleChange = (e) => {
     setVideoTitle(e.target.value);
@@ -20,6 +62,19 @@ function Addvideos() {
       setDescription(inputValue);
     }
   };
+
+  const handleCategoryChange = (e) => {
+    setCategory(e.value);
+  };
+
+  const handleTagChange = (e) => {
+    const tagArray = e.map((item) => item.value);
+    setTag(tagArray);
+  };
+
+  useEffect(() => {
+    console.info(tag);
+  }, [tag]);
 
   const [rows, setRows] = useState(window.innerWidth > 1024 ? 4 : 7);
 
@@ -122,33 +177,68 @@ function Addvideos() {
       <section className="container_Body_Add_Video">
         <h1 className="upload_Main_Title_Video">Video upload settings</h1>
         <div className="grid_Container">
-          <div className="add_An_Element_Container">
-            <h2>Add a video</h2>
-            <div className="plus_Icon_Container">
-              <Icon
-                type="button"
-                icon="octicon:plus-16"
-                color="#f3f3e6"
-                width="65"
-                height="65"
-              />
+          <label htmlFor="fileInput">
+            <div
+              className={`add_An_Element_Container ${errorFile ? "error" : ""}`}
+            >
+              <h2>Add a video</h2>
+              <div className="plus_Icon_Container">
+                <Icon
+                  type="button"
+                  icon="octicon:plus-16"
+                  color="#f3f3e6"
+                  width="65"
+                  height="65"
+                />
+              </div>
+              {videoFile ? (
+                <p>Selected file: {videoFile.name}</p>
+              ) : (
+                <p className="element_Specs">
+                  (16:9 ratio, .mp4, max file size : 150MB)
+                </p>
+              )}
+              {errorFile && (
+                <p className="error_File">File must be under 150MB</p>
+              )}
             </div>
-            <p className="element_Specs">
-              (16:9 ratio, .mp4, max file size : ?)
-            </p>
-          </div>
-          <div className="add_A_Thumbnail_Container">
-            <h2>Add a thumbnail</h2>
-            <div className="plus_Icon_Container">
-              <Icon
-                type="button"
-                icon="octicon:plus-16"
-                color="#f3f3e6"
-                width="65"
-                height="65"
-              />
+          </label>
+          <input
+            type="file"
+            id="fileInput"
+            accept=".mp4"
+            onChange={handleVideoFileChange}
+            style={{ display: "none" }}
+          />
+          <label htmlFor="thumbnailInput">
+            <div
+              className={`add_A_Thumbnail_Container ${
+                errorThumbnail ? "error" : ""
+              }`}
+            >
+              <h2>Add a thumbnail</h2>
+              <div className="plus_Icon_Container">
+                <Icon
+                  type="button"
+                  icon="octicon:plus-16"
+                  color="#f3f3e6"
+                  width="65"
+                  height="65"
+                />
+              </div>
+              {videoThumbnail && <p>Selected image: {videoThumbnail.name}</p>}
+              {errorThumbnail && (
+                <p className="error_Thumbnail">File size must be under 4MB</p>
+              )}
             </div>
-          </div>
+          </label>
+          <input
+            type="file"
+            id="thumbnailInput"
+            accept="image/png, image/jpeg, image/jpg"
+            onChange={handleVideoThumbnailChange}
+            style={{ display: "none" }}
+          />
           <div className="add_A_Title_Container">
             <input
               className="title_Input"
@@ -163,6 +253,7 @@ function Addvideos() {
               loadOptions={loadCategoryOptions}
               defaultOptions
               placeholder="Select Category"
+              onChange={handleCategoryChange}
               styles={colorStyles}
             />
           </div>
@@ -172,6 +263,7 @@ function Addvideos() {
               defaultOptions
               isMulti
               placeholder="Select Tags"
+              onChange={handleTagChange}
               styles={colorStyles}
             />
           </div>

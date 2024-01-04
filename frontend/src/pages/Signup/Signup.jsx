@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import "./Signup.css";
 import useOverview from "../../context/Overviewcontext";
@@ -7,6 +8,7 @@ function Signup() {
   const [adminRegister] = useState(false);
   const { setIsAdmin } = useOverview();
   setIsAdmin(adminRegister);
+  const Navigate = useNavigate();
   const isMobile = window.innerWidth < 1024;
 
   return (
@@ -60,6 +62,14 @@ function Signup() {
         <div className="container_But_Signup">
           <button className="signup_Button" type="button">
             SIGN UP
+          </button>
+          <p className="text_Log_End">Don’t have an account yet?</p>
+          <button
+            className="signup_End_Log"
+            type="button"
+            onClick={() => Navigate("/signup")}
+          >
+            Log In
           </button>
         </div>
       </div>

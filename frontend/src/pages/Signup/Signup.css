@@ -150,6 +150,9 @@
 }
 
 @media only screen and (min-width: 1024px) {
+  .container_Body_Signup {
+    min-height: 100vh;
+  }
   .text_Title_Sign {
     margin-bottom: 4rem;
   }

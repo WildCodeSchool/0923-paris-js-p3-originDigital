@@ -18,13 +18,17 @@
   display: flex;
   grid-template-columns: repeat(2, 1fr);
   align-items: center;
-  width: 80%;
+  border-bottom: 1px solid var(--white);
+  width: 100%;
 }
 
 .container_Tab_Sub :hover {
   color: rgba(221, 167, 79, 1);
 }
 @media only screen and (min-width: 1024px) {
+  * .container_Body_Sub {
+    min-height: 100vh;
+  }
   .container_Tab_Sub {
     border-bottom: 1px solid var(--white);
   }

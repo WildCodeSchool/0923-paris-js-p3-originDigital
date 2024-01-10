@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import Header from "../../components/Header/Header";
 import useOverviewContext from "../../context/Overviewcontext";
@@ -6,9 +7,10 @@ import "./UsersProfile.css";
 import VideoCard from "../../components/Video card/VideoCard";
 
 function UserProfile() {
-  const { user, setUser } = useOverviewContext();
+  const { user, setUser, setIsRegistered } = useOverviewContext();
   const [openUserSettings, setOpenUserSettings] = useState(false);
   const [isEditingUsername, setIsEditingUsername] = useState(false);
+  const navigate = useNavigate();
   const [isEditingUserDescription, setIsEditingUserDescription] =
     useState(false);
   const inputRef = useRef(null);
@@ -102,6 +104,11 @@ function UserProfile() {
     }
   }, [isEditingUserDescription]);
 
+  function handleDisconnect() {
+    setIsRegistered(false);
+    navigate("/");
+  }
+
   return (
     <>
       <Header />
@@ -140,7 +147,11 @@ function UserProfile() {
                 )}
               </div>
             </div>
-            <div className="settings_Container">
+            <div
+              className={`settings_Container ${
+                openUserSettings ? "active" : "inactive"
+              }`}
+            >
               <Icon
                 id="icon_Settings"
                 type="button"
@@ -157,6 +168,9 @@ function UserProfile() {
                   openUserSettings ? "active" : "inactive"
                 }`}
               >
+                <button onClick={handleDisconnect} type="button">
+                  <ul>Disconnect</ul>
+                </button>
                 <button onClick={handleEditUsername} type="button">
                   <ul>Edit username</ul>
                 </button>

@@ -61,7 +61,8 @@
   opacity: 1;
   visibility: visible;
   transform: translateX(0);
-  transition: var(--speed) ease;
+  transition: var(--speed) cubic-bezier(0.6, -0.28, 0.735, 0.045);
+  z-index: 1;
 }
 
 .dropdown_Menu.inactive {

@@ -8,9 +8,6 @@ function Signup() {
   const { setIsAdmin } = useOverview();
   setIsAdmin(adminRegister);
   const isMobile = window.innerWidth < 1024;
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
 
   return (
     <section className="container_Body_Signup">
@@ -39,10 +36,6 @@ function Signup() {
               placeholder="Email"
               pattern=".+@example\.com"
               required
-              value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
             />
           </div>
           <div className="container_User">
@@ -52,10 +45,6 @@ function Signup() {
               id="username_Sign"
               placeholder="Username"
               name="username"
-              value={username}
-              onChange={(e) => {
-                setUsername(e.target.value);
-              }}
             />
           </div>
           <div className="container_Pass">
@@ -65,10 +54,6 @@ function Signup() {
               id="pass_Sign"
               placeholder="Password"
               name="password"
-              value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
             />
           </div>
         </div>

@@ -3,11 +3,16 @@ import { createContext, useContext, useState, useMemo } from "react";
 const OverviewContext = createContext();
 
 export function OverviewProvider({ children }) {
+  const [user, setUser] = useState([]);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isRegistered, setIsRegistered] = useState(true);
 
+  const [videoFile, setVideoFile] = useState(null);
+  const [videoThumbnail, setVideoThumbnail] = useState(null);
   const [videoTitle, setVideoTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [isRegistered, setIsRegistered] = useState(false);
+  const [category, setCategory] = useState("");
+  const [tag, setTag] = useState([]);
 
   const [videoStats, setVideoStats] = useState([]);
   const [topTrend, setTopTrend] = useState([]);
@@ -32,6 +37,16 @@ export function OverviewProvider({ children }) {
       setVideoTitle,
       description,
       setDescription,
+      category,
+      setCategory,
+      tag,
+      setTag,
+      videoFile,
+      setVideoFile,
+      videoThumbnail,
+      setVideoThumbnail,
+      user,
+      setUser,
     }),
     [
       isAdmin,
@@ -42,6 +57,11 @@ export function OverviewProvider({ children }) {
       toggleNavbarDesktop,
       videoTitle,
       description,
+      category,
+      tag,
+      videoFile,
+      videoThumbnail,
+      user,
     ]
   );
 

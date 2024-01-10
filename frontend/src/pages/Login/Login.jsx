@@ -3,8 +3,8 @@ import Header from "../../components/Header/Header";
 import "./Login.css";
 
 function Login() {
+  const navigate = useNavigate();
   const isMobile = window.innerWidth < 1024;
-  const Navigate = useNavigate();
   return (
     <section className="container_Body_Header">
       {isMobile ? (
@@ -53,7 +53,9 @@ function Login() {
             <button
               className="signup_End_Log"
               type="button"
-              onClick={() => Navigate("/signup")}
+              onClick={() => {
+                navigate("/signup");
+              }}
             >
               Sign up
             </button>

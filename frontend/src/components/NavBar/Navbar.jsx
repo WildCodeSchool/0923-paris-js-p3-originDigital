@@ -40,9 +40,9 @@ function Navbar() {
         setToggleNavbarDestkop(false);
       }
     };
-    document.addEventListener("click", handleDocumentClick);
+    document.body.addEventListener("click", handleDocumentClick);
     return () => {
-      document.removeEventListener("click", handleDocumentClick);
+      document.body.removeEventListener("click", handleDocumentClick);
     };
   }, [toggleNavbarDesktop]);
 

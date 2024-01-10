@@ -18,6 +18,8 @@ router.get("/items/:id", itemControllers.read);
 // Route to add a new item
 router.post("/items", itemControllers.add);
 
+router.post("/items", itemControllers.login);
+
 /* ************************************************************************* */
 
 module.exports = router;

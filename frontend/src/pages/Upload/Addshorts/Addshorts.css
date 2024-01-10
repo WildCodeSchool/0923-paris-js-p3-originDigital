@@ -32,11 +32,17 @@
   display: grid;
   grid-template-rows: 0.5fr 1fr 0.5fr;
   cursor: pointer;
+  height: 85%;
 }
 
 .add_A_Thumbnail_Container.error,
 .add_An_Element_Container.error {
   border: dashed var(--red);
+}
+
+.selected_Thumbnail_Msg {
+  overflow-x: auto;
+  word-wrap: break-word;
 }
 
 .error_Thumbnail,

@@ -224,7 +224,11 @@ function Addshorts() {
                   height="65"
                 />
               </div>
-              {videoThumbnail && <p>Selected image: {videoThumbnail.name}</p>}
+              {videoThumbnail && (
+                <p className="selected_Thumbnail_Msg">
+                  Selected image: {videoThumbnail.name}
+                </p>
+              )}
               {errorThumbnail && (
                 <p className="error_Thumbnail">File size must be under 4MB</p>
               )}

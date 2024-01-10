@@ -3,7 +3,9 @@ import { createContext, useContext, useState, useMemo } from "react";
 const OverviewContext = createContext();
 
 export function OverviewProvider({ children }) {
+  const [user, setUser] = useState([]);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isRegistered, setIsRegistered] = useState(true);
 
   const [videoFile, setVideoFile] = useState(null);
   const [videoThumbnail, setVideoThumbnail] = useState(null);
@@ -11,7 +13,6 @@ export function OverviewProvider({ children }) {
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
   const [tag, setTag] = useState([]);
-  const [isRegistered, setIsRegistered] = useState(true);
 
   const [videoStats, setVideoStats] = useState([]);
   const [topTrend, setTopTrend] = useState([]);
@@ -44,6 +45,8 @@ export function OverviewProvider({ children }) {
       setVideoFile,
       videoThumbnail,
       setVideoThumbnail,
+      user,
+      setUser,
     }),
     [
       isAdmin,
@@ -58,6 +61,7 @@ export function OverviewProvider({ children }) {
       tag,
       videoFile,
       videoThumbnail,
+      user,
     ]
   );
 

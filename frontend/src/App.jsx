@@ -1,10 +1,12 @@
 import { Outlet } from "react-router-dom";
 import { OverviewProvider } from "./context/Overviewcontext";
+// import { authProvider } from "./context/AuthContext";
 import Navbar from "./components/NavBar/Navbar";
 import "./App.css";
 
 function App() {
   return (
+    // <authProvider>
     <OverviewProvider>
       <div className="main">
         <Outlet />
@@ -13,6 +15,7 @@ function App() {
         <Navbar />
       </div>
     </OverviewProvider>
+    // </authProvider>
   );
 }
 

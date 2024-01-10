@@ -1,8 +1,37 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useRef, useContext } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import "./Login.css";
+import authContext from "../../context/AuthContext";
 
 function Login() {
+  const navigate = useNavigate();
+  const auth = useContext(authContext);
+  const Username = useRef();
+  const Password = useRef();
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/api/users`,
+        {
+          method: "post",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            Username: Username.current.value,
+            Password: Password.current.value,
+          }),
+        }
+      );
+      if (response.status === 201) {
+        const user = await response.json();
+        auth.setUser(user);
+        navigate("/");
+      } else {
+        console.info(response);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
   const isMobile = window.innerWidth < 1024;
   const Navigate = useNavigate();
   return (
@@ -31,6 +60,7 @@ function Login() {
               id="username_Login"
               placeholder="Username"
               name="username"
+              ref={Username}
             />
           </div>
           <div className="container_Password">
@@ -40,6 +70,7 @@ function Login() {
               id="pass_Log"
               placeholder="Password"
               name="password"
+              ref={Password}
             />
             <a className="link_Log" href="www.google.com">
               Forgot your password?{" "}
@@ -53,7 +84,10 @@ function Login() {
             <button
               className="signup_End_Log"
               type="button"
-              onClick={() => Navigate("/signup")}
+              onClick={() => {
+                handleSubmit();
+                Navigate("/signup");
+              }}
             >
               Sign up
             </button>

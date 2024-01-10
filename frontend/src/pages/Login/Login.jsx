@@ -1,10 +1,44 @@
 import { useNavigate } from "react-router-dom";
+import React, { useRef, useContext } from "react";
 import Header from "../../components/Header/Header";
+import authContext from "../../context/AuthContext";
 import "./Login.css";
 
 function Login() {
   const isMobile = window.innerWidth < 1024;
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
+  const username = useRef();
+  const password = useRef();
+  const auth = useContext(authContext);
+
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/users/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            username: username.current.value,
+            Password: password.current.value,
+          }),
+        }
+      );
+      if (response.status === 200) {
+        const user = await response.json();
+        auth.setUser(user);
+        navigate("/homepage");
+      } else {
+        console.error("veuillez verifier votre saisie.");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <section className="container_Body_Header">
       {isMobile ? (
@@ -31,6 +65,7 @@ function Login() {
               id="username_Login"
               placeholder="Username"
               name="username"
+              ref={username}
             />
           </div>
           <div className="container_Password">
@@ -40,20 +75,25 @@ function Login() {
               id="pass_Log"
               placeholder="Password"
               name="password"
+              ref={password}
             />
-            <a className="link_Log" href="www.google.com">
+            <a className="link_Log" href="/signup">
               Forgot your password?{" "}
             </a>
           </div>
           <div className="container_But_Log">
-            <button className="signup_Button_Log" type="button">
+            <button
+              className="signup_Button_Log"
+              type="button"
+              onClick={handleSubmit}
+            >
               LOG IN
             </button>
             <p className="text_Log_End">Don’t have an account yet?</p>
             <button
               className="signup_End_Log"
               type="button"
-              onClick={() => Navigate("/signup")}
+              onClick={() => navigate("/signup")}
             >
               Sign up
             </button>

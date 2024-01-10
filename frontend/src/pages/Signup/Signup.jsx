@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import "./Signup.css";
@@ -8,8 +8,38 @@ function Signup() {
   const [adminRegister] = useState(false);
   const { setIsAdmin } = useOverview();
   setIsAdmin(adminRegister);
-  const Navigate = useNavigate();
+  const redirect = useNavigate();
+  const mail = useRef();
+  const username = useRef();
+  const password = useRef();
   const isMobile = window.innerWidth < 1024;
+
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/api/users`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            mail: mail.current.value,
+            username: password.current.value,
+            password: username.current.value,
+          }),
+        }
+      );
+
+      if (response.status === 201) {
+        const user = await response.json();
+        console.info(user);
+        redirect("/");
+      } else {
+        console.error("veuillez verifier votre saisie.");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <section className="container_Body_Signup">
@@ -38,6 +68,7 @@ function Signup() {
               placeholder="Email"
               pattern=".+@example\.com"
               required
+              ref={mail}
             />
           </div>
           <div className="container_User">
@@ -47,6 +78,8 @@ function Signup() {
               id="username_Sign"
               placeholder="Username"
               name="username"
+              required
+              ref={username}
             />
           </div>
           <div className="container_Pass">
@@ -56,21 +89,29 @@ function Signup() {
               id="pass_Sign"
               placeholder="Password"
               name="password"
+              required
+              ref={password}
             />
           </div>
         </div>
         <div className="container_But_Signup">
-          <button className="signup_Button" type="button">
+          <button
+            className="signup_Button"
+            type="button"
+            onClick={handleSubmit}
+          >
             SIGN UP
           </button>
-          <p className="text_Log_End">Don’t have an account yet?</p>
-          <button
-            className="signup_End_Log"
-            type="button"
-            onClick={() => Navigate("/signup")}
-          >
-            Log In
-          </button>
+          <div className="container_Text_End">
+            <p className="text_Log_End">Don’t have an account yet?</p>
+            <button
+              className="signup_End_Log"
+              type="button"
+              onClick={() => redirect("/login")}
+            >
+              Log In
+            </button>
+          </div>
         </div>
       </div>
     </section>

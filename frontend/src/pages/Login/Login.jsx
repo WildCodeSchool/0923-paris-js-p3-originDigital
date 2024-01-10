@@ -93,7 +93,9 @@ function Login() {
             <button
               className="signup_End_Log"
               type="button"
-              onClick={() => navigate("/signup")}
+              onClick={() => {
+                navigate("/signup");
+              }}
             >
               Sign up
             </button>

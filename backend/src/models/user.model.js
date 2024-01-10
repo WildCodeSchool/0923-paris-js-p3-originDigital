@@ -4,17 +4,17 @@ const insert = (user) => {
   const { mail, password, username } = user;
 
   return db.query(
-    "INSERT INTO users (mail, password, username) VALUES (?, ?, ?)",
+    "INSERT INTO Users (mail, password, username) VALUES (?, ?, ?)",
     [mail, password, username]
   );
 };
 
 const findById = (id) => {
-  return db.query("SELECT * FROM users WHERE user_id = ?", [id]);
+  return db.query("SELECT * FROM Users WHERE user_id = ?", [id]);
 };
 
 const findByEmail = (mail) => {
-  return db.query("SELECT * FROM users WHERE mail = ?", [mail]);
+  return db.query("SELECT * FROM Users WHERE mail = ?", [mail]);
 };
 
 module.exports = {

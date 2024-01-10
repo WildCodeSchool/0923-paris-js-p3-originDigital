@@ -22,11 +22,9 @@ const login = async (req, res, next) => {
     const [[user]] = await userModel.findByEmail(mail);
     if (!user) res.sendStatus(422);
     else if (await argon.verify(user.password, password)) {
-      const token = jwt.sign(
-        { id: user.user_id, admin: user.Admin },
-        process.env.APP_SECRET,
-        { expiresIn: "30d" }
-      );
+      const token = jwt.sign({ id: user.user_id }, process.env.APP_SECRET, {
+        expiresIn: "30d",
+      });
       res.cookie("auth-token", token, {
         expire: "30d",
         httpOnly: true,

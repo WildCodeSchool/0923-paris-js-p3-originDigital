@@ -29,7 +29,6 @@
 .moreVert_Icon_Container {
   display: flex;
   align-items: flex-end;
-  cursor: pointer;
   position: absolute;
   top: 1rem;
   right: 1rem;
@@ -45,8 +44,11 @@
 }
 
 .moreVert_Icon_Container.inactive {
-  /* transform: translateX(2rem);  */
   transition: var(--speed) cubic-bezier(0.6, -0.28, 0.735, 0.045);
+}
+
+#icon_More_Vertical {
+  cursor: pointer;
 }
 
 .dropdown_Menu {
@@ -90,6 +92,7 @@
 
 .dropdown_Menu button:hover {
   color: var(--orange);
+  cursor: pointer;
 }
 
 .channel_Details {

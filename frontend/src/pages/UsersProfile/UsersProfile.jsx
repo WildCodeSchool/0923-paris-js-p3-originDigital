@@ -11,6 +11,7 @@ function UserProfile() {
   const [openUserSettings, setOpenUserSettings] = useState(false);
   const [isEditingUsername, setIsEditingUsername] = useState(false);
   const navigate = useNavigate();
+  const settingsMenuRef = useRef();
   const [isEditingUserDescription, setIsEditingUserDescription] =
     useState(false);
   const inputRef = useRef(null);
@@ -104,6 +105,19 @@ function UserProfile() {
     }
   }, [isEditingUserDescription]);
 
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (!settingsMenuRef.current.contains(e.target)) {
+        setOpenUserSettings(false);
+      }
+    };
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
   function handleDisconnect() {
     setIsRegistered(false);
     navigate("/");
@@ -151,6 +165,7 @@ function UserProfile() {
               className={`settings_Container ${
                 openUserSettings ? "active" : "inactive"
               }`}
+              ref={settingsMenuRef}
             >
               <Icon
                 id="icon_Settings"

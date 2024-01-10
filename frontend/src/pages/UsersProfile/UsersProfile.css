@@ -54,11 +54,14 @@
   color: inherit;
 }
 
+#icon_Settings {
+  cursor: pointer;
+}
+
 .settings_Container {
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  cursor: pointer;
   position: absolute;
   right: 1.5rem;
   top: 1.5rem;
@@ -81,7 +84,6 @@
 .dropdown_Settings {
   background-color: var(--grey);
   position: relative;
-  /* top: 1rem; */
   display: flex;
   flex-direction: column;
   width: max-content;
@@ -99,7 +101,6 @@
 .dropdown_Settings.inactive {
   opacity: 0;
   visibility: hidden;
-  /* transition: var(--speed) cubic-bezier(0.6, -0.28, 0.735, 0.045); */
 }
 
 .dropdown_Settings button {
@@ -111,6 +112,7 @@
   font-weight: inherit;
   font-family: inherit;
   padding: 1rem;
+  cursor: pointer;
 }
 
 .dropdown_Settings ul {

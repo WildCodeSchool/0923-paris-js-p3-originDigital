@@ -1,10 +1,9 @@
-import { useState, useNavigate } from "react";
+import { useState } from "react";
 import Header from "../../components/Header/Header";
 import "./Signup.css";
 import useOverview from "../../context/Overviewcontext";
 
 function Signup() {
-  const navigate = useNavigate();
   const [adminRegister] = useState(false);
   const { setIsAdmin } = useOverview();
   setIsAdmin(adminRegister);
@@ -12,31 +11,6 @@ function Signup() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    try {
-      const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/api/users`,
-        {
-          method: "post",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            email,
-            username,
-            password,
-          }),
-        }
-      );
-
-      if (response.status === 201) {
-        navigate("/");
-      } else {
-        console.info(response);
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  };
 
   return (
     <section className="container_Body_Signup">
@@ -99,11 +73,7 @@ function Signup() {
           </div>
         </div>
         <div className="container_But_Signup">
-          <button
-            className="signup_Button"
-            type="button"
-            onClick={handleSubmit}
-          >
+          <button className="signup_Button" type="button">
             SIGN UP
           </button>
         </div>

@@ -35,15 +35,6 @@ const read = async (req, res, next) => {
   }
 };
 
-// const readAll = async (req, _) => {
-//   try {
-//     // const [users] = await
-//     console.info(req);
-//   } catch (error) {
-//     console.error(error);
-//   }
-// };
-
 // The E of BREAD - Edit (Update) operation
 
 // This operation is not yet implemented
@@ -65,24 +56,6 @@ const add = async (req, res, next) => {
   }
 };
 
-const login = async (req, res, next) => {
-  try {
-    const { Email, Password } = req.body;
-    // const [[user]] = await userModel.findByEmail(Email);
-    // if (!user) {
-    //   res.sendStatus(422)
-    // } else if (await argon.verfy(user.Password, Password)) {
-    //   const token = jwt.sign({ id: user.id_Users, admin: user.Admin }, process.env.APP_SECRET, { expiresIn: "30d" });
-    //   res.cookie("auth-token", token, { expire: "30d", httpOnly: true })
-    // } else {
-    //   res.sendStatus(422);
-    // }
-    console.info(Email, Password);
-  } catch (error) {
-    next(error);
-  }
-};
-
 // The D of BREAD - Destroy (Delete) operation
 // This operation is not yet implemented
 
@@ -92,6 +65,5 @@ module.exports = {
   read,
   // edit,
   add,
-  login,
   // destroy,
 };

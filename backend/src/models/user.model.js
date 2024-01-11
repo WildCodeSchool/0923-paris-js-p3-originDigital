@@ -13,12 +13,17 @@ const findById = (id) => {
   return db.query("SELECT * FROM Users WHERE user_id = ?", [id]);
 };
 
-const findByEmail = (mail) => {
-  return db.query("SELECT * FROM Users WHERE mail = ?", [mail]);
+const findByUsername = (username) => {
+  return db.query("SELECT * FROM Users WHERE username = ?", [username]);
+};
+
+const findAll = () => {
+  return db.query("SELECT * FROM Users");
 };
 
 module.exports = {
   insert,
   findById,
-  findByEmail,
+  findByUsername,
+  findAll,
 };

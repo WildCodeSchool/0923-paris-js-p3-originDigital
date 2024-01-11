@@ -17,14 +17,14 @@ function Signup() {
   const handleSubmit = async () => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/api/users`,
+        `${import.meta.env.VITE_BACKEND_URL}/users`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             mail: mail.current.value,
-            username: password.current.value,
-            password: username.current.value,
+            username: username.current.value,
+            password: password.current.value,
           }),
         }
       );

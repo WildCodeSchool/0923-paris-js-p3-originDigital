@@ -18,13 +18,17 @@ const add = async (req, res, next) => {
 
 const login = async (req, res, next) => {
   try {
-    const { mail, password } = req.body;
-    const [[user]] = await userModel.findByEmail(mail);
+    const { username, password } = req.body;
+    const [[user]] = await userModel.findByUsername(username);
     if (!user) res.sendStatus(422);
     else if (await argon.verify(user.password, password)) {
-      const token = jwt.sign({ id: user.user_id }, process.env.APP_SECRET, {
-        expiresIn: "30d",
-      });
+      const token = jwt.sign(
+        { id: user.user_id, admin: user.Admin },
+        process.env.APP_SECRET,
+        {
+          expiresIn: "30d",
+        }
+      );
       res.cookie("auth-token", token, {
         expire: "30d",
         httpOnly: true,
@@ -38,7 +42,17 @@ const login = async (req, res, next) => {
   }
 };
 
+const getAll = async (req, res, next) => {
+  try {
+    const [users] = await userModel.findAll();
+    res.status(200).json(users);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   add,
   login,
+  getAll,
 };

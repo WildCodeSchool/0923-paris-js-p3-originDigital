@@ -15,8 +15,19 @@ function LabTabs() {
     <Box sx={{ width: "100%", typography: "body1", display: "flex" }}>
       <TabContext value={value}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-          <TabList onChange={handleChange} aria-label="lab API tabs example">
-            <Tab sx={{ width: "50%" }} label="Followers" value="1" />
+          <TabList
+            sx={{ textDecoration: "none" }}
+            onChange={handleChange}
+            aria-label="lab API tabs example"
+          >
+            <Tab
+              sx={{
+                width: "50%",
+                color: "rgba(221, 167, 79, 1)",
+              }}
+              label="Followers"
+              value="1"
+            />
             <Tab label="Following" value="2" />
           </TabList>
         </Box>

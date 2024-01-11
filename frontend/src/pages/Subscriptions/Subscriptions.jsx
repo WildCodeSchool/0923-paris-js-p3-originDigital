@@ -21,7 +21,7 @@ function Subscriptions() {
         <h1 className="title_Sub">SUBSCRITIONS</h1>
       </div>
       <div className="container_Tab_Sub">
-        <LabTabs />
+        <LabTabs className="tab_Sub" />
       </div>
     </main>
   );

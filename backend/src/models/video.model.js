@@ -1,36 +1,40 @@
 const db = require("../../database/client");
 
-const create = (video) => {
-  const {
-    title,
-    description,
-    URLVideo,
-    typeVideo,
-    thumbnail,
-    datePublication,
-    validate,
-    categoryId,
-  } = video;
+const insert = (video) => {
+  const { title, description, thumbnail } = video;
+
   return db.query(
-    `INSERT INTO videos (title, description, URL_video, type_video, thumbnail, date_publication, validate, category_id) VALUES (?,?,?,?,?,?,?,?)`,
+    "INSERT INTO Videos (title, description, URL_video, type_video, thumbnail, category_id, user_id) VALUES (?, ?, ?, ?, ?, ?, ?)",
     [
       title,
       description,
-      URLVideo,
-      typeVideo,
+      video.URL_video,
+      video.type_video,
       thumbnail,
-      datePublication,
-      validate,
-      categoryId,
+      video.category_id,
+      video.user_id,
     ]
   );
 };
 
+const insertVideoTag = (video, tag) => {
+  return db.query("INSERT INTO Add_Tags (video_id, tag_id) VALUES (?, ?)", [
+    video,
+    tag,
+  ]);
+};
+
 const findById = (id) => {
-  return db.query(`SELECT * FROM videos WHERE video_id= ?`, [id]);
+  return db.query("SELECT * FROM Videos WHERE video_id = ?", [id]);
+};
+
+const findAll = () => {
+  return db.query("SELECT * FROM Videos");
 };
 
 module.exports = {
-  create,
+  insert,
   findById,
+  findAll,
+  insertVideoTag,
 };

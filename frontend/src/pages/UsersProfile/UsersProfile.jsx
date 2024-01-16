@@ -19,7 +19,7 @@ function UserProfile() {
   const logOut = async () => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/api/users/logOut`,
+        `${import.meta.env.VITE_BACKEND_URL}/users/logOut`,
         {
           method: "GET",
           credentials: "include",

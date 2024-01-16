@@ -24,10 +24,10 @@ import Adminreviews from "./pages/Adminreviews/Adminreviews";
 import NotFound from "./pages/NotFound/NotFound";
 import ForgotPassword from "./pages/Forgot/ForgotPassword";
 import App from "./App";
-import useOverviewContext from "./context/Overviewcontext";
+import useAuthContext from "./context/AuthContext";
 
 function PrivateRoute({ children, admin }) {
-  const { user } = useOverviewContext();
+  const { user } = useAuthContext();
   const navigate = useNavigate();
   useEffect(() => {
     if (!user) navigate("/login");
@@ -38,7 +38,7 @@ function PrivateRoute({ children, admin }) {
 }
 
 function PublicRoute({ children }) {
-  const { user } = useOverviewContext();
+  const { user } = useAuthContext();
   const navigate = useNavigate();
   useEffect(() => {
     if (user) navigate("/");
@@ -67,18 +67,18 @@ const routes = createBrowserRouter(
       <Route
         path="/signup"
         element={
-          <PublicRoute>
-            <Signup />
-          </PublicRoute>
+          // <PublicRoute>
+          <Signup />
+          // </PublicRoute>
         }
       />
 
       <Route
         path="/login"
         element={
-          <PublicRoute>
-            <Login />
-          </PublicRoute>
+          // <PublicRoute>
+          <Login />
+          // </PublicRoute>
         }
       />
 

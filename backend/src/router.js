@@ -10,11 +10,15 @@ const router = express.Router();
 const itemRouter = require("./routes/items.route");
 const userRouter = require("./routes/user.route");
 const videoRouter = require("./routes/video.route");
+const categoryRouter = require("./routes/category.route");
+const tagRouter = require("./routes/tag.route");
 
 // Apply routes
 router.use(itemRouter);
 router.use(userRouter);
 router.use(videoRouter);
+router.use(categoryRouter);
+router.use(tagRouter);
 
 /* ************************************************************************* */
 

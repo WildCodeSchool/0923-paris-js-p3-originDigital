@@ -16,6 +16,25 @@ function UserProfile() {
     useState(false);
   const inputRef = useRef(null);
 
+  const logOut = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/api/users/logOut`,
+        {
+          method: "GET",
+          credentials: "include",
+        }
+      );
+      if (response.status === 200) {
+        setUser(null);
+        setIsRegistered(false);
+        navigate("/");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const initialData = {
     username: "CatLoverXoXo",
     description:
@@ -118,11 +137,6 @@ function UserProfile() {
     };
   }, []);
 
-  function handleDisconnect() {
-    setIsRegistered(false);
-    navigate("/");
-  }
-
   return (
     <>
       <Header />
@@ -183,7 +197,7 @@ function UserProfile() {
                   openUserSettings ? "active" : "inactive"
                 }`}
               >
-                <button onClick={handleDisconnect} type="button">
+                <button onClick={logOut} type="button">
                   <ul>Disconnect</ul>
                 </button>
                 <button onClick={handleEditUsername} type="button">

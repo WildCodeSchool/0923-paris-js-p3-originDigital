@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ReactDOM from "react-dom/client";
-
 import {
   createBrowserRouter,
   createRoutesFromElements,
   Route,
   RouterProvider,
+  useNavigate,
 } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Favorites from "./pages/Favorites/Favorites";
@@ -24,19 +24,73 @@ import Adminreviews from "./pages/Adminreviews/Adminreviews";
 import NotFound from "./pages/NotFound/NotFound";
 import ForgotPassword from "./pages/Forgot/ForgotPassword";
 import App from "./App";
+import useOverviewContext from "./context/Overviewcontext";
+
+function PrivateRoute({ children, admin }) {
+  const { user } = useOverviewContext();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!user) navigate("/login");
+    else if (user.admin !== admin) navigate("/");
+    return children;
+  }, [user]);
+  return children;
+}
+
+function PublicRoute({ children }) {
+  const { user } = useOverviewContext();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (user) navigate("/");
+  }, [user]);
+  return children;
+}
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
       <Route path="/" element={<Home />} />
-      <Route path="/favorites" element={<Favorites />} />
+
+      <Route
+        path="/favorites"
+        element={
+          <PrivateRoute>
+            <Favorites />
+          </PrivateRoute>
+        }
+      />
       <Route path="/categories/:id" element={<Categories />} />
       <Route path="/settingscategories" element={<SettingsCategories />} />
       <Route path="/videos/:id" element={<Videos />} />
       <Route path="/shorts/:id" element={<Shorts />} />
-      <Route path="/signup" element={<Signup />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/forgotpassword" element={<ForgotPassword />} />
+
+      <Route
+        path="/signup"
+        element={
+          <PublicRoute>
+            <Signup />
+          </PublicRoute>
+        }
+      />
+
+      <Route
+        path="/login"
+        element={
+          <PublicRoute>
+            <Login />
+          </PublicRoute>
+        }
+      />
+
+      <Route
+        path="/forgotpassword"
+        element={
+          <PublicRoute>
+            <ForgotPassword />
+          </PublicRoute>
+        }
+      />
+
       <Route path="/usersprofile/:id" element={<UsersProfile />} />
       <Route
         path="/usersprofile/:id/subscriptions"
@@ -45,7 +99,16 @@ const routes = createBrowserRouter(
       <Route path="/upload" element={<Upload />} />
       <Route path="/upload/addvideos" element={<Addvideos />} />
       <Route path="/upload/addshorts" element={<Addshorts />} />
-      <Route path="/adminreviews" element={<Adminreviews />} />
+
+      <Route
+        path="/adminreviews"
+        element={
+          <PrivateRoute admin="0">
+            <Adminreviews />
+          </PrivateRoute>
+        }
+      />
+
       <Route path="*" element={<NotFound />} />
     </Route>
   )

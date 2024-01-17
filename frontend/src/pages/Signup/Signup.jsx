@@ -32,7 +32,7 @@ function Signup() {
       if (response.status === 201) {
         const user = await response.json();
         console.info(user);
-        redirect("/");
+        redirect("/login");
       } else {
         console.error("veuillez verifier votre saisie.");
       }

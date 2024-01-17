@@ -30,7 +30,7 @@ function Login() {
       if (response.status === 200) {
         const user = await response.json();
         auth.setUser(user);
-        navigate("/login");
+        navigate("/");
       } else {
         console.error("veuillez verifier votre saisie.");
       }

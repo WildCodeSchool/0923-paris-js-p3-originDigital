@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import {
   createBrowserRouter,
@@ -27,18 +27,18 @@ import App from "./App";
 import useAuthContext from "./context/AuthContext";
 
 function PrivateRoute({ children, admin }) {
-  const { user } = useAuthContext();
+  const { user } = useContext(useAuthContext);
+  console.info(user);
   const navigate = useNavigate();
   useEffect(() => {
     if (!user) navigate("/login");
     else if (user.admin !== admin) navigate("/");
-    return children;
   }, [user]);
   return children;
 }
 
 function PublicRoute({ children }) {
-  const { user } = useAuthContext();
+  const { user } = useContext(useAuthContext);
   const navigate = useNavigate();
   useEffect(() => {
     if (user) navigate("/");
@@ -60,25 +60,32 @@ const routes = createBrowserRouter(
         }
       />
       <Route path="/categories/:id" element={<Categories />} />
-      <Route path="/settingscategories" element={<SettingsCategories />} />
+      <Route
+        path="/settingscategories"
+        element={
+          <PrivateRoute>
+            <SettingsCategories />
+          </PrivateRoute>
+        }
+      />
       <Route path="/videos/:id" element={<Videos />} />
       <Route path="/shorts/:id" element={<Shorts />} />
 
       <Route
         path="/signup"
         element={
-          // <PublicRoute>
-          <Signup />
-          // </PublicRoute>
+          <PublicRoute>
+            <Signup />
+          </PublicRoute>
         }
       />
 
       <Route
         path="/login"
         element={
-          // <PublicRoute>
-          <Login />
-          // </PublicRoute>
+          <PublicRoute>
+            <Login />
+          </PublicRoute>
         }
       />
 
@@ -94,11 +101,36 @@ const routes = createBrowserRouter(
       <Route path="/usersprofile/:id" element={<UsersProfile />} />
       <Route
         path="/usersprofile/:id/subscriptions"
-        element={<Subscriptions />}
+        element={
+          <PrivateRoute>
+            <Subscriptions />
+          </PrivateRoute>
+        }
       />
-      <Route path="/upload" element={<Upload />} />
-      <Route path="/upload/addvideos" element={<Addvideos />} />
-      <Route path="/upload/addshorts" element={<Addshorts />} />
+      <Route
+        path="/upload"
+        element={
+          <PrivateRoute>
+            <Upload />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/upload/addvideos"
+        element={
+          <PrivateRoute>
+            <Addvideos />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/upload/addshorts"
+        element={
+          <PrivateRoute>
+            <Addshorts />
+          </PrivateRoute>
+        }
+      />
 
       <Route
         path="/adminreviews"

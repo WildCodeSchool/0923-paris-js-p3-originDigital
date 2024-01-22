@@ -1,14 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Icon } from "@iconify/react";
 import { useNavigate } from "react-router-dom";
 import "./Header.css";
 import useOverview from "../../context/Overviewcontext";
+import authContext from "../../context/AuthContext";
 import imageSign from "../../assets/logo_Mobile.svg";
 
 function Header() {
   const Navigate = useNavigate();
-  const { isRegistered, setToggleNavbarDestkop } = useOverview();
+  const { setToggleNavbarDestkop } = useOverview();
   const [searchTerm, setSearchTerm] = useState("");
+  const auth = useContext(authContext);
+
+  console.info("cat", auth.user);
   const handleInputChange = (event) => {
     setSearchTerm(event.target.value);
   };
@@ -22,7 +26,7 @@ function Header() {
   };
 
   return (
-    <main className={isRegistered ? "header" : "header-unregistered"}>
+    <main className={auth.user ? "header" : "header-unregistered"}>
       <div
         className="container_Logo"
         onClick={handleLogoClick}
@@ -50,7 +54,7 @@ function Header() {
           height="50"
         />
       </div>
-      {isRegistered ? (
+      {auth.user ? (
         <div className="user_Profile_Container">
           <Icon
             id="icon_Sign"

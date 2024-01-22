@@ -9,13 +9,14 @@ function AuthProvider({ children }) {
     const getCurrentUser = async () => {
       try {
         const response = await fetch(
-          `${import.meta.env.VITE_BACKEND_URL}/users/`,
+          `${import.meta.env.VITE_BACKEND_URL}/users/me`,
           {
             method: "GET",
             credentials: "include",
           }
         );
-        if (response === 200) {
+
+        if (response.status === 200) {
           const currentUser = await response.json();
           setUser(currentUser);
         }

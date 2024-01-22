@@ -1,13 +1,13 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import Header from "../../components/Header/Header";
-import useOverviewContext from "../../context/Overviewcontext";
 import "./UsersProfile.css";
 import VideoCard from "../../components/Video card/VideoCard";
+import authContext from "../../context/AuthContext";
 
 function UserProfile() {
-  const { user, setUser, setIsRegistered } = useOverviewContext();
+  const auth = useContext(authContext);
   const [openUserSettings, setOpenUserSettings] = useState(false);
   const [isEditingUsername, setIsEditingUsername] = useState(false);
   const navigate = useNavigate();
@@ -26,8 +26,8 @@ function UserProfile() {
         }
       );
       if (response.status === 200) {
-        setUser(null);
-        setIsRegistered(false);
+        auth.setUser(null);
+        // setIsRegistered(false);
         navigate("/");
       }
     } catch (error) {
@@ -56,8 +56,8 @@ function UserProfile() {
   };
 
   useEffect(() => {
-    setUser(initialData);
-  }, [setUser]);
+    auth.setUser(initialData);
+  }, [auth.setUser]);
 
   const [newUsername, setNewUsername] = useState(initialData.username);
   const [newUserDescription, setNewUserDescription] = useState(
@@ -76,7 +76,7 @@ function UserProfile() {
 
   const handleSaveUsername = () => {
     if (newUsername.trim() !== "") {
-      setUser((prevUser) => ({
+      auth.setUser((prevUser) => ({
         ...prevUser,
         username: newUsername,
       }));
@@ -88,7 +88,7 @@ function UserProfile() {
 
   const handleSaveUserDescription = () => {
     if (newUserDescription.trim() !== "") {
-      setUser((prevUser) => ({
+      auth.setUser((prevUser) => ({
         ...prevUser,
         description: newUserDescription,
       }));
@@ -99,18 +99,18 @@ function UserProfile() {
   };
 
   useEffect(() => {
-    setUser((prevUser) => ({
+    auth.setUser((prevUser) => ({
       ...prevUser,
       username: newUsername,
     }));
-  }, [newUsername, setUser]);
+  }, [newUsername, auth.setUser]);
 
   useEffect(() => {
-    setUser((prevUser) => ({
+    auth.setUser((prevUser) => ({
       ...prevUser,
       description: newUserDescription,
     }));
-  }, [newUserDescription, setUser]);
+  }, [newUserDescription, auth.setUser]);
 
   useEffect(() => {
     if (isEditingUsername && inputRef.current) {
@@ -146,7 +146,7 @@ function UserProfile() {
             <div className="img_And_Username_Container">
               <div className="user_Profile_Img_Container">
                 <img
-                  src={user.image}
+                  src={auth.user?.image}
                   alt="User profile pic"
                   className="user_Profile_Image"
                 />
@@ -171,7 +171,7 @@ function UserProfile() {
                     </button>
                   </div>
                 ) : (
-                  <h1 className="username">{user.username}</h1>
+                  <h1 className="username">{auth.user?.username}</h1>
                 )}
               </div>
             </div>
@@ -235,7 +235,7 @@ function UserProfile() {
                 </button>
               </div>
             ) : (
-              <h2 className="user_Description">{user.description}</h2>
+              <h2 className="user_Description">{auth.user?.description}</h2>
             )}
           </div>
         </section>

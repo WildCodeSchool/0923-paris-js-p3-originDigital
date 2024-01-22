@@ -55,7 +55,7 @@ app.use(
 // Uncomment one or more of these options depending on the format of the data sent by your client:
 
 app.use(express.json());
-// app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: false, limit: "50mb" }));
 // app.use(express.text());
 // app.use(express.raw());
 
@@ -121,6 +121,10 @@ app.get("*", (req, res) => {
   res.sendFile(`${reactBuildPath}/index.html`);
 });
 */
+
+// const path = require("path");
+// const publicFolderPath = path.join(__dirname, "../public");
+// app.use(express.static(publicFolderPath));
 
 /* ************************************************************************* */
 

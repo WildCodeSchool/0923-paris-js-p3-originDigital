@@ -51,8 +51,36 @@ const getAll = async (req, res, next) => {
   }
 };
 
+const updateUser = async (req, res) => {
+  try {
+    const updatedUser = await userModel.updateUser(req.params.id, req.body);
+    res.json(updatedUser);
+  } catch (error) {
+    console.error(
+      "Erreur lors de la mise à jour de l'utilisateur :",
+      error.message
+    );
+    res.status(500).json({ error: "Erreur serveur" });
+  }
+};
+
+const deleteUser = async (req, res) => {
+  try {
+    const deletedUser = await userModel.deleteUser(req.params.id);
+    res.json(deletedUser);
+  } catch (error) {
+    console.error(
+      "Erreur lors de la suppression de l'utilisateur :",
+      error.message
+    );
+    res.status(500).json({ error: "Erreur serveur" });
+  }
+};
+
 module.exports = {
   add,
   login,
   getAll,
+  updateUser,
+  deleteUser,
 };

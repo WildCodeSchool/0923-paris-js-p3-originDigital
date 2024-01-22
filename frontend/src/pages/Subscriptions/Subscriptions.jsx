@@ -1,8 +1,15 @@
+import { useState } from "react";
 import Header from "../../components/Header/Header";
-import LabTabs from "../../components/Tab2/Tab2";
+import Mytabs from "../../components/Tab/Tab";
 import "./Subscriptions.css";
 
 function Subscriptions() {
+  const [tabValue, setTabValue] = useState(0);
+
+  const handleChange = (event, newValue) => {
+    setTabValue(newValue);
+  };
+
   const isMobile = window.innerWidth < 1024;
   return (
     <main className="container_Body_Sub">
@@ -21,7 +28,7 @@ function Subscriptions() {
         <h1 className="title_Sub">SUBSCRITIONS</h1>
       </div>
       <div className="container_Tab_Sub">
-        <LabTabs className="tab_Sub" />
+        <Mytabs tabValue={tabValue} handleChange={handleChange} />
       </div>
     </main>
   );

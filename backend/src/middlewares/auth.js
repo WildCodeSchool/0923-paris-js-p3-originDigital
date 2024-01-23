@@ -23,6 +23,7 @@ const hashPassword = async (req, res, next) => {
 const isAuth = async (req, res, next) => {
   try {
     const token = req.cookies["auth-token"];
+    console.info(token);
     const decoded = jwt.verify(token, process.env.APP_SECRET);
     req.body.user_id = decoded.id;
     next();

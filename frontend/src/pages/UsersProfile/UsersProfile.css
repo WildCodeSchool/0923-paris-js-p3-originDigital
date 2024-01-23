@@ -16,6 +16,7 @@
 
 .img_And_Username_And_Settings_Container {
   display: flex;
+  position: relative;
 }
 
 .img_And_Username_Container {
@@ -53,25 +54,53 @@
   color: inherit;
 }
 
+#icon_Settings {
+  cursor: pointer;
+}
+
 .settings_Container {
   display: flex;
-  align-items: center;
-  cursor: pointer;
-  position: relative;
-  /* top: 0.6rem; */
-  /* right: 2rem; */
-  /* flex-direction: column; */
+  align-items: flex-end;
+  justify-content: center;
+  position: absolute;
+  right: 1.5rem;
+  top: 1.5rem;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.settings_Container.active {
+  background-color: var(--grey);
+  transform: translateX(0);
+  transition: var(--speed) ease;
+  border-radius: 10px;
+  z-index: 1;
+}
+
+.settings_Container.inactive {
+  transition: var(--speed) cubic-bezier(0.6, -0.28, 0.735, 0.045);
 }
 
 .dropdown_Settings {
   background-color: var(--grey);
-  position: absolute;
-  top: 5rem;
-  right: 2rem;
+  position: relative;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  /* border: 0.01px solid var(--white); */
+  width: max-content;
+  border-radius: 10px;
+}
+
+.dropdown_Settings.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+  transition: var(--speed) cubic-bezier(0.6, -0.28, 0.735, 0.045);
+  z-index: 1;
+}
+
+.dropdown_Settings.inactive {
+  opacity: 0;
+  visibility: hidden;
 }
 
 .dropdown_Settings button {
@@ -83,6 +112,7 @@
   font-weight: inherit;
   font-family: inherit;
   padding: 1rem;
+  cursor: pointer;
 }
 
 .dropdown_Settings ul {
@@ -93,21 +123,6 @@
 
 .dropdown_Settings ul:hover {
   color: var(--orange);
-}
-
-.dropdown_Settings.active {
-  opacity: 1;
-  visibility: visible;
-  transform: translateX(0);
-  transition: var(--speed) ease;
-  z-index: 1;
-}
-
-.dropdown_Settings.inactive {
-  opacity: 0;
-  visibility: hidden;
-  /* transform: translateX(2rem); */
-  transition: var(--speed) cubic-bezier(0.6, -0.28, 0.735, 0.045);
 }
 
 .user_Description {

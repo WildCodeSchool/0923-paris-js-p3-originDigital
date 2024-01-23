@@ -1,17 +1,39 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import Header from "../../components/Header/Header";
-import useOverviewContext from "../../context/Overviewcontext";
 import "./UsersProfile.css";
 import VideoCard from "../../components/Video card/VideoCard";
+import authContext from "../../context/AuthContext";
 
 function UserProfile() {
-  const { user, setUser } = useOverviewContext();
+  const auth = useContext(authContext);
   const [openUserSettings, setOpenUserSettings] = useState(false);
   const [isEditingUsername, setIsEditingUsername] = useState(false);
+  const navigate = useNavigate();
+  const settingsMenuRef = useRef();
   const [isEditingUserDescription, setIsEditingUserDescription] =
     useState(false);
   const inputRef = useRef(null);
+
+  const logOut = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/users/logOut`,
+        {
+          method: "GET",
+          credentials: "include",
+        }
+      );
+      if (response.status === 200) {
+        auth.setUser(null);
+        // setIsRegistered(false);
+        navigate("/");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const initialData = {
     username: "CatLoverXoXo",
@@ -34,8 +56,8 @@ function UserProfile() {
   };
 
   useEffect(() => {
-    setUser(initialData);
-  }, [setUser]);
+    auth.setUser(initialData);
+  }, [auth.setUser]);
 
   const [newUsername, setNewUsername] = useState(initialData.username);
   const [newUserDescription, setNewUserDescription] = useState(
@@ -54,7 +76,7 @@ function UserProfile() {
 
   const handleSaveUsername = () => {
     if (newUsername.trim() !== "") {
-      setUser((prevUser) => ({
+      auth.setUser((prevUser) => ({
         ...prevUser,
         username: newUsername,
       }));
@@ -66,7 +88,7 @@ function UserProfile() {
 
   const handleSaveUserDescription = () => {
     if (newUserDescription.trim() !== "") {
-      setUser((prevUser) => ({
+      auth.setUser((prevUser) => ({
         ...prevUser,
         description: newUserDescription,
       }));
@@ -77,18 +99,18 @@ function UserProfile() {
   };
 
   useEffect(() => {
-    setUser((prevUser) => ({
+    auth.setUser((prevUser) => ({
       ...prevUser,
       username: newUsername,
     }));
-  }, [newUsername, setUser]);
+  }, [newUsername, auth.setUser]);
 
   useEffect(() => {
-    setUser((prevUser) => ({
+    auth.setUser((prevUser) => ({
       ...prevUser,
       description: newUserDescription,
     }));
-  }, [newUserDescription, setUser]);
+  }, [newUserDescription, auth.setUser]);
 
   useEffect(() => {
     if (isEditingUsername && inputRef.current) {
@@ -102,6 +124,19 @@ function UserProfile() {
     }
   }, [isEditingUserDescription]);
 
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (!settingsMenuRef.current.contains(e.target)) {
+        setOpenUserSettings(false);
+      }
+    };
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
   return (
     <>
       <Header />
@@ -111,7 +146,7 @@ function UserProfile() {
             <div className="img_And_Username_Container">
               <div className="user_Profile_Img_Container">
                 <img
-                  src={user.image}
+                  src={auth.user?.image}
                   alt="User profile pic"
                   className="user_Profile_Image"
                 />
@@ -136,11 +171,16 @@ function UserProfile() {
                     </button>
                   </div>
                 ) : (
-                  <h1 className="username">{user.username}</h1>
+                  <h1 className="username">{auth.user?.username}</h1>
                 )}
               </div>
             </div>
-            <div className="settings_Container">
+            <div
+              className={`settings_Container ${
+                openUserSettings ? "active" : "inactive"
+              }`}
+              ref={settingsMenuRef}
+            >
               <Icon
                 id="icon_Settings"
                 type="button"
@@ -157,6 +197,9 @@ function UserProfile() {
                   openUserSettings ? "active" : "inactive"
                 }`}
               >
+                <button onClick={logOut} type="button">
+                  <ul>Disconnect</ul>
+                </button>
                 <button onClick={handleEditUsername} type="button">
                   <ul>Edit username</ul>
                 </button>
@@ -192,7 +235,7 @@ function UserProfile() {
                 </button>
               </div>
             ) : (
-              <h2 className="user_Description">{user.description}</h2>
+              <h2 className="user_Description">{auth.user?.description}</h2>
             )}
           </div>
         </section>

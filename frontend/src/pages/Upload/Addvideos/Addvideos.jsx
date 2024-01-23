@@ -195,7 +195,7 @@ function Addvideos() {
                 <p>Selected file: {videoFile.name}</p>
               ) : (
                 <p className="element_Specs">
-                  (16:9 ratio, .mp4, max file size : 150MB)
+                  (16:9 ratio, .mp4, max file size : 50MB)
                 </p>
               )}
               {errorFile && (

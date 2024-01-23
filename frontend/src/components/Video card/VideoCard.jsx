@@ -37,6 +37,7 @@ function VideoCard() {
         className={`moreVert_Icon_Container ${
           openVideoOptions ? "active" : "inactive"
         }`}
+        ref={videoOptionsMenuRef}
       >
         <Icon
           id="icon_More_Vertical"

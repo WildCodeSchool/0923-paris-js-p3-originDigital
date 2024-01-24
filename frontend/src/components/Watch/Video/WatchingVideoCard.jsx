@@ -2,15 +2,23 @@ import { useState, useEffect, useRef } from "react";
 import "./WatchingVideoCard.css";
 import Avatar from "@mui/material/Avatar";
 import { Icon } from "@iconify/react";
+import follow from "../../../assets/follow.png";
+import unfollow from "../../../assets/unfollow.png";
 import Modal from "../../Modal/Modal";
+import useOverview from "../../../context/Overviewcontext";
 
 function VideoCard() {
+  const { isFollowed, setIsFollowed } = useOverview();
   const [openVideoOptions, setOpenVideoOptions] = useState(false);
   const videoOptionsMenuRef = useRef();
   const [openModal, setOpenModal] = useState(false);
 
   const handleClose = () => {
     setOpenModal(false);
+  };
+
+  const handleFollowClick = () => {
+    setIsFollowed(!isFollowed);
   };
 
   useEffect(() => {
@@ -35,6 +43,56 @@ function VideoCard() {
       />
 
       <div className="flex_Watch_Video_Info">
+        <div className="avatar_Container_Watch">
+          <Avatar
+            className="avatar"
+            sx={{ width: 35, height: 35 }}
+            src="https://images.unsplash.com/photo-1561948955-570b270e7c36?q=80&w=1802&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          />
+          <p className="creator_Username_Watch">Xoxoxoxo45</p>
+        </div>
+        <div className="view_Icon_Watch_Bloc">
+          <Icon
+            icon="lets-icons:view-alt-fill"
+            className="view_Icon_Watch"
+            alt="View Icon Number"
+            width="38"
+            height="38"
+          />
+          <span>100 K</span>
+        </div>
+        <div className="like_Icon_Watch_Bloc">
+          <Icon
+            icon="ph:heart"
+            className="like_Icon_Watch"
+            alt="Like Icon Number"
+            width="38"
+            height="38"
+          />
+          <span>254</span>
+        </div>
+        <div className="favorite_Icon_Watch_Bloc">
+          <Icon
+            icon="pepicons-pencil:star"
+            className="favorite_Icon_Watch"
+            alt="Favorite Icon"
+            width="40"
+            height="40"
+          />
+        </div>
+        <div
+          className="simple-line-icons:user-following "
+          tabIndex="-17"
+          role="button"
+          onClick={handleFollowClick}
+          onKeyDown={handleFollowClick}
+        >
+          <img
+            src={isFollowed ? unfollow : follow}
+            className="follow_Icon_Watch"
+            alt="Follow Icon"
+          />
+        </div>
         <div
           className={`moreVert_Icon_Container_Watch ${
             openVideoOptions ? "active" : "inactive"
@@ -46,8 +104,8 @@ function VideoCard() {
             type="button"
             icon="pepicons-pop:dots-y"
             color="#f3f3e6"
-            width="35"
-            height="35"
+            width="37"
+            height="37"
             onClick={() => {
               setOpenVideoOptions(!openVideoOptions);
             }}
@@ -107,16 +165,8 @@ function VideoCard() {
       )}
       <div className="watch_Video_Data">
         <div className="data_Container_Watch">
-          <div className="avatar_Container_Watch">
-            <Avatar
-              className="avatar"
-              sx={{ width: 40, height: 40 }}
-              src="https://images.unsplash.com/photo-1561948955-570b270e7c36?q=80&w=1802&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            />
-          </div>
           <div className="channel_Details_Watch">
-            <h3 className="video_Title_Watch">This is a video title</h3>
-            <p className="creator_Username_Watch">Author</p>
+            <h3 className="video_Title_Watch">Le chat sympa !</h3>
           </div>
         </div>
       </div>

@@ -65,10 +65,10 @@
 
 .moreVert_Icon_Container_Watch {
   display: flex;
-  align-items: center;
-  flex-direction: flex-end;
+  align-items: baseline;
+  flex-direction: row-reverse;
   position: absolute;
-  right: -8rem;
+  right: 0rem;
 }
 
 .moreVert_Icon_Container_Watch.active {

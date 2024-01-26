@@ -51,29 +51,33 @@ const getAll = async (req, res, next) => {
   }
 };
 
-const updateUser = async (req, res) => {
+const getCurrentUser = async (req, res, next) => {
+  console.info("req.body.user_id", req.user_id);
   try {
-    const updatedUser = await userModel.updateUser(req.params.id, req.body);
-    res.json(updatedUser);
+    const [[user]] = await userModel.findById(req.user_id);
+    console.info(user);
+    res.status(200).json(user);
   } catch (error) {
-    console.error(
-      "Erreur lors de la mise à jour de l'utilisateur :",
-      error.message
-    );
-    res.status(500).json({ error: "Erreur serveur" });
+    next(error);
   }
 };
 
-const deleteUser = async (req, res) => {
+const logOut = (req, res, next) => {
   try {
-    const deletedUser = await userModel.deleteUser(req.params.id);
-    res.json(deletedUser);
+    res.clearCookie("auth-token").sendStatus(200);
   } catch (error) {
-    console.error(
-      "Erreur lors de la suppression de l'utilisateur :",
-      error.message
-    );
-    res.status(500).json({ error: "Erreur serveur" });
+    next(error);
+  }
+};
+
+const getAllVideos = async (req, res, next) => {
+  try {
+    console.info("req", req.params.id);
+    const [videos] = await userModel.getVideosByUserId(req.params.id);
+    console.info(videos);
+    res.status(200).json(videos);
+  } catch (error) {
+    next(error);
   }
 };
 
@@ -81,6 +85,7 @@ module.exports = {
   add,
   login,
   getAll,
-  updateUser,
-  deleteUser,
+  getCurrentUser,
+  logOut,
+  getAllVideos,
 };

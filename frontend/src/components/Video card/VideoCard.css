@@ -41,9 +41,11 @@
 .moreVert_Icon_Container.inactive {
   transition: var(--speed) cubic-bezier(0.6, -0.28, 0.735, 0.045);
 }
+
 #icon_More_Vertical {
   cursor: pointer;
 }
+
 .dropdown_Menu {
   background-color: inherit;
   display: flex;

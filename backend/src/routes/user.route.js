@@ -6,7 +6,8 @@ const auth = require("../middlewares/auth");
 router.post("/users", auth.hashPassword, userController.add);
 router.post("/users/login", userController.login);
 router.get("/users", auth.isAuth, auth.isAdmin, userController.getAll);
-router.put("/users/:id", userController.updateUser);
-router.delete("/users/:id", userController.deleteUser);
+router.get("/users/me", auth.isAuth, userController.getCurrentUser);
+router.get("/users/logOut", auth.isAuth, userController.logOut);
+router.get("/users/:id/videos", userController.getAllVideos);
 
 module.exports = router;

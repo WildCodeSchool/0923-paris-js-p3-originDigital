@@ -122,6 +122,26 @@ function Navbar() {
               />
               <span className="text_Subscription_Navbar">Subscriptions</span>
             </div>
+
+            <div
+              className="logOut_Navbar_bloc"
+              onClick={handleSettingsCategoriesClick}
+              onKeyDown={() => {
+                Navigate("/settingscategories");
+              }}
+              tabIndex="-8"
+              role="button"
+            >
+              <Icon
+                icon="uil:sign-out-alt"
+                className="logOut_Navbar"
+                color="var(--white)"
+                width="39"
+                height="39"
+              />
+              <span className="text_LogOut_Navbar">Log Out</span>
+            </div>
+
             <div
               className="profil_Navbar_bloc"
               onClick={handleSettingsCategoriesClick}
@@ -197,7 +217,7 @@ function Navbar() {
                 width="33"
                 height="33"
               />
-              <span className="text_Review_Navbar">Validate videos/shorts</span>
+              <span className="text_Review_Navbar">Validate videos</span>
             </div>
           </>
         )}

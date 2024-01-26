@@ -3,19 +3,45 @@ const db = require("../../database/client");
 const insert = (tag) => {
   const { name } = tag;
 
-  return db.query("INSERT INTO Tags (name) VALUES (?)", [name]);
+  return db.query("INSERT INTO tags (name) VALUES (?)", [name]);
+};
+
+const insertTagVideo = (idvideo, idtag) => {
+  return db.query("INSERT INTO add_tags (video_id, tag_id) VALUES (?, ?)", [
+    idvideo,
+    idtag,
+  ]);
+};
+
+const findByVideoId = (id) => {
+  return db.query("SELECT * FROM add_tags WHERE video_id = ?", [id]);
 };
 
 const findById = (id) => {
-  return db.query("SELECT * FROM Tags WHERE video_id = ?", [id]);
+  return db.query("SELECT * FROM tags WHERE tag_id = ?", [id]);
 };
 
 const findAll = () => {
-  return db.query("SELECT * FROM Tags");
+  return db.query("SELECT * FROM tags");
+};
+
+const update = (tagId, videoId) => {
+  return db.query("UPDATE add_tags SET tag_id = ? WHERE video_id = ?", [
+    tagId,
+    videoId,
+  ]);
+};
+
+const removeTagByVideo = (videoId) => {
+  return db.query("DELETE from add_tags WHERE video_id= ?", [videoId]);
 };
 
 module.exports = {
   insert,
-  findById,
+  findByVideoId,
   findAll,
+  findById,
+  insertTagVideo,
+  update,
+  removeTagByVideo,
 };

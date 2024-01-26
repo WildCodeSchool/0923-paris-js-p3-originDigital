@@ -4,7 +4,7 @@ const insert = (video) => {
   const { title, description, thumbnail } = video;
 
   return db.query(
-    "INSERT INTO Videos (title, description, URL_video, type_video, thumbnail, category_id, user_id) VALUES (?, ?, ?, ?, ?, ?, ?)",
+    "INSERT INTO videos (title, description, URL_video, type_video, thumbnail, category_id, user_id) VALUES (?, ?, ?, ?, ?, ?, ?)",
     [
       title,
       description,
@@ -17,19 +17,26 @@ const insert = (video) => {
   );
 };
 
-const insertVideoTag = (video, tag) => {
-  return db.query("INSERT INTO Add_Tags (video_id, tag_id) VALUES (?, ?)", [
-    video,
-    tag,
+const insertVideoTag = (videoId, tagId) => {
+  return db.query("INSERT INTO add_tags (video_id, tag_id) VALUES (?, ?)", [
+    videoId,
+    tagId,
   ]);
 };
 
 const findById = (id) => {
-  return db.query("SELECT * FROM Videos WHERE video_id = ?", [id]);
+  return db.query("SELECT * FROM videos WHERE video_id = ?", [id]);
 };
 
 const findAll = () => {
-  return db.query("SELECT * FROM Videos");
+  return db.query("SELECT * FROM videos");
+};
+
+const update = (id, title, description, thumbnail, category) => {
+  return db.query(
+    "UPDATE videos SET title = ?, description = ?, thumbnail = ?, category_id = ? WHERE video_id = ?",
+    [title, description, thumbnail, category, id]
+  );
 };
 
 module.exports = {
@@ -37,4 +44,5 @@ module.exports = {
   findById,
   findAll,
   insertVideoTag,
+  update,
 };

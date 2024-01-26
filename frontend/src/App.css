@@ -146,3 +146,12 @@ table {
   bottom: 0;
   height: 5.5rem;
 }
+
+.slick-slider {
+  width: 100%;
+  position: relative;
+}
+
+.slider_Home {
+  width: 100%;
+}

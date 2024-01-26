@@ -47,7 +47,7 @@ function Navbar() {
   }, [toggleNavbarDesktop]);
 
   return (
-    <main>
+    <section className="main_Navbar">
       <div
         ref={navbarRef}
         className={`containeur_Body_Navbar ${
@@ -202,7 +202,7 @@ function Navbar() {
           </>
         )}
       </div>
-    </main>
+    </section>
   );
 }
 

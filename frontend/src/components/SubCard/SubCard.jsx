@@ -88,7 +88,7 @@ function SubCard() {
         }}
       />
       <div
-        className={`moreVert_Icon_Container ${
+        className={`moreVert_Icon_ContainerSub ${
           openSubOptions ? "active" : "inactive"
         }`}
       >

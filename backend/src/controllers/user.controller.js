@@ -62,6 +62,16 @@ const getCurrentUser = async (req, res, next) => {
   }
 };
 
+const getSelectedUser = async (req, res, next) => {
+  try {
+    const [[user]] = await userModel.findById(req.params.id);
+    if (user) res.status(200).json(user);
+    else res.status(404);
+  } catch (error) {
+    next(error);
+  }
+};
+
 const logOut = (req, res, next) => {
   try {
     res.clearCookie("auth-token").sendStatus(200);
@@ -81,11 +91,23 @@ const getAllVideos = async (req, res, next) => {
   }
 };
 
+const removeOne = async (req, res, next) => {
+  try {
+    const [result] = await userModel.destroy(req.params.id);
+    if (result.affectedRows > 0) res.sendStatus(204);
+    else res.sendStatus(404);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   add,
   login,
   getAll,
   getCurrentUser,
+  getSelectedUser,
   logOut,
   getAllVideos,
+  removeOne,
 };

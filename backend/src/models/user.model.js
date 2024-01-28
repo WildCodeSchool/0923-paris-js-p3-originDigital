@@ -25,10 +25,15 @@ const getVideosByUserId = (userId) => {
   return db.query("SELECT * FROM videos WHERE user_id = ?", [userId]);
 };
 
+const destroyByUserId = (userId) => {
+  return db.query("DELETE FROM users where user_id = ?", [userId]);
+};
+
 module.exports = {
   insert,
   findById,
   findByUsername,
   getVideosByUserId,
   findAll,
+  destroyByUserId,
 };

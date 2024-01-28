@@ -79,9 +79,20 @@ const edit = async (req, res, next) => {
   }
 };
 
+const removeOne = async (req, res, next) => {
+  try {
+    const [result] = await videoModel.destroy(req.params.id);
+    if (result.affectedRows > 0) res.sendStatus(204);
+    else res.sendStatus(404);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   add,
   getAll,
   getOne,
   edit,
+  removeOne,
 };

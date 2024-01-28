@@ -8,5 +8,6 @@ router.post("/videos", auth.isAuth, fileUpload.any(), videoController.add);
 router.get("/videos", videoController.getAll);
 router.get("/videos/:id", videoController.getOne);
 router.put("/videos/:id", videoController.edit);
+router.delete("/videos/:id", videoController.removeOne);
 
 module.exports = router;

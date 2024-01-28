@@ -10,7 +10,8 @@ function Addshorts() {
   const maxCharacters = 255;
   const [errorThumbnail, setErrorThumbnail] = useState(false);
   const [errorFile, setErrorFile] = useState(false);
-  const redirect = useNavigate();
+  const navigate = useNavigate();
+
   const {
     videoTitle,
     setVideoTitle,
@@ -35,6 +36,7 @@ function Addshorts() {
       form.append("thumbnail", videoThumbnail);
       form.append("category_id", category);
       form.append("type_video", 0);
+      form.append("tags", tag);
 
       const response = await fetch(
         `${import.meta.env.VITE_BACKEND_URL}/videos`,
@@ -48,7 +50,7 @@ function Addshorts() {
       if (response.status === 201) {
         const video = await response.json();
         console.info(video);
-        redirect("/upload");
+        navigate("/upload");
       }
     } catch (error) {
       console.error(error);

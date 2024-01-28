@@ -3,11 +3,11 @@ import Avatar from "@mui/material/Avatar";
 import { deepOrange } from "@mui/material/colors";
 
 export default function BackgroundLetterAvatars({ username }) {
-  // console.log("j'ai fait comme la lib", username);
+  // console.log("this ", username);
   return (
     <Avatar
       sx={{ bgcolor: deepOrange[500] }}
-      alt={`${username.toUpperCase()}`}
+      alt={`${username?.toUpperCase()}`}
       src="/broken-image.jpg"
     />
   );

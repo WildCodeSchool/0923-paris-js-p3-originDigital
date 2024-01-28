@@ -26,13 +26,11 @@ import ForgotPassword from "./pages/Forgot/ForgotPassword";
 import App from "./App";
 import useAuthContext from "./context/AuthContext";
 
-function PrivateRoute({ children, admin }) {
+function PrivateRoute({ children }) {
   const { user } = useContext(useAuthContext);
-  console.info(user);
   const navigate = useNavigate();
   useEffect(() => {
     if (!user) navigate("/login");
-    else if (user.admin !== admin) navigate("/");
   }, [user]);
   return children;
 }
@@ -41,7 +39,18 @@ function PublicRoute({ children }) {
   const { user } = useContext(useAuthContext);
   const navigate = useNavigate();
   useEffect(() => {
-    if (user) navigate("/");
+    if (user) navigate(-2);
+  }, [user]);
+  return children;
+}
+
+function AdminRoute({ children }) {
+  const { user } = useContext(useAuthContext);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!user && user.admin !== "1") {
+      navigate("/");
+    }
   }, [user]);
   return children;
 }
@@ -135,9 +144,9 @@ const routes = createBrowserRouter(
       <Route
         path="/adminreviews"
         element={
-          <PrivateRoute admin="0">
+          <AdminRoute>
             <Adminreviews />
-          </PrivateRoute>
+          </AdminRoute>
         }
       />
 

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import AsyncSelect from "react-select/async";
 import "./Addvideos.css";
@@ -9,10 +10,14 @@ function Addvideos() {
   const maxCharacters = 255;
   const [errorThumbnail, setErrorThumbnail] = useState(false);
   const [errorFile, setErrorFile] = useState(false);
+  const navigate = useNavigate();
+
   const {
+    videoTitle,
     setVideoTitle,
     description,
     setDescription,
+    category,
     setCategory,
     setTag,
     tag,
@@ -21,6 +26,36 @@ function Addvideos() {
     videoThumbnail,
     setVideoThumbnail,
   } = useOverviewContext();
+
+  const handleUpload = async () => {
+    try {
+      const form = new FormData();
+      form.append("title", videoTitle);
+      form.append("description", description);
+      form.append("video", videoFile);
+      form.append("thumbnail", videoThumbnail);
+      form.append("category_id", category);
+      form.append("type_video", 0);
+      form.append("tags", tag);
+
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/videos`,
+        {
+          method: "POST",
+          credentials: "include",
+          body: form,
+        }
+      );
+
+      if (response.status === 201) {
+        const video = await response.json();
+        console.info(video);
+        navigate("/upload");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleVideoFileChange = (e) => {
     setVideoFile(e.target.files[0]);
@@ -43,7 +78,7 @@ function Addvideos() {
 
   useEffect(() => {
     if (videoFile) {
-      const maxFileSize = 150 * 1024 * 1024;
+      const maxFileSize = 30 * 1024 * 1024;
       if (videoFile.size > maxFileSize) {
         setVideoFile(null);
         setErrorFile(true);
@@ -90,42 +125,53 @@ function Addvideos() {
     };
   }, []);
 
-  const categoryOptions = [
-    { label: "Animal", value: "Animal" },
-    { label: "Architecture", value: "Architecture" },
-    { label: "Art", value: "Art" },
-    { label: "Business", value: "Business" },
-    { label: "Food", value: "Food" },
-    { label: "Nature", value: "Nature" },
-    { label: "Technology", value: "Technology" },
-    { label: "Other", value: "Other" },
-  ];
-
-  const tagOptions = [
-    { label: "Shark", value: "Shark" },
-    { label: "Dolphin", value: "Dolphin" },
-    { label: "Whale", value: "Whale" },
-    { label: "Octopus", value: "Octopus" },
-    { label: "Crab", value: "Crab" },
-    { label: "Lobster", value: "Lobster" },
-  ];
-
-  const loadCategoryOptions = (searchValue, callback) => {
-    setTimeout(() => {
-      const filteredOptions = categoryOptions.filter((option) =>
-        option.label.toLowerCase().includes(searchValue.toLowerCase())
+  const loadCategoryOptions = async (searchValue) => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/categories`,
+        {
+          method: "GET",
+          credentials: "include",
+        }
       );
-      callback(filteredOptions);
-    }, 2000);
+
+      if (response.status === 200) {
+        const categories = await response.json();
+        const filteredOptions = categories
+          .filter((option) =>
+            option.name.toLowerCase().includes(searchValue.toLowerCase())
+          )
+          .map((c) => ({ value: c.category_id, label: c.name }));
+
+        return filteredOptions;
+      }
+    } catch (error) {
+      console.error(error);
+    }
+    return true;
   };
 
-  const loadTagOptions = (searchValue, callback) => {
-    setTimeout(() => {
-      const filteredOptions = tagOptions.filter((option) =>
-        option.label.toLowerCase().includes(searchValue.toLowerCase())
-      );
-      callback(filteredOptions);
-    }, 2000);
+  const loadTagOptions = async (searchValue) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/tags`, {
+        method: "GET",
+        credentials: "include",
+      });
+
+      if (response.status === 200) {
+        const tags = await response.json();
+        const filteredTags = tags
+          .filter((option) =>
+            option.name.toLowerCase().includes(searchValue.toLowerCase())
+          )
+          .map((t) => ({ value: t.tag_id, label: t.name }));
+
+        return filteredTags;
+      }
+    } catch (error) {
+      console.error(error);
+    }
+    return true;
   };
 
   const colorStyles = {
@@ -175,7 +221,7 @@ function Addvideos() {
     <>
       <Header />
       <section className="container_Body_Add_Video">
-        <h1 className="upload_Main_Title_Video">Video upload settings</h1>
+        <h1 className="upload_Main_Title_Video">Short upload settings</h1>
         <div className="grid_Container">
           <label htmlFor="fileInput">
             <div
@@ -194,12 +240,10 @@ function Addvideos() {
               {videoFile ? (
                 <p>Selected file: {videoFile.name}</p>
               ) : (
-                <p className="element_Specs">
-                  (16:9 ratio, .mp4, max file size : 50MB)
-                </p>
+                <p className="element_Specs">(.mp4)</p>
               )}
               {errorFile && (
-                <p className="error_File">File must be under 150MB</p>
+                <p className="error_File">File must be under 30MB</p>
               )}
             </div>
           </label>
@@ -287,7 +331,7 @@ function Addvideos() {
             </div>
           </div>
         </div>
-        <button type="button" className="upload_Btn">
+        <button type="button" className="upload_Btn" onClick={handleUpload}>
           UPLOAD
         </button>
       </section>

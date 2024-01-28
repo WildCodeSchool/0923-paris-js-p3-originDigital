@@ -4,10 +4,14 @@ import { Icon } from "@iconify/react";
 import Header from "../../components/Header/Header";
 import "./UsersProfile.css";
 import VideoCard from "../../components/Video card/VideoCard";
+import BackgroundLetterAvatars from "../../components/Avatar/Avatar";
 import authContext from "../../context/AuthContext";
+import useSelectedUser from "../../context/SelectedUserContext";
 
 function UserProfile() {
   const auth = useContext(authContext);
+  const { selectedUser } = useSelectedUser();
+  console.info("im not a cat", selectedUser);
   const [openUserSettings, setOpenUserSettings] = useState(false);
   const [isEditingUsername, setIsEditingUsername] = useState(false);
   const navigate = useNavigate();
@@ -15,6 +19,32 @@ function UserProfile() {
   const [isEditingUserDescription, setIsEditingUserDescription] =
     useState(false);
   const inputRef = useRef(null);
+  const [userVideos, setUserVideos] = useState([]);
+
+  useEffect(() => {
+    const loadUserVideos = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/users/${
+            selectedUser?.user_id
+          }/videos`,
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
+        if (response.status === 200) {
+          const videos = await response.json();
+          setUserVideos(videos);
+        }
+        return userVideos;
+      } catch (error) {
+        console.error(error);
+      }
+      return true;
+    };
+    loadUserVideos();
+  }, [selectedUser]);
 
   const logOut = async () => {
     try {
@@ -27,7 +57,6 @@ function UserProfile() {
       );
       if (response.status === 200) {
         auth.setUser(null);
-        // setIsRegistered(false);
         navigate("/");
       }
     } catch (error) {
@@ -35,34 +64,18 @@ function UserProfile() {
     }
   };
 
-  const initialData = {
-    username: "CatLoverXoXo",
-    description:
-      "Hello! Welcome to my channel! You’ll see videos of my cats here !",
-    image:
-      "https://images.unsplash.com/photo-1561948955-570b270e7c36?q=80&w=1802&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    videos: {
-      video1: {
-        videoTitle: "First video",
-        thumbnail:
-          "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?q=80&w=2043&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      },
-      video2: {
-        videoTitle: "Second video",
-        thumbnail:
-          "https://images.unsplash.com/photo-1511044568932-338cba0ad803?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      },
-    },
-  };
+  const [newUsername, setNewUsername] = useState(auth?.user?.username);
+  const [newUserDescription, setNewUserDescription] = useState(
+    auth?.user?.description
+  );
 
   useEffect(() => {
-    auth.setUser(initialData);
-  }, [auth.setUser]);
+    console.info("user", auth.user);
+  }, [auth.user]);
 
-  const [newUsername, setNewUsername] = useState(initialData.username);
-  const [newUserDescription, setNewUserDescription] = useState(
-    initialData.description
-  );
+  useEffect(() => {
+    console.info("userVideos", userVideos);
+  }, [userVideos]);
 
   const handleEditUsername = () => {
     setIsEditingUsername(true);
@@ -145,11 +158,12 @@ function UserProfile() {
           <div className="img_And_Username_And_Settings_Container">
             <div className="img_And_Username_Container">
               <div className="user_Profile_Img_Container">
-                <img
-                  src={auth.user?.image}
-                  alt="User profile pic"
-                  className="user_Profile_Image"
-                />
+                {selectedUser?.username ? (
+                  <BackgroundLetterAvatars
+                    sx={{ width: 40, height: 40 }}
+                    username={selectedUser.username || ""}
+                  />
+                ) : null}
               </div>
               <div className="username_Container">
                 {isEditingUsername ? (
@@ -171,7 +185,7 @@ function UserProfile() {
                     </button>
                   </div>
                 ) : (
-                  <h1 className="username">{auth.user?.username}</h1>
+                  <h1 className="username">{selectedUser?.username}</h1>
                 )}
               </div>
             </div>
@@ -181,17 +195,27 @@ function UserProfile() {
               }`}
               ref={settingsMenuRef}
             >
-              <Icon
-                id="icon_Settings"
-                type="button"
-                icon="material-symbols:settings"
-                color="#f3f3e6"
-                width="35"
-                height="35"
+              <div
+                className="icon_Settings_Container"
                 onClick={() => {
                   setOpenUserSettings(!openUserSettings);
                 }}
-              />
+                onKeyDown={() => {
+                  setOpenUserSettings(!openUserSettings);
+                }}
+                role="button"
+                tabIndex={0}
+                aria-label="Toggle User Settings"
+              >
+                <Icon
+                  id="icon_Settings"
+                  type="button"
+                  icon="material-symbols:settings"
+                  color="#f3f3e6"
+                  width="35"
+                  height="35"
+                />
+              </div>
               <div
                 className={`dropdown_Settings ${
                   openUserSettings ? "active" : "inactive"
@@ -235,11 +259,19 @@ function UserProfile() {
                 </button>
               </div>
             ) : (
-              <h2 className="user_Description">{auth.user?.description}</h2>
+              <h2 className="user_Description">{selectedUser?.description}</h2>
             )}
           </div>
         </section>
-        <VideoCard />
+        <section className="video_Section">
+          {userVideos.map((video) => (
+            <VideoCard
+              key={video.video_id}
+              videoId={video.video_id}
+              videoViews={video.views}
+            />
+          ))}
+        </section>
       </section>
     </>
   );

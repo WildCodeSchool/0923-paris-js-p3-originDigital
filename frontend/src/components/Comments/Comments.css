@@ -6,9 +6,7 @@
   gap: 1rem;
   padding-left: 3%;
   padding-right: 3%;
-  height: 23rem;
-  border-bottom: 0.0002rem solid;
-  border-bottom-color: var(--white);
+  margin-top: 1.5rem;
 }
 .comments_Component p {
   font-size: 18px;
@@ -16,51 +14,4 @@
 }
 .comments_Component span {
   font-size: 18px;
-}
-.inputSection {
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-  align-items: end;
-}
-.addCommentSection {
-  position: absolute;
-  bottom: -16rem;
-}
-
-.container_Comment {
-  position: absolute;
-  bottom: -16rem;
-  display: block;
-  display: flex;
-  align-items: center;
-  width: 56%;
-  height: 3.938rem;
-  border-radius: 50px 50px 50px 50px;
-  background-color: var(--black);
-  border: solid 2px rgba(255, 255, 255, 1);
-  color: rgba(255, 255, 255, 1);
-  font-family: "poppins";
-  font-weight: bold;
-  font-size: 15px;
-  padding-left: 7%;
-  padding-right: 4%;
-}
-.input_Comment {
-  display: block;
-  width: 95%;
-  height: 90%;
-  background-color: var(--black);
-  border-style: none;
-  color: rgba(255, 255, 255, 1);
-  font-size: 20px;
-  border-radius: none;
-}
-.input_Comment::placeholder {
-  padding: 0;
-}
-.input_Comment:hover,
-.input_Comment:focus {
-  border: none;
-  outline: none;
 }

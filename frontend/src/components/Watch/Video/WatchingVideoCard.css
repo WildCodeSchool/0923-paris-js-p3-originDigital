@@ -150,14 +150,14 @@
 }
 @media (min-width: 1024px) {
   .watch_Video_Card {
-    width: 295px;
+    width: 784px;
     margin-bottom: 40px;
     position: relative;
   }
 
   .watch_Video_Thumbnail {
-    height: 162px;
-    width: 295px;
+    height: 405px;
+    width: 784px;
     margin-bottom: 0;
   }
 

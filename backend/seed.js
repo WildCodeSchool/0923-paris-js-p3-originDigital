@@ -11,6 +11,9 @@ require("dotenv").config();
 // Import database client
 const database = require("./database/client");
 
+const env = process.env.APP_ENV;
+const prodURL = "https://origindigital.creativebrain.fr";
+
 const seed = async () => {
   try {
     // Declare an array to store the query promises
@@ -42,10 +45,14 @@ const seed = async () => {
         title: "Test 1",
         description: "This is test 1",
         URL_video:
-          "http://localhost:3310/upload/1705322251908.video-foret-magique-coloree-small-memory-hd-fond-ecran.mp4",
+          env === "production"
+            ? `${prodURL}/upload/1706026627893.0.6409657439334755.VID-20231009-WA0012_1.mp4`
+            : "http://localhost:3310/upload/1706026627893.0.6409657439334755.VID-20231009-WA0012_1.mp4",
         type_video: 1,
         thumbnail:
-          "http://localhost:3310/upload/1705322251914.A-715822-1506248998-3796.jpg",
+          env === "production"
+            ? `${prodURL}/upload/1706026627922.0.5892447773024803.20231009_193616.jpg`
+            : "http://localhost:3310/upload/1706026627922.0.5892447773024803.20231009_193616.jpg",
         date_publication: "2024-01-15 00:00:00",
         validate: 0,
         category_id: 1,
@@ -55,10 +62,14 @@ const seed = async () => {
         title: "Test 2",
         description: "This is test 2",
         URL_video:
-          "http://localhost:3310/upload/1705394473920.video-foret-magique-coloree-small-memory-hd-fond-ecran.mp4",
+          env === "production"
+            ? `${prodURL}/upload/1706027392971.0.4456285540259557.VID-20231009-WA0012_1.mp4`
+            : "http://localhost:3310/upload/1706027392971.0.4456285540259557.VID-20231009-WA0012_1.mp4",
         type_video: 1,
         thumbnail:
-          "http://localhost:3310/upload/1705394473924.domain-to-ip.jpg",
+          env === "production"
+            ? `${prodURL}/upload/1706027393002.0.004230725508433952.20231009_193616.jpg`
+            : "http://localhost:3310/upload/1706027393002.0.004230725508433952.20231009_193616.jpg",
         date_publication: "2024-01-16 00:00:00",
         validate: 0,
         category_id: 1,
@@ -68,10 +79,14 @@ const seed = async () => {
         title: "Test 3",
         description: "This is test 3",
         URL_video:
-          "http://localhost:3310/upload/1705398010537.video-foret-magique-coloree-small-memory-hd-fond-ecran.mp4",
+          env === "production"
+            ? `${prodURL}/upload/1706027392971.0.4456285540259557.VID-20231009-WA0012_1.mp4`
+            : "http://localhost:3310/upload/1706175109011.0.7540434504145492.VID-20231009-WA0012_1.mp4",
         type_video: 1,
         thumbnail:
-          "http://localhost:3310/upload/1705398010540.domain-to-ip.jpg",
+          env === "production"
+            ? `${prodURL}/upload/1706175109046.0.1258837761639806.20231009_193616.jpg`
+            : "http://localhost:3310/upload/1706175109046.0.1258837761639806.20231009_193616.jpg",
         date_publication: "2024-01-16 00:00:00",
         validate: 0,
         category_id: 5,
@@ -81,10 +96,14 @@ const seed = async () => {
         title: "Test 4",
         description: "This is test 4",
         URL_video:
-          "http://localhost:3310/upload/1705398397490.video-foret-magique-coloree-small-memory-hd-fond-ecran.mp4",
+          env === "production"
+            ? `${prodURL}/upload/1706175111665.0.12002348878148394.VID-20231009-WA0012_1.mp4`
+            : "http://localhost:3310/upload/1706175111665.0.12002348878148394.VID-20231009-WA0012_1.mp4",
         type_video: 1,
         thumbnail:
-          "http://localhost:3310/upload/1705398397493.domain-to-ip.jpg",
+          env === "production"
+            ? `${prodURL}/upload/1706175111693.0.34482996481330885.20231009_193616.jpg`
+            : "http://localhost:3310/upload/1706175111693.0.34482996481330885.20231009_193616.jpg",
         date_publication: "2024-01-16 00:00:00",
         validate: 0,
         category_id: 7,
@@ -94,10 +113,14 @@ const seed = async () => {
         title: "Test 5",
         description: "This is test 5",
         URL_video:
-          "http://localhost:3310/upload/1705398505007.video-foret-magique-coloree-small-memory-hd-fond-ecran.mp4",
+          env === "production"
+            ? `${prodURL}/upload/1706175352493.0.8500943026718941.VID-20231009-WA0012_1.mp4`
+            : "http://localhost:3310/upload/1706175352493.0.8500943026718941.VID-20231009-WA0012_1.mp4",
         type_video: 1,
         thumbnail:
-          "http://localhost:3310/upload/1705398505012.domain-to-ip.jpg",
+          env === "production"
+            ? `${prodURL}/upload/1706175352524.0.6291432758487412.20231009_193616.jpg`
+            : "http://localhost:3310/upload/1706175352524.0.6291432758487412.20231009_193616.jpg",
         date_publication: "2024-01-16 00:00:00",
         validate: 0,
         category_id: 7,
@@ -107,10 +130,14 @@ const seed = async () => {
         title: "Test 6",
         description: "This is test 6",
         URL_video:
-          "http://localhost:3310/upload/1705398537360.video-foret-magique-coloree-small-memory-hd-fond-ecran.mp4",
+          env === "production"
+            ? `${prodURL}/upload/1706175389843.0.8841004398270393.VID-20231009-WA0012_1.mp4`
+            : "http://localhost:3310/upload/1706175389843.0.8841004398270393.VID-20231009-WA0012_1.mp4",
         type_video: 1,
         thumbnail:
-          "http://localhost:3310/upload/1705398537363.domain-to-ip.jpg",
+          env === "production"
+            ? `${prodURL}/upload/1706175389880.0.09219329663891429.20231009_193616.jpg`
+            : "http://localhost:3310/upload/1706175389880.0.09219329663891429.20231009_193616.jpg",
         date_publication: "2024-01-16 00:00:00",
         validate: 0,
         category_id: 7,

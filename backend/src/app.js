@@ -123,7 +123,7 @@ app.get("*", (req, res) => {
 });
 */
 
-const publicFolderPath = path.join(__dirname, "../public");
+const publicFolderPath = path.join(__dirname, "/../public");
 app.use(express.static(publicFolderPath));
 /* ************************************************************************* */
 

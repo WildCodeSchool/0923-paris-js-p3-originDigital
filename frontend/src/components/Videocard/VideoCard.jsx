@@ -63,6 +63,23 @@ function VideoCard({ videoId, videoViews }) {
     getUsernameById();
   }, [videoDetails?.user_id, selectedUser]);
 
+  const handleDeleteVideo = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/videos/${videoId}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        }
+      );
+      if (response.status === 204) {
+        window.location.reload(false);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (!videoOptionsMenuRef.current.contains(e.target)) {
@@ -78,11 +95,13 @@ function VideoCard({ videoId, videoViews }) {
 
   return (
     <div className="video_Card">
-      <img
-        className="video_Thumbnail"
-        alt="video thumbnail"
-        src={videoDetails?.thumbnail}
-      />
+      <div className="thumbnail_Container">
+        <img
+          className="video_Thumbnail"
+          alt="video thumbnail"
+          src={videoDetails?.thumbnail}
+        />
+      </div>
       <div
         className={`moreVert_Icon_Container ${
           openVideoOptions ? "active" : "inactive"
@@ -139,6 +158,7 @@ function VideoCard({ videoId, videoViews }) {
         <div className="data_Container">
           <div className="avatar_Container">
             <BackgroundLetterAvatars
+              // className="avatar"
               sx={{ width: 40, height: 40 }}
               username={videoUsername}
             />
@@ -169,6 +189,7 @@ function VideoCard({ videoId, videoViews }) {
               className="modal_Btn"
               onClick={() => {
                 setOpenModal(false);
+                handleDeleteVideo();
               }}
             >
               YES

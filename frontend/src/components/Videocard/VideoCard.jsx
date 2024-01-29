@@ -1,50 +1,60 @@
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import TimeAgo from "react-timeago";
 import "./VideoCard.css";
 import { Icon } from "@iconify/react";
 import Modal from "../Modal/Modal";
-import useSelectedUser from "../../context/SelectedUserContext";
+// import useSelectedUser from "../../context/SelectedUserContext";
 import BackgroundLetterAvatars from "../Avatar/Avatar";
 
-function VideoCard({ videoId, videoViews }) {
+function VideoCard({
+  videoId,
+  videoUserId,
+  videoTitle,
+  videoThumbnail,
+  videoDate,
+  videoViews,
+}) {
   const [openVideoOptions, setOpenVideoOptions] = useState(false);
-  const { selectedUser } = useSelectedUser();
+  const navigate = useNavigate();
+  // const { selectedUser } = useSelectedUser();
   const videoOptionsMenuRef = useRef();
   const [openModal, setOpenModal] = useState(false);
-  const [videoDetails, setVideoDetails] = useState(null);
+  // const [videoDetails, setVideoDetails] = useState(null);
   const [videoUsername, setVideoUsername] = useState(null);
 
   const handleClose = () => {
     setOpenModal(false);
   };
 
-  useEffect(() => {
-    const getVideoById = async () => {
-      try {
-        const response = await fetch(
-          `${import.meta.env.VITE_BACKEND_URL}/videos/${videoId}`,
-          {
-            method: "GET",
-            credentials: "include",
-          }
-        );
-        if (response.status === 200) {
-          const video = await response.json();
-          setVideoDetails(video);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-      return true;
-    };
-    getVideoById();
-  }, [videoId]);
+  // useEffect(() => {
+  //   const getVideoById = async () => {
+  //     try {
+  //       const response = await fetch(
+  //         `${import.meta.env.VITE_BACKEND_URL}/videos/${videoId}`,
+  //         {
+  //           method: "GET",
+  //           credentials: "include",
+  //         }
+  //       );
+  //       if (response.status === 200) {
+  //         const video = await response.json();
+  //         setVideoDetails(video);
+  //       }
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //     return true;
+  //   };
+  //   getVideoById();
+  // }, [videoId]);
 
   useEffect(() => {
     const getUsernameById = async () => {
       try {
         const response = await fetch(
-          `${import.meta.env.VITE_BACKEND_URL}/users/${videoDetails?.user_id}`,
+          // `${import.meta.env.VITE_BACKEND_URL}/users/${videoDetails?.user_id}`,
+          `${import.meta.env.VITE_BACKEND_URL}/users/${videoUserId}`,
           {
             method: "GET",
             credentials: "include",
@@ -61,7 +71,8 @@ function VideoCard({ videoId, videoViews }) {
       return true;
     };
     getUsernameById();
-  }, [videoDetails?.user_id, selectedUser]);
+    // }, [videoDetails?.user_id, selectedUser]);
+  }, [videoUserId]);
 
   const handleDeleteVideo = async () => {
     try {
@@ -95,11 +106,23 @@ function VideoCard({ videoId, videoViews }) {
 
   return (
     <div className="video_Card">
-      <div className="thumbnail_Container">
+      <div
+        className="thumbnail_Container"
+        onClick={() => {
+          navigate(`/videos/${videoId}`);
+        }}
+        onKeyDown={() => {
+          navigate(`/videos/${videoId}`);
+        }}
+        role="button"
+        tabIndex={0}
+        aria-label="Video Title"
+      >
         <img
           className="video_Thumbnail"
           alt="video thumbnail"
-          src={videoDetails?.thumbnail}
+          // src={videoDetails?.thumbnail}
+          src={videoThumbnail}
         />
       </div>
       <div
@@ -161,6 +184,9 @@ function VideoCard({ videoId, videoViews }) {
               // className="avatar"
               sx={{ width: 40, height: 40 }}
               username={videoUsername}
+              onClick={() => {
+                navigate(`/usersprofile/${videoUserId}`);
+              }}
             />
             {/* <Avatar
               className="avatar"
@@ -169,11 +195,41 @@ function VideoCard({ videoId, videoViews }) {
             /> */}
           </div>
           <div className="channel_Details">
-            <h3 className="video_Title">{videoDetails?.title}</h3>
-            <p className="creator_Username">{videoUsername}</p>
+            {/* <h3 className="video_Title">{videoDetails?.title}</h3> */}
+            <div
+              className="video_Title_Container"
+              onClick={() => {
+                navigate(`/videos/${videoId}`);
+              }}
+              onKeyDown={() => {
+                navigate(`/videos/${videoId}`);
+              }}
+              role="button"
+              tabIndex={0}
+              aria-label="Video"
+            >
+              <h3 className="video_Title">{videoTitle}</h3>
+            </div>
+
+            <div
+              className="creator_Username_Container"
+              onClick={() => {
+                navigate(`/usersprofile/${videoUserId}`);
+              }}
+              onKeyDown={() => {
+                navigate(`/usersprofile/${videoUserId}`);
+              }}
+              role="button"
+              tabIndex={0}
+              aria-label="Video Creator"
+            >
+              <p className="creator_Username">{videoUsername}</p>
+            </div>
+
             <p>
               {videoViews} views &bull;{" "}
-              <TimeAgo date={videoDetails?.date_publication} minPeriod={60} />
+              {/* <TimeAgo date={videoDetails?.date_publication} minPeriod={60} /> */}
+              <TimeAgo date={videoDate} minPeriod={60} />
             </p>
           </div>
         </div>

@@ -367,6 +367,10 @@ function UserProfile() {
             <VideoCard
               key={video.video_id}
               videoId={video.video_id}
+              videoUserId={video.user_id}
+              videoTitle={video.title}
+              videoThumbnail={video.thumbnail}
+              videoDate={video.date_publication}
               videoViews={video.views}
             />
           ))}

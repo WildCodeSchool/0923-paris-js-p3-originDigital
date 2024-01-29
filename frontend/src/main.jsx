@@ -23,6 +23,8 @@ import Addshorts from "./pages/Upload/Addshorts/Addshorts";
 import Adminreviews from "./pages/Adminreviews/Adminreviews";
 import NotFound from "./pages/NotFound/NotFound";
 import ForgotPassword from "./pages/Forgot/ForgotPassword";
+import UpdateShort from "./pages/Update/UpdateShort/UpdateShort";
+import UpdateVideo from "./pages/Update/UpdateVideo/UpdateVideo";
 import App from "./App";
 import useAuthContext from "./context/AuthContext";
 
@@ -79,7 +81,22 @@ const routes = createBrowserRouter(
       />
       <Route path="/videos/:id" element={<Videos />} />
       <Route path="/shorts/:id" element={<Shorts />} />
-
+      <Route
+        path="/videos/:id/edit"
+        element={
+          <PrivateRoute>
+            <UpdateVideo />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/shorts/:id/edit"
+        element={
+          <PrivateRoute>
+            <UpdateShort />
+          </PrivateRoute>
+        }
+      />
       <Route
         path="/signup"
         element={

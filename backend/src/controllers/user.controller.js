@@ -63,7 +63,7 @@ const getCurrentUser = async (req, res, next) => {
   }
 };
 
-const getSelectedUser = async (req, res, next) => {
+const getOne = async (req, res, next) => {
   try {
     const [[user]] = await userModel.findById(req.params.id);
     if (user) res.status(200).json(user);
@@ -125,7 +125,7 @@ module.exports = {
   login,
   getAll,
   getCurrentUser,
-  getSelectedUser,
+  getOne,
   logOut,
   getAllVideos,
   updateOne,

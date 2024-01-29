@@ -162,6 +162,7 @@ function VideoCard({
             type="button"
             onClick={() => {
               setOpenVideoOptions(false);
+              navigate(`/videos/${videoId}/edit`);
             }}
           >
             <ul>Edit video details</ul>

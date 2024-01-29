@@ -2,11 +2,11 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import AsyncSelect from "react-select/async";
-import "./Addvideos.css";
+import "./UpdateShort.css";
 import useOverviewContext from "../../../context/Overviewcontext";
 import Header from "../../../components/Header/Header";
 
-function Addvideos() {
+function UpdateShort() {
   const maxCharacters = 255;
   const [errorThumbnail, setErrorThumbnail] = useState(false);
   const [errorFile, setErrorFile] = useState(false);
@@ -240,7 +240,7 @@ function Addvideos() {
               {videoFile ? (
                 <p>Selected file: {videoFile.name}</p>
               ) : (
-                <p className="element_Specs">(.mp4)</p>
+                <p className="element_Specs">(16:9 ratio, .mp4, 15 sec max)</p>
               )}
               {errorFile && (
                 <p className="error_File">File must be under 30MB</p>
@@ -339,4 +339,4 @@ function Addvideos() {
   );
 }
 
-export default Addvideos;
+export default UpdateShort;

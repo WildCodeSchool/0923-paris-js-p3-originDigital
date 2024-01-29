@@ -39,10 +39,15 @@ const update = (id, title, description, thumbnail, category) => {
   );
 };
 
+const destroy = (id) => {
+  return db.query("DELETE FROM videos WHERE video_id = ?", [id]);
+};
+
 module.exports = {
   insert,
   findById,
   findAll,
   insertVideoTag,
   update,
+  destroy,
 };

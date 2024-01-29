@@ -28,8 +28,8 @@ CREATE TABLE `add_tags` (
   PRIMARY KEY (`video_id`,`tag_id`),
   KEY `fk_Videos_has_Tags_Tags1_idx` (`tag_id`),
   KEY `fk_Videos_has_Tags_Videos1_idx` (`video_id`),
-  CONSTRAINT `fk_Videos_has_Tags_Tags1` FOREIGN KEY (`tag_id`) REFERENCES `Tags` (`tag_id`),
-  CONSTRAINT `fk_Videos_has_Tags_Videos1` FOREIGN KEY (`video_id`) REFERENCES `Videos` (`video_id`)
+  CONSTRAINT `fk_Videos_has_Tags_Tags1` FOREIGN KEY (`tag_id`) REFERENCES `tags` (`tag_id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_Videos_has_Tags_Videos1` FOREIGN KEY (`video_id`) REFERENCES `videos` (`video_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -39,7 +39,7 @@ CREATE TABLE `add_tags` (
 
 LOCK TABLES `add_tags` WRITE;
 /*!40000 ALTER TABLE `Add_Tags` DISABLE KEYS */;
-INSERT INTO `add_tags` VALUES (7,2),(8,2),(9,2),(10,2),(10,6);
+
 /*!40000 ALTER TABLE `Add_Tags` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -63,7 +63,6 @@ CREATE TABLE `categories` (
 
 LOCK TABLES `categories` WRITE;
 /*!40000 ALTER TABLE `Categories` DISABLE KEYS */;
-INSERT INTO `categories` VALUES (1,'Animal'),(2,'Architechture'),(3,'Art'),(4,'Business'),(5,'Food'),(6,'Nature'),(7,'Technology'),(8,'Other');
 /*!40000 ALTER TABLE `Categories` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -83,8 +82,8 @@ CREATE TABLE `comments` (
   PRIMARY KEY (`comment_id`),
   KEY `fk_Comments_Users1_idx` (`user_id`),
   KEY `fk_Comments_Videos1_idx` (`video_id`),
-  CONSTRAINT `fk_Comments_Users1` FOREIGN KEY (`user_id`) REFERENCES `Users` (`user_id`),
-  CONSTRAINT `fk_Comments_Videos1` FOREIGN KEY (`video_id`) REFERENCES `Videos` (`video_id`)
+  CONSTRAINT `fk_Comments_Users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_Comments_Videos1` FOREIGN KEY (`video_id`) REFERENCES `videos` (`video_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -110,8 +109,8 @@ CREATE TABLE `favorites` (
   PRIMARY KEY (`user_id`,`video_id`),
   KEY `fk_Users_has_Videos_Videos3_idx` (`video_id`),
   KEY `fk_Users_has_Videos_Users2_idx` (`user_id`),
-  CONSTRAINT `fk_Users_has_Videos_Users2` FOREIGN KEY (`user_id`) REFERENCES `Users` (`user_id`),
-  CONSTRAINT `fk_Users_has_Videos_Videos3` FOREIGN KEY (`video_id`) REFERENCES `Videos` (`video_id`)
+  CONSTRAINT `fk_Users_has_Videos_Users2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_Users_has_Videos_Videos3` FOREIGN KEY (`video_id`) REFERENCES `videos` (`video_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -137,8 +136,8 @@ CREATE TABLE `likes` (
   PRIMARY KEY (`user_id`,`video_id`),
   KEY `fk_Users_has_Videos_Videos2_idx` (`video_id`),
   KEY `fk_Users_has_Videos_Users1_idx` (`user_id`),
-  CONSTRAINT `fk_Users_has_Videos_Users1` FOREIGN KEY (`user_id`) REFERENCES `Users` (`user_id`),
-  CONSTRAINT `fk_Users_has_Videos_Videos2` FOREIGN KEY (`video_id`) REFERENCES `Videos` (`video_id`)
+  CONSTRAINT `fk_Users_has_Videos_Users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_Users_has_Videos_Videos2` FOREIGN KEY (`video_id`) REFERENCES `videos` (`video_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -163,8 +162,8 @@ CREATE TABLE `subcribe` (
   `followed_id` int NOT NULL,
   PRIMARY KEY (`follower_id`,`followed_id`),
   KEY `fk_Subcribe_Users2_idx` (`followed_id`),
-  CONSTRAINT `fk_Subcribe_Users1` FOREIGN KEY (`follower_id`) REFERENCES `Users` (`user_id`),
-  CONSTRAINT `fk_Subcribe_Users2` FOREIGN KEY (`followed_id`) REFERENCES `Users` (`user_id`)
+  CONSTRAINT `fk_Subcribe_Users1` FOREIGN KEY (`follower_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_Subcribe_Users2` FOREIGN KEY (`followed_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -197,7 +196,6 @@ CREATE TABLE `tags` (
 
 LOCK TABLES `tags` WRITE;
 /*!40000 ALTER TABLE `Tags` DISABLE KEYS */;
-INSERT INTO `tags` VALUES (1,'Shark'),(2,'Dolphin'),(3,'Whale'),(4,'Octopus'),(5,'Crab'),(6,'Lobster');
 /*!40000 ALTER TABLE `Tags` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -214,8 +212,8 @@ CREATE TABLE `upload` (
   PRIMARY KEY (`user_id`,`video_id`),
   KEY `fk_Users_has_Videos_Videos1_idx` (`video_id`),
   KEY `fk_Users_has_Videos_Users_idx` (`user_id`),
-  CONSTRAINT `fk_Users_has_Videos_Users` FOREIGN KEY (`user_id`) REFERENCES `Users` (`user_id`),
-  CONSTRAINT `fk_Users_has_Videos_Videos1` FOREIGN KEY (`video_id`) REFERENCES `Videos` (`video_id`)
+  CONSTRAINT `fk_Users_has_Videos_Users` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_Users_has_Videos_Videos1` FOREIGN KEY (`video_id`) REFERENCES `videos` (`video_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -242,6 +240,7 @@ CREATE TABLE `users` (
   `mail` varchar(80) NOT NULL,
   `username` varchar(45) NOT NULL,
   `password` varchar(255) NOT NULL,
+  `channel_description` varchar(255) DEFAULT 'Hello! Welcome to my channel!',
   `admin` tinyint NOT NULL DEFAULT '0',
   `validate` tinyint DEFAULT '0',
   PRIMARY KEY (`user_id`)
@@ -254,7 +253,6 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `Users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (3,NULL,NULL,'a@a.fr','aaaa','$argon2id$v=19$m=19456,t=2,p=1$CiFrPQQMdr0xPZlgQ9GTag$qaya0lH1O5uM42AK08D+NW4/mFHZXrbyxKUJLbqJOpk',0,0);
 /*!40000 ALTER TABLE `Users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -279,7 +277,8 @@ CREATE TABLE `videos` (
   PRIMARY KEY (`video_id`),
   KEY `fk_Videos_Categories1_idx` (`category_id`),
   KEY `fk_Videos_User_idx` (`user_id`),
-  CONSTRAINT `fk_Videos_Categories1` FOREIGN KEY (`category_id`) REFERENCES `Categories` (`category_id`)
+  CONSTRAINT `fk_Videos_Categories1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`category_id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_Videos_User1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -289,7 +288,7 @@ CREATE TABLE `videos` (
 
 LOCK TABLES `videos` WRITE;
 /*!40000 ALTER TABLE `Videos` DISABLE KEYS */;
-INSERT INTO `videos` VALUES (3,'','sdqsfd','http://localhost:3310/upload/1705322251908.video-foret-magique-coloree-small-memory-hd-fond-ecran.mp4',1,'http://localhost:3310/upload/1705322251914.A-715822-1506248998-3796.jpg','2024-01-15 00:00:00',0,1,3),(4,'','dzsdd','http://localhost:3310/upload/1705394473920.video-foret-magique-coloree-small-memory-hd-fond-ecran.mp4',1,'http://localhost:3310/upload/1705394473924.domain-to-ip.jpg','2024-01-16 00:00:00',0,1,3),(5,'sdsdzqD','SDSQDQSD','http://localhost:3310/upload/1705398010537.video-foret-magique-coloree-small-memory-hd-fond-ecran.mp4',1,'http://localhost:3310/upload/1705398010540.domain-to-ip.jpg','2024-01-16 00:00:00',0,5,3),(6,'DD','qsd','http://localhost:3310/upload/1705398397490.video-foret-magique-coloree-small-memory-hd-fond-ecran.mp4',1,'http://localhost:3310/upload/1705398397493.domain-to-ip.jpg','2024-01-16 00:00:00',0,7,3),(7,'DD','qsd','http://localhost:3310/upload/1705398505007.video-foret-magique-coloree-small-memory-hd-fond-ecran.mp4',1,'http://localhost:3310/upload/1705398505012.domain-to-ip.jpg','2024-01-16 00:00:00',0,7,3),(8,'DD','qsd','http://localhost:3310/upload/1705398537360.video-foret-magique-coloree-small-memory-hd-fond-ecran.mp4',1,'http://localhost:3310/upload/1705398537363.domain-to-ip.jpg','2024-01-16 00:00:00',0,7,3),(9,'DD','qsd','http://localhost:3310/upload/1705398620146.video-foret-magique-coloree-small-memory-hd-fond-ecran.mp4',1,'http://localhost:3310/upload/1705398620150.domain-to-ip.jpg','2024-01-16 00:00:00',0,7,3),(10,'DD','qsd','http://localhost:3310/upload/1705398669198.video-foret-magique-coloree-small-memory-hd-fond-ecran.mp4',1,'http://localhost:3310/upload/1705398669203.domain-to-ip.jpg','2024-01-16 00:00:00',0,7,3),(11,'dfsfgs','sdsgdsdg','http://localhost:3310/upload/1705404154867.0.35907116711249487.video-foret-magique-coloree-small-memory-hd-fond-ecran.mp4',1,'http://localhost:3310/upload/1705404154870.0.964277929126337.A-715822-1506248998-3796.jpg','2024-01-16 12:22:34',0,1,2),(12,'sdzqD','SQDQSFQF','http://localhost:3310/upload/1705404845353.0.48796971974011183.video-foret-magique-coloree-small-memory-hd-fond-ecran.mp4',0,'http://localhost:3310/upload/1705404845356.0.2974254921879893.8908.1549907765.png','2024-01-16 12:34:05',0,3,3),(13,'dfsfgs','sdsgdsdg','http://localhost:3310/upload/1705404936034.0.5701751983193282.video-foret-magique-coloree-small-memory-hd-fond-ecran.mp4',1,'http://localhost:3310/upload/1705404936038.0.2326258381008015.A-715822-1506248998-3796.jpg','2024-01-16 12:35:36',0,1,2),(14,'dfsfgs','sdsgdsdg','http://localhost:3310/upload/1705404968428.0.5578332440195535.video-foret-magique-coloree-small-memory-hd-fond-ecran.mp4',1,'http://localhost:3310/upload/1705404968433.0.5099511803447139.A-715822-1506248998-3796.jpg','2024-01-16 12:36:08',0,1,2);
+
 /*!40000 ALTER TABLE `Videos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -306,8 +305,8 @@ CREATE TABLE `views` (
   PRIMARY KEY (`users_id`,`video_id`),
   KEY `fk_Users_has_Videos_Videos4_idx` (`video_id`),
   KEY `fk_Users_has_Videos_Users3_idx` (`users_id`),
-  CONSTRAINT `fk_Users_has_Videos_Users3` FOREIGN KEY (`users_id`) REFERENCES `Users` (`user_id`),
-  CONSTRAINT `fk_Users_has_Videos_Videos4` FOREIGN KEY (`video_id`) REFERENCES `Videos` (`video_id`)
+  CONSTRAINT `fk_Users_has_Videos_Users3` FOREIGN KEY (`users_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_Users_has_Videos_Videos4` FOREIGN KEY (`video_id`) REFERENCES `videos` (`video_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

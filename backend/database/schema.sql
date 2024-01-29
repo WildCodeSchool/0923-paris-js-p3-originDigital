@@ -240,7 +240,7 @@ CREATE TABLE `users` (
   `mail` varchar(80) NOT NULL,
   `username` varchar(45) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `channel_description` varchar(255) DEFAULT 'Hello!',
+  `channel_description` varchar(255) DEFAULT 'Hello! Welcome to my channel!',
   `admin` tinyint NOT NULL DEFAULT '0',
   `validate` tinyint DEFAULT '0',
   PRIMARY KEY (`user_id`)

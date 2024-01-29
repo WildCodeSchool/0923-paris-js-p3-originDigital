@@ -10,6 +10,7 @@ router.get("/users/me", auth.isAuth, userController.getCurrentUser);
 router.get("/users/:id", userController.getSelectedUser);
 router.get("/users/logOut", auth.isAuth, userController.logOut);
 router.get("/users/:id/videos", userController.getAllVideos);
+router.put("/users/:id", userController.updateOne);
 router.delete("/users/:id", userController.removeOne);
 
 module.exports = router;

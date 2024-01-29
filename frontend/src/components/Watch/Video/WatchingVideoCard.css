@@ -80,7 +80,7 @@
 
 .moreVert_Icon_Container_Watch.inactive {
   transition: var(--speed) cubic-bezier(0.6, -0.28, 0.735, 0.045);
-  height: 3rem;
+  height: 0rem;
 }
 
 #icon_More_Vertical {

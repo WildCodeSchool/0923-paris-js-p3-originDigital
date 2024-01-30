@@ -1,9 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.32, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.34, for Win64 (x86_64)
 --
 -- Host: localhost    Database: overview_database
 -- ------------------------------------------------------
--- Server version	8.0.35-0ubuntu0.22.04.1
-
+-- Server version   8.0.35
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -14,11 +13,9 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
 --
--- Table structure for table `Add_Tags`
+-- Table structure for table `add_tags`
 --
-
 DROP TABLE IF EXISTS `add_tags`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
@@ -32,44 +29,21 @@ CREATE TABLE `add_tags` (
   CONSTRAINT `fk_Videos_has_Tags_Videos1` FOREIGN KEY (`video_id`) REFERENCES `videos` (`video_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
 --
--- Dumping data for table `Add_Tags`
+-- Table structure for table `categories`
 --
-
-LOCK TABLES `add_tags` WRITE;
-/*!40000 ALTER TABLE `Add_Tags` DISABLE KEYS */;
-
-/*!40000 ALTER TABLE `Add_Tags` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `Categories`
---
-
-DROP TABLE IF EXISTS `Categories`;
+DROP TABLE IF EXISTS `categories`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `categories` (
   `category_id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
   PRIMARY KEY (`category_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
 --
--- Dumping data for table `Categories`
+-- Table structure for table `comments`
 --
-
-LOCK TABLES `categories` WRITE;
-/*!40000 ALTER TABLE `Categories` DISABLE KEYS */;
-/*!40000 ALTER TABLE `Categories` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `Comments`
---
-
 DROP TABLE IF EXISTS `comments`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
@@ -86,20 +60,9 @@ CREATE TABLE `comments` (
   CONSTRAINT `fk_Comments_Videos1` FOREIGN KEY (`video_id`) REFERENCES `videos` (`video_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
 --
--- Dumping data for table `Comments`
+-- Table structure for table `favorites`
 --
-
-LOCK TABLES `comments` WRITE;
-/*!40000 ALTER TABLE `Comments` DISABLE KEYS */;
-/*!40000 ALTER TABLE `Comments` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `Favorites`
---
-
 DROP TABLE IF EXISTS `favorites`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
@@ -113,20 +76,9 @@ CREATE TABLE `favorites` (
   CONSTRAINT `fk_Users_has_Videos_Videos3` FOREIGN KEY (`video_id`) REFERENCES `videos` (`video_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
 --
--- Dumping data for table `Favorites`
+-- Table structure for table `likes`
 --
-
-LOCK TABLES `favorites` WRITE;
-/*!40000 ALTER TABLE `Favorites` DISABLE KEYS */;
-/*!40000 ALTER TABLE `Favorites` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `Likes`
---
-
 DROP TABLE IF EXISTS `likes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
@@ -140,20 +92,9 @@ CREATE TABLE `likes` (
   CONSTRAINT `fk_Users_has_Videos_Videos2` FOREIGN KEY (`video_id`) REFERENCES `videos` (`video_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
 --
--- Dumping data for table `Likes`
+-- Table structure for table `subcribe`
 --
-
-LOCK TABLES `likes` WRITE;
-/*!40000 ALTER TABLE `Likes` DISABLE KEYS */;
-/*!40000 ALTER TABLE `Likes` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `Subcribe`
---
-
 DROP TABLE IF EXISTS `subcribe`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
@@ -166,20 +107,9 @@ CREATE TABLE `subcribe` (
   CONSTRAINT `fk_Subcribe_Users2` FOREIGN KEY (`followed_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
 --
--- Dumping data for table `Subcribe`
+-- Table structure for table `tags`
 --
-
-LOCK TABLES `subcribe` WRITE;
-/*!40000 ALTER TABLE `Subcribe` DISABLE KEYS */;
-/*!40000 ALTER TABLE `Subcribe` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `Tags`
---
-
 DROP TABLE IF EXISTS `tags`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
@@ -187,22 +117,11 @@ CREATE TABLE `tags` (
   `tag_id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
   PRIMARY KEY (`tag_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
 --
--- Dumping data for table `Tags`
+-- Table structure for table `upload`
 --
-
-LOCK TABLES `tags` WRITE;
-/*!40000 ALTER TABLE `Tags` DISABLE KEYS */;
-/*!40000 ALTER TABLE `Tags` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `Upload`
---
-
 DROP TABLE IF EXISTS `upload`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
@@ -216,20 +135,9 @@ CREATE TABLE `upload` (
   CONSTRAINT `fk_Users_has_Videos_Videos1` FOREIGN KEY (`video_id`) REFERENCES `videos` (`video_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
 --
--- Dumping data for table `Upload`
+-- Table structure for table `users`
 --
-
-LOCK TABLES `upload` WRITE;
-/*!40000 ALTER TABLE `Upload` DISABLE KEYS */;
-/*!40000 ALTER TABLE `Upload` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `Users`
---
-
 DROP TABLE IF EXISTS `users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
@@ -244,22 +152,11 @@ CREATE TABLE `users` (
   `admin` tinyint NOT NULL DEFAULT '0',
   `validate` tinyint DEFAULT '0',
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
 --
--- Dumping data for table `Users`
+-- Table structure for table `videos`
 --
-
-LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `Users` DISABLE KEYS */;
-/*!40000 ALTER TABLE `Users` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `Videos`
---
-
 DROP TABLE IF EXISTS `videos`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
@@ -279,23 +176,11 @@ CREATE TABLE `videos` (
   KEY `fk_Videos_User_idx` (`user_id`),
   CONSTRAINT `fk_Videos_Categories1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`category_id`) ON DELETE CASCADE,
   CONSTRAINT `fk_Videos_User1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
 --
--- Dumping data for table `Videos`
+-- Table structure for table `views`
 --
-
-LOCK TABLES `videos` WRITE;
-/*!40000 ALTER TABLE `Videos` DISABLE KEYS */;
-
-/*!40000 ALTER TABLE `Videos` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `Views`
---
-
 DROP TABLE IF EXISTS `views`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
@@ -309,17 +194,7 @@ CREATE TABLE `views` (
   CONSTRAINT `fk_Users_has_Videos_Videos4` FOREIGN KEY (`video_id`) REFERENCES `videos` (`video_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `Views`
---
-
-LOCK TABLES `views` WRITE;
-/*!40000 ALTER TABLE `Views` DISABLE KEYS */;
-/*!40000 ALTER TABLE `Views` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
-
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
@@ -327,5 +202,4 @@ UNLOCK TABLES;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2024-01-16 15:13:02
+-- Dump completed on 2024-01-30 10:05:46

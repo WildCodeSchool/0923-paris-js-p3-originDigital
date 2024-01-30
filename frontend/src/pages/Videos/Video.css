@@ -31,7 +31,9 @@
   transform: translateX(-80%);
   /* opacity: 1; */
 }
-
+.addCommentButton:hover {
+  transform: scale(1.03);
+}
 .addCommentSection img {
   width: 70px;
   height: 70px;

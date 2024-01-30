@@ -12,6 +12,8 @@ function VideoCard() {
   const [openVideoOptions, setOpenVideoOptions] = useState(false);
   const videoOptionsMenuRef = useRef();
   const [openModal, setOpenModal] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
 
   const handleClose = () => {
     setOpenModal(false);
@@ -62,23 +64,51 @@ function VideoCard() {
           <span>100 K</span>
         </div>
         <div className="like_Icon_Watch_Bloc">
-          <Icon
-            icon="ph:heart"
-            className="like_Icon_Watch"
-            alt="Like Icon Number"
-            width="38"
-            height="38"
-          />
-          <span>254</span>
+          <div className="like_Icon_Watch_Bloc">
+            {isLiked ? (
+              <Icon
+                icon="ph:heart-fill"
+                color="var(--white)"
+                className="like_Icon_Watch"
+                alt="Like Icon Number"
+                width="38"
+                height="38"
+                onClick={() => setIsLiked(false)}
+              />
+            ) : (
+              <Icon
+                icon="ph:heart"
+                className="like_Icon_Watch"
+                alt="Like Icon Number"
+                width="38"
+                height="38"
+                onClick={() => setIsLiked(true)}
+              />
+            )}
+            <span>254</span>
+          </div>
         </div>
         <div className="favorite_Icon_Watch_Bloc">
-          <Icon
-            icon="pepicons-pencil:star"
-            className="favorite_Icon_Watch"
-            alt="Favorite Icon"
-            width="40"
-            height="40"
-          />
+          {isFavorite ? (
+            <Icon
+              icon="teenyicons:star-solid"
+              className="favorite_Icon_Watch"
+              alt="Favorite Icon"
+              width="34"
+              height="34"
+              onClick={() => setIsFavorite(false)}
+            />
+          ) : (
+            <Icon
+              icon="teenyicons:star-outline"
+              color="var(---white)"
+              className="favorite_Icon_Watch"
+              alt="Favorite Icon"
+              width="34"
+              height="34"
+              onClick={() => setIsFavorite(true)}
+            />
+          )}
         </div>
         <div
           className="simple-line-icons:user-following "

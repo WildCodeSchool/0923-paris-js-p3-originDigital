@@ -26,13 +26,20 @@
 .flex_Watch_Video_Info {
   display: flex;
   justify-content: flex-end;
-  margin-right: 10%;
+  margin-right: 7.5%;
   margin-top: 0.2rem;
 }
 .avatar_Container_Watch {
   padding-top: 0.6rem;
   align-self: flex-start;
   gap: 8%;
+  margin: 0 1rem;
+  display: flex;
+}
+.avatar_Container_Watch_Mobile {
+  padding-top: 0.6rem;
+  gap: 3%;
+  display: flex;
 }
 .view_Icon_Watch_Bloc {
   margin-left: auto;
@@ -53,15 +60,11 @@
 .data_Container_Watch {
   display: flex;
   justify-content: flex-start;
-  align-items: center;
+  flex-direction: column;
   width: 100%;
   padding-left: 3.5%;
   padding-top: 0.5rem;
-}
-
-.avatar_Container_Watch {
-  margin: 0 1rem;
-  display: flex;
+  gap: 0.8rem;
 }
 
 .moreVert_Icon_Container_Watch {
@@ -159,7 +162,7 @@
 }
 @media (min-width: 1024px) {
   .watch_Video_Card {
-    width: 784px;
+    width: 966px;
     margin-bottom: 40px;
     position: relative;
   }
@@ -170,7 +173,7 @@
     margin-bottom: 0;
   }
 
-  .watch_Video_Data {
-    display: flex;
+  .flex_Watch_Video_Info {
+    margin-right: 5%;
   }
 }

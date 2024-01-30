@@ -22,7 +22,7 @@
     transform 0.5s ease,
     opacity 1s ease;
   position: absolute;
-  bottom: -10rem;
+  bottom: -17rem;
   right: 1rem;
 }
 
@@ -95,9 +95,9 @@
     align-items: center;
   }
   .addCommentSection {
-    bottom: -21rem;
+    bottom: -30rem;
   }
   .container_Comment {
-    bottom: -21rem;
+    bottom: -30rem;
   }
 }

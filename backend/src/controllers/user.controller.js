@@ -56,7 +56,18 @@ const getCurrentUser = async (req, res, next) => {
   try {
     const [[user]] = await userModel.findById(req.user_id);
     console.info(user);
-    res.status(200).json(user);
+    if (user) res.status(200).json(user);
+    else res.sendStatus(404);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getOne = async (req, res, next) => {
+  try {
+    const [[user]] = await userModel.findById(req.params.id);
+    if (user) res.status(200).json(user);
+    else res.sendStatus(404);
   } catch (error) {
     next(error);
   }
@@ -81,11 +92,42 @@ const getAllVideos = async (req, res, next) => {
   }
 };
 
+const updateOne = async (req, res, next) => {
+  try {
+    const [updatedUser] = await userModel.editUserByUserId(
+      req.body,
+      req.params.id
+    );
+    if (updatedUser.affectedRows > 0) {
+      const [[user]] = await userModel.findById(req.params.id);
+      if (user) res.status(200).json(user);
+      else res.sendStatus(404);
+    } else {
+      res.sendStatus(404);
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+const removeOne = async (req, res, next) => {
+  try {
+    const [result] = await userModel.destroyByUserId(req.params.id);
+    if (result.affectedRows > 0) res.sendStatus(204);
+    else res.sendStatus(404);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   add,
   login,
   getAll,
   getCurrentUser,
+  getOne,
   logOut,
   getAllVideos,
+  updateOne,
+  removeOne,
 };

@@ -1,10 +1,12 @@
 import { Icon } from "@iconify/react";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useContext } from "react";
 import "./Navbar.css";
 import { useNavigate } from "react-router-dom";
 import useOverview from "../../context/Overviewcontext";
+import authContext from "../../context/AuthContext";
 
 function Navbar() {
+  const auth = useContext(authContext);
   const Navigate = useNavigate();
   const { isAdmin, toggleNavbarDesktop, setToggleNavbarDestkop } =
     useOverview();
@@ -19,11 +21,16 @@ function Navbar() {
     setToggleNavbarDestkop(false);
   };
   const handleSubscriptionClick = () => {
-    Navigate("/usersprofile/1");
+    Navigate(`/usersprofile/${auth?.user.user_id}`);
     setToggleNavbarDestkop(false);
   };
+  const handleUserProfileClick = () => {
+    Navigate(`/usersprofile/${auth?.user.user_id}`);
+    setToggleNavbarDestkop(false);
+  };
+
   const handleSettingsCategoriesClick = () => {
-    Navigate("/settingscategories");
+    Navigate(`/settingscategories}`);
     setToggleNavbarDestkop(false);
   };
   const handleAdminReviewClick = () => {
@@ -144,7 +151,7 @@ function Navbar() {
 
             <div
               className="profil_Navbar_bloc"
-              onClick={handleSettingsCategoriesClick}
+              onClick={handleUserProfileClick}
               onKeyDown={() => {
                 Navigate("/settingscategories");
               }}

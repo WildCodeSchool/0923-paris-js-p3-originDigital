@@ -12,7 +12,8 @@ function Header() {
   const [searchTerm, setSearchTerm] = useState("");
   const auth = useContext(authContext);
 
-  console.info("cat", auth.user);
+  console.info("current user", auth.user);
+
   const handleInputChange = (event) => {
     setSearchTerm(event.target.value);
   };

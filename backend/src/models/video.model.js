@@ -53,6 +53,10 @@ const findByCategory = (categoryId) => {
   return db.query("SELECT * FROM videos WHERE category_id = ?", [categoryId]);
 };
 
+const destroy = (id) => {
+  return db.query("DELETE FROM videos WHERE video_id = ?", [id]);
+};
+
 module.exports = {
   insert,
   findById,
@@ -61,4 +65,5 @@ module.exports = {
   update,
   findMostViewed,
   findByCategory,
+  destroy,
 };

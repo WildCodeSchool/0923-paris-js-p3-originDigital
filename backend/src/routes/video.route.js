@@ -17,4 +17,6 @@ router.get(
   "category/:categoryId/videos",
   videoController.getVideosByCategoryController
 );
+router.delete("/videos/:id", videoController.removeOne);
+
 module.exports = router;

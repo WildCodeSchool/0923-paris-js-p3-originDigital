@@ -44,7 +44,8 @@ const getAll = async (req, res, next) => {
 const getOne = async (req, res, next) => {
   try {
     const [[video]] = await videoModel.findById(req.params.id);
-    res.status(200).json(video);
+    if (video) res.status(200).json(video);
+    else res.sendStatus(404);
   } catch (error) {
     next(error);
   }
@@ -70,7 +71,6 @@ const edit = async (req, res, next) => {
       const [[newTag]] = await tagModel.findById(idNewTag);
       console.info("newTag", newTag);
       await videoModel.insertVideoTag(req.params.id, idNewTag);
-      // request insert videao and tag jointure
     }
     if (updatedVideo.affectedRows > 0) res.status(201).send("ok");
     else res.status(404).send("video not found");
@@ -107,6 +107,16 @@ const getVideosByCategoryController = async (req, res) => {
   }
 };
 
+const removeOne = async (req, res, next) => {
+  try {
+    const [result] = await videoModel.destroy(req.params.id);
+    if (result.affectedRows > 0) res.sendStatus(204);
+    else res.sendStatus(404);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   add,
   getAll,
@@ -114,4 +124,5 @@ module.exports = {
   edit,
   getMostViewed,
   getVideosByCategoryController,
+  removeOne,
 };

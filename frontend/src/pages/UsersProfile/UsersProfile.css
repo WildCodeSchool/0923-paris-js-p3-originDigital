@@ -131,4 +131,11 @@
 }
 
 @media (min-width: 1024px) {
+  .video_Section {
+    display: grid;
+    grid-gap: 3rem;
+    grid-template-columns: repeat(auto-fit, minmax(0, auto));
+    justify-content: start;
+    margin: 2rem;
+  }
 }

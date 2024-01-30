@@ -23,16 +23,16 @@ import Addshorts from "./pages/Upload/Addshorts/Addshorts";
 import Adminreviews from "./pages/Adminreviews/Adminreviews";
 import NotFound from "./pages/NotFound/NotFound";
 import ForgotPassword from "./pages/Forgot/ForgotPassword";
+import UpdateShort from "./pages/Update/UpdateShort/UpdateShort";
+import UpdateVideo from "./pages/Update/UpdateVideo/UpdateVideo";
 import App from "./App";
 import useAuthContext from "./context/AuthContext";
 
 function PrivateRoute({ children }) {
   const { user } = useContext(useAuthContext);
-  console.info(user);
   const navigate = useNavigate();
   useEffect(() => {
     if (!user) navigate("/login");
-    // else if (user.admin !== admin) navigate("/");
   }, [user]);
   return children;
 }
@@ -41,7 +41,18 @@ function PublicRoute({ children }) {
   const { user } = useContext(useAuthContext);
   const navigate = useNavigate();
   useEffect(() => {
-    if (user) navigate("/");
+    if (user) navigate(-2);
+  }, [user]);
+  return children;
+}
+
+function AdminRoute({ children }) {
+  const { user } = useContext(useAuthContext);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!user && user.admin !== "1") {
+      navigate("/");
+    }
   }, [user]);
   return children;
 }
@@ -70,7 +81,22 @@ const routes = createBrowserRouter(
       />
       <Route path="/videos/:id" element={<Videos />} />
       <Route path="/shorts/:id" element={<Shorts />} />
-
+      <Route
+        path="/videos/:id/edit"
+        element={
+          <PrivateRoute>
+            <UpdateVideo />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/shorts/:id/edit"
+        element={
+          <PrivateRoute>
+            <UpdateShort />
+          </PrivateRoute>
+        }
+      />
       <Route
         path="/signup"
         element={
@@ -135,9 +161,9 @@ const routes = createBrowserRouter(
       <Route
         path="/adminreviews"
         element={
-          <PrivateRoute admin="0">
+          <AdminRoute>
             <Adminreviews />
-          </PrivateRoute>
+          </AdminRoute>
         }
       />
 

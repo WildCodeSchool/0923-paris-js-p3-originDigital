@@ -29,23 +29,24 @@ async function readAll() {
   // Return the array of items
   return rows;
 }
-
 // The U of CRUD - Update operation
 // TODO: Implement the update operation to modify an existing item
 
-// async function update(item) {
-//   ...
-// }
+async function update(item, id) {
+  return db.query("UPDATE items SET ? WHERE id = ?", [item, id]);
+}
 
 // The D of CRUD - Delete operation
 // TODO: Implement the delete operation to remove an item by its ID
 
-// async function delete(id) {
-//   ...
-// }
+async function remove(id) {
+  return db.query("DELETE FROM items WHERE id=?", [id]);
+}
 
 module.exports = {
   create,
   read,
   readAll,
+  update,
+  remove,
 };

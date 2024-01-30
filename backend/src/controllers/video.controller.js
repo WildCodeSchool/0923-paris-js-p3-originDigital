@@ -79,9 +79,39 @@ const edit = async (req, res, next) => {
   }
 };
 
+const getMostViewed = async (req, res) => {
+  try {
+    const mostViewedVideos = await videoModel.findMostViewed();
+    res.json(mostViewedVideos);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+const getVideosByCategoryController = async (req, res) => {
+  const { categoryId } = req.params;
+
+  try {
+    const [videos] = await videoModel.findByCategory(categoryId);
+
+    res.status(200).json(videos);
+  } catch (error) {
+    console.error(
+      "Erreur lors de la récupération des vidéos par catégorie :",
+      error
+    );
+    res
+      .status(500)
+      .send("Erreur lors de la récupération des vidéos par catégorie.");
+  }
+};
+
 module.exports = {
   add,
   getAll,
   getOne,
   edit,
+  getMostViewed,
+  getVideosByCategoryController,
 };

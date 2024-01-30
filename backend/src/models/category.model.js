@@ -14,8 +14,13 @@ const findAll = () => {
   return db.query("SELECT * FROM categories");
 };
 
+const findByCategory = (categoryId) => {
+  return db.query("SELECT * FROM videos WHERE category_id = ?", [categoryId]);
+};
+
 module.exports = {
   insert,
   findById,
   findAll,
+  findByCategory,
 };

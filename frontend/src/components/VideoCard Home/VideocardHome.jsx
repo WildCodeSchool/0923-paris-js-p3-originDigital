@@ -1,13 +1,13 @@
 import "./VideocardHome.css";
 import Avatar from "@mui/material/Avatar";
 
-function VideocardHome() {
+function VideocardHome({ title, user, thumbnailUrl }) {
   return (
     <div className="video_Card_Home">
       <img
         className="video_Thumbnail_Home"
         alt="video thumbnail"
-        src="src/assets/1f10a5df18cae0926abc52e1ed2dd92f.jpeg"
+        src={thumbnailUrl}
       />
       <div className="video_Data_Home">
         <div className="data_Container_Home">
@@ -19,9 +19,9 @@ function VideocardHome() {
             />
           </div>
           <div className="channel_Details">
-            <h3 className="video_Title">This is a video title</h3>
-            <p className="creator_Username">Author</p>
-            <p>200 views &bull; 1 week ago</p>
+            <h3 className="video_Title">{title}</h3>
+            <p className="creator_Username">{user}</p>
+            <p>200views</p>
           </div>
         </div>
       </div>

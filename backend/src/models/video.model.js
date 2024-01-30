@@ -39,10 +39,26 @@ const update = (id, title, description, thumbnail, category) => {
   );
 };
 
+const findMostViewed = () => {
+  return db.query(`
+    SELECT videos.*, views.views
+    FROM videos
+    JOIN views ON videos.video_id = views.video_id
+    ORDER BY views.views DESC
+    LIMIT 3
+  `);
+};
+
+const findByCategory = (categoryId) => {
+  return db.query("SELECT * FROM videos WHERE category_id = ?", [categoryId]);
+};
+
 module.exports = {
   insert,
   findById,
   findAll,
   insertVideoTag,
   update,
+  findMostViewed,
+  findByCategory,
 };

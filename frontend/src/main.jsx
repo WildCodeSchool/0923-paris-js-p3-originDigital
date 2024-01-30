@@ -26,13 +26,13 @@ import ForgotPassword from "./pages/Forgot/ForgotPassword";
 import App from "./App";
 import useAuthContext from "./context/AuthContext";
 
-function PrivateRoute({ children, admin }) {
+function PrivateRoute({ children }) {
   const { user } = useContext(useAuthContext);
   console.info(user);
   const navigate = useNavigate();
   useEffect(() => {
     if (!user) navigate("/login");
-    else if (user.admin !== admin) navigate("/");
+    // else if (user.admin !== admin) navigate("/");
   }, [user]);
   return children;
 }

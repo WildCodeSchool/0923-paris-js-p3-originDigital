@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import React, { useRef, useContext } from "react";
 import Header from "../../components/Header/Header";
 import authContext from "../../context/AuthContext";
+import imageSign from "../../assets/logo_Mobile.svg";
 import "./Login.css";
 
 function Login() {
@@ -43,11 +44,7 @@ function Login() {
     <section className="container_Body_Header">
       {isMobile ? (
         <div className="container_Header_Log">
-          <img
-            id="logo_Sign"
-            src="src/assets/logoprin.png"
-            alt="logo_Overview"
-          />
+          <img id="logo_Sign" src={imageSign} alt="logo_Overview" />
         </div>
       ) : (
         <Header />

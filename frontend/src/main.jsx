@@ -25,6 +25,7 @@ import NotFound from "./pages/NotFound/NotFound";
 import ForgotPassword from "./pages/Forgot/ForgotPassword";
 import UpdateShort from "./pages/Update/UpdateShort/UpdateShort";
 import UpdateVideo from "./pages/Update/UpdateVideo/UpdateVideo";
+import SearchResult from "./pages/SearchResult/SearchResult";
 import App from "./App";
 import useAuthContext from "./context/AuthContext";
 
@@ -79,6 +80,7 @@ const routes = createBrowserRouter(
           </PrivateRoute>
         }
       />
+      <Route path="/search/:searchTerm" element={<SearchResult />} />
       <Route path="/videos/:id" element={<Videos />} />
       <Route path="/shorts/:id" element={<Shorts />} />
       <Route
@@ -88,6 +90,15 @@ const routes = createBrowserRouter(
             <UpdateVideo />
           </PrivateRoute>
         }
+        loader={({ params }) => {
+          return fetch(
+            `${import.meta.env.VITE_BACKEND_URL}/videos/${params.id}`,
+            {
+              method: "GET",
+              credentials: "include",
+            }
+          );
+        }}
       />
       <Route
         path="/shorts/:id/edit"

@@ -22,7 +22,10 @@ const findAll = () => {
 };
 
 const getVideosByUserId = (userId) => {
-  return db.query("SELECT * FROM videos WHERE user_id = ?", [userId]);
+  return db.query(
+    "SELECT v.*, u.username FROM videos AS v JOIN users AS u ON v.user_id = u.user_id WHERE u.user_id =?",
+    [userId]
+  );
 };
 
 const editUserByUserId = (newUserInfo, userId) => {

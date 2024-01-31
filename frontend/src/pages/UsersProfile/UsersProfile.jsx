@@ -202,6 +202,13 @@ function UserProfile() {
     }
   };
 
+  const handleDeleteVideoFromState = (deletedVideoId) => {
+    // Remove the deleted video from the state
+    setUserVideos((prevVideos) =>
+      prevVideos.filter((video) => video.video_id !== deletedVideoId)
+    );
+  };
+
   useEffect(() => {
     auth.setUser((prevUser) => ({
       ...prevUser,
@@ -368,10 +375,12 @@ function UserProfile() {
               key={video.video_id}
               videoId={video.video_id}
               videoUserId={video.user_id}
+              videoUsername={video.username}
               videoTitle={video.title}
               videoThumbnail={video.thumbnail}
               videoDate={video.date_publication}
               videoViews={video.views}
+              onDeleteVideo={handleDeleteVideoFromState}
             />
           ))}
         </section>

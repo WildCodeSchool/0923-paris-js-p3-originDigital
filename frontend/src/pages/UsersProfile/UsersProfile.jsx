@@ -3,11 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import Header from "../../components/Header/Header";
 import "./UsersProfile.css";
-import VideoCard from "../../components/Video card/VideoCard";
+import VideoCard from "../../components/Videocard/VideoCard";
+import BackgroundLetterAvatars from "../../components/Avatar/Avatar";
 import authContext from "../../context/AuthContext";
+import useSelectedUser from "../../context/SelectedUserContext";
+import Modal from "../../components/Modal/Modal";
 
 function UserProfile() {
   const auth = useContext(authContext);
+  const { selectedUser, setSelectedUser } = useSelectedUser();
   const [openUserSettings, setOpenUserSettings] = useState(false);
   const [isEditingUsername, setIsEditingUsername] = useState(false);
   const navigate = useNavigate();
@@ -15,6 +19,37 @@ function UserProfile() {
   const [isEditingUserDescription, setIsEditingUserDescription] =
     useState(false);
   const inputRef = useRef(null);
+  const [openModal, setOpenModal] = useState(false);
+  const [userVideos, setUserVideos] = useState([]);
+
+  const handleClose = () => {
+    setOpenModal(false);
+  };
+
+  useEffect(() => {
+    const loadUserVideos = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/users/${
+            selectedUser?.user_id
+          }/videos`,
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
+        if (response.status === 200) {
+          const videos = await response.json();
+          setUserVideos(videos);
+        }
+        return userVideos;
+      } catch (error) {
+        console.error(error);
+      }
+      return true;
+    };
+    loadUserVideos();
+  }, [selectedUser]);
 
   const logOut = async () => {
     try {
@@ -27,7 +62,6 @@ function UserProfile() {
       );
       if (response.status === 200) {
         auth.setUser(null);
-        // setIsRegistered(false);
         navigate("/");
       }
     } catch (error) {
@@ -35,34 +69,22 @@ function UserProfile() {
     }
   };
 
-  const initialData = {
-    username: "CatLoverXoXo",
-    description:
-      "Hello! Welcome to my channel! You’ll see videos of my cats here !",
-    image:
-      "https://images.unsplash.com/photo-1561948955-570b270e7c36?q=80&w=1802&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    videos: {
-      video1: {
-        videoTitle: "First video",
-        thumbnail:
-          "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?q=80&w=2043&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      },
-      video2: {
-        videoTitle: "Second video",
-        thumbnail:
-          "https://images.unsplash.com/photo-1511044568932-338cba0ad803?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      },
-    },
-  };
+  const [newUsername, setNewUsername] = useState(auth?.user?.username);
+  const [newUserDescription, setNewUserDescription] = useState(
+    auth?.user?.channel_description
+  );
 
   useEffect(() => {
-    auth.setUser(initialData);
-  }, [auth.setUser]);
+    console.info("user", auth.user);
+  }, [auth.user]);
 
-  const [newUsername, setNewUsername] = useState(initialData.username);
-  const [newUserDescription, setNewUserDescription] = useState(
-    initialData.description
-  );
+  useEffect(() => {
+    console.info("selected", selectedUser);
+  }, [selectedUser]);
+
+  useEffect(() => {
+    console.info("userVideos", userVideos);
+  }, [userVideos]);
 
   const handleEditUsername = () => {
     setIsEditingUsername(true);
@@ -74,7 +96,7 @@ function UserProfile() {
     setOpenUserSettings(false);
   };
 
-  const handleSaveUsername = () => {
+  const handleSaveUsername = async () => {
     if (newUsername.trim() !== "") {
       auth.setUser((prevUser) => ({
         ...prevUser,
@@ -84,9 +106,41 @@ function UserProfile() {
     } else {
       alert("Username cannot be empty!");
     }
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/users/${selectedUser?.user_id}`,
+        {
+          method: "PUT",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: newUsername,
+          }),
+        }
+      );
+      if (response.status === 200) {
+        const userInfo = await response.json();
+        setNewUsername(userInfo.username);
+        auth.setUser((prevUser) => ({
+          ...prevUser,
+          username: userInfo.username,
+        }));
+
+        setSelectedUser((prevUser) => ({
+          ...prevUser,
+          username: userInfo.username,
+        }));
+      }
+      return newUsername;
+    } catch (error) {
+      console.error(error);
+    }
+    return true;
   };
 
-  const handleSaveUserDescription = () => {
+  const handleSaveUserDescription = async () => {
     if (newUserDescription.trim() !== "") {
       auth.setUser((prevUser) => ({
         ...prevUser,
@@ -95,6 +149,56 @@ function UserProfile() {
       setIsEditingUserDescription(false);
     } else {
       alert("Description cannot be empty!");
+    }
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/users/${selectedUser?.user_id}`,
+        {
+          method: "PUT",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            channel_description: newUserDescription,
+          }),
+        }
+      );
+      if (response.status === 200) {
+        const userInfo = await response.json();
+        setNewUserDescription(userInfo.channel_description);
+        auth.setUser((prevUser) => ({
+          ...prevUser,
+          channel_description: userInfo.channel_description,
+        }));
+
+        setSelectedUser((prevUser) => ({
+          ...prevUser,
+          channel_description: userInfo.channel_description,
+        }));
+      }
+      return newUserDescription;
+    } catch (error) {
+      console.error(error);
+    }
+    return true;
+  };
+
+  const handleDeleteAccount = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/users/${selectedUser?.user_id}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        }
+      );
+      if (response.status === 204) {
+        auth.setUser(null);
+        navigate("/");
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -145,11 +249,12 @@ function UserProfile() {
           <div className="img_And_Username_And_Settings_Container">
             <div className="img_And_Username_Container">
               <div className="user_Profile_Img_Container">
-                <img
-                  src={auth.user?.image}
-                  alt="User profile pic"
-                  className="user_Profile_Image"
-                />
+                {selectedUser?.username ? (
+                  <BackgroundLetterAvatars
+                    sx={{ width: 40, height: 40 }}
+                    username={selectedUser.username || ""}
+                  />
+                ) : null}
               </div>
               <div className="username_Container">
                 {isEditingUsername ? (
@@ -171,7 +276,7 @@ function UserProfile() {
                     </button>
                   </div>
                 ) : (
-                  <h1 className="username">{auth.user?.username}</h1>
+                  <h1 className="username">{selectedUser?.username}</h1>
                 )}
               </div>
             </div>
@@ -181,17 +286,27 @@ function UserProfile() {
               }`}
               ref={settingsMenuRef}
             >
-              <Icon
-                id="icon_Settings"
-                type="button"
-                icon="material-symbols:settings"
-                color="#f3f3e6"
-                width="35"
-                height="35"
+              <div
+                className="icon_Settings_Container"
                 onClick={() => {
                   setOpenUserSettings(!openUserSettings);
                 }}
-              />
+                onKeyDown={() => {
+                  setOpenUserSettings(!openUserSettings);
+                }}
+                role="button"
+                tabIndex={0}
+                aria-label="Toggle User Settings"
+              >
+                <Icon
+                  id="icon_Settings"
+                  type="button"
+                  icon="material-symbols:settings"
+                  color="#f3f3e6"
+                  width="35"
+                  height="35"
+                />
+              </div>
               <div
                 className={`dropdown_Settings ${
                   openUserSettings ? "active" : "inactive"
@@ -209,7 +324,13 @@ function UserProfile() {
                 <button onClick={handleEditUserDescription} type="button">
                   <ul>Edit profile description</ul>
                 </button>
-                <button type="button">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setOpenModal(true);
+                    setOpenUserSettings(false);
+                  }}
+                >
                   <ul>Delete account</ul>
                 </button>
               </div>
@@ -235,11 +356,53 @@ function UserProfile() {
                 </button>
               </div>
             ) : (
-              <h2 className="user_Description">{auth.user?.description}</h2>
+              <h2 className="user_Description">
+                {selectedUser?.channel_description}
+              </h2>
             )}
           </div>
         </section>
-        <VideoCard />
+        <section className="video_Section">
+          {userVideos.map((video) => (
+            <VideoCard
+              key={video.video_id}
+              videoId={video.video_id}
+              videoUserId={video.user_id}
+              videoTitle={video.title}
+              videoThumbnail={video.thumbnail}
+              videoDate={video.date_publication}
+              videoViews={video.views}
+            />
+          ))}
+        </section>
+        {openModal && (
+          <Modal onClose={handleClose}>
+            <div className="modal_Content">
+              <h1>Are you sure you want to delete your account? </h1>
+            </div>
+            <div className="modal_Footer">
+              <button
+                type="button"
+                className="modal_Btn"
+                onClick={() => {
+                  setOpenModal(false);
+                  handleDeleteAccount();
+                }}
+              >
+                YES
+              </button>
+              <button
+                type="button"
+                className="modal_Btn"
+                onClick={() => {
+                  setOpenModal(false);
+                }}
+              >
+                NO
+              </button>
+            </div>
+          </Modal>
+        )}
       </section>
     </>
   );

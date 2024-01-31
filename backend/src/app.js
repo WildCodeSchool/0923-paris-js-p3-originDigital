@@ -1,5 +1,7 @@
 // Load the express module to create a web application
+/* eslint no-unused-expressions: ["error", { "allowTernary": true }] */
 
+require("dotenv").config();
 const express = require("express");
 const path = require("path");
 
@@ -124,7 +126,9 @@ app.get("*", (req, res) => {
 */
 
 const publicFolderPath = path.join(__dirname, "../public");
-app.use(express.static(publicFolderPath));
+process.env.APP_ENV === "production"
+  ? app.use("/api", express.static(publicFolderPath))
+  : app.use(express.static(publicFolderPath));
 /* ************************************************************************* */
 
 // Middleware for Error Logging (Uncomment to enable)

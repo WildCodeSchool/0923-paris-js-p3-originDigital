@@ -26,6 +26,10 @@
   display: flex;
 }
 
+.MuiAvatar-root {
+  cursor: pointer;
+}
+
 .moreVert_Icon_Container {
   display: flex;
   align-items: flex-end;
@@ -101,11 +105,13 @@
 
 .video_Title {
   font-size: 1.2rem;
+  cursor: pointer;
 }
 
 .creator_Username {
   font-size: 1rem;
   line-height: 1.5rem;
+  cursor: pointer;
 }
 
 @media (min-width: 1024px) {
@@ -119,6 +125,11 @@
     height: 162px;
     width: 295px;
     margin-bottom: 0;
+    border-radius: 10px;
+  }
+
+  .thumbnail_Container {
+    cursor: pointer;
   }
 
   .video_Data {

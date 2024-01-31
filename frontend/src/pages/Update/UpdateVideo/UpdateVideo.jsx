@@ -2,14 +2,16 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import AsyncSelect from "react-select/async";
-import "./Addvideos.css";
+import "./UpdateVideo.css";
 import useOverviewContext from "../../../context/Overviewcontext";
+import useSelectedVideo from "../../../context/SelectedVideo";
 import Header from "../../../components/Header/Header";
 
-function Addvideos() {
+function UpdateVideo() {
   const maxCharacters = 255;
   const [errorThumbnail, setErrorThumbnail] = useState(false);
-  const [errorFile, setErrorFile] = useState(false);
+  // const [errorFile, setErrorFile] = useState(false);
+  const { selectedVideo } = useSelectedVideo();
   const navigate = useNavigate();
 
   const {
@@ -27,7 +29,7 @@ function Addvideos() {
     setVideoThumbnail,
   } = useOverviewContext();
 
-  const handleUpload = async () => {
+  const handleUpdate = async () => {
     try {
       const form = new FormData();
       form.append("title", videoTitle);
@@ -57,9 +59,9 @@ function Addvideos() {
     }
   };
 
-  const handleVideoFileChange = (e) => {
-    setVideoFile(e.target.files[0]);
-  };
+  // const handleVideoFileChange = (e) => {
+  //   setVideoFile(e.target.files[0]);
+  // };
 
   const handleVideoThumbnailChange = (e) => {
     setVideoThumbnail(e.target.files[0]);
@@ -81,7 +83,7 @@ function Addvideos() {
       const maxFileSize = 30 * 1024 * 1024;
       if (videoFile.size > maxFileSize) {
         setVideoFile(null);
-        setErrorFile(true);
+        // setErrorFile(true);
       }
     }
   }, [videoFile]);
@@ -107,9 +109,9 @@ function Addvideos() {
     setTag(tagArray);
   };
 
-  useEffect(() => {
-    console.info(tag);
-  }, [tag]);
+  // useEffect(() => {
+  //   console.info(tag);
+  // }, [tag]);
 
   const [rows, setRows] = useState(window.innerWidth > 1024 ? 4 : 7);
 
@@ -217,13 +219,15 @@ function Addvideos() {
     },
   };
 
+  // console.log("selected video", selectedVideo);
+
   return (
     <>
       <Header />
       <section className="container_Body_Add_Video">
-        <h1 className="upload_Main_Title_Video">Short upload settings</h1>
+        <h1 className="upload_Main_Title_Video">Video edit settings</h1>
         <div className="grid_Container">
-          <label htmlFor="fileInput">
+          {/* <label htmlFor="fileInput">
             <div
               className={`add_An_Element_Container ${errorFile ? "error" : ""}`}
             >
@@ -240,7 +244,7 @@ function Addvideos() {
               {videoFile ? (
                 <p>Selected file: {videoFile.name}</p>
               ) : (
-                <p className="element_Specs">(.mp4)</p>
+                <p className="element_Specs">(16:9 ratio, .mp4, 15 sec max)</p>
               )}
               {errorFile && (
                 <p className="error_File">File must be under 30MB</p>
@@ -253,7 +257,7 @@ function Addvideos() {
             accept=".mp4"
             onChange={handleVideoFileChange}
             style={{ display: "none" }}
-          />
+          /> */}
           <label htmlFor="thumbnailInput">
             <div
               className={`add_A_Thumbnail_Container ${
@@ -292,7 +296,7 @@ function Addvideos() {
               className="title_Input"
               type="text"
               maxLength={255}
-              placeholder="Add a video title"
+              placeholder={selectedVideo?.title}
               onChange={handleVideoTitleChange}
             />
           </div>
@@ -300,7 +304,7 @@ function Addvideos() {
             <AsyncSelect
               loadOptions={loadCategoryOptions}
               defaultOptions
-              placeholder="Select Category"
+              placeholder={selectedVideo?.category_id}
               onChange={handleCategoryChange}
               styles={colorStyles}
             />
@@ -321,7 +325,7 @@ function Addvideos() {
               wrap
               rows={rows}
               maxLength={255}
-              placeholder="Add video description"
+              placeholder={selectedVideo?.description}
               onChange={handleDescriptionChange}
             />
             <div className="text_Limit_Container">
@@ -331,12 +335,12 @@ function Addvideos() {
             </div>
           </div>
         </div>
-        <button type="button" className="upload_Btn" onClick={handleUpload}>
-          UPLOAD
+        <button type="button" className="upload_Btn" onClick={handleUpdate}>
+          SAVE CHANGES
         </button>
       </section>
     </>
   );
 }
 
-export default Addvideos;
+export default UpdateVideo;

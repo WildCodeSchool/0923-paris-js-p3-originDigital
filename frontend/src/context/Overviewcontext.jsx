@@ -6,8 +6,6 @@ export function OverviewProvider({ children }) {
   const [user, setUser] = useState([]);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isRegistered, setIsRegistered] = useState(true);
-  const [isSignedIn, setIsSignedIn] = useState(true);
-  const [isFollowed, setIsFollowed] = useState(true);
   const [videoFile, setVideoFile] = useState(null);
   const [videoThumbnail, setVideoThumbnail] = useState(null);
   const [videoTitle, setVideoTitle] = useState("");
@@ -48,10 +46,6 @@ export function OverviewProvider({ children }) {
       setVideoThumbnail,
       user,
       setUser,
-      isSignedIn,
-      setIsSignedIn,
-      isFollowed,
-      setIsFollowed,
     }),
     [
       isAdmin,
@@ -67,8 +61,6 @@ export function OverviewProvider({ children }) {
       videoFile,
       videoThumbnail,
       user,
-      isSignedIn,
-      isFollowed,
     ]
   );
 

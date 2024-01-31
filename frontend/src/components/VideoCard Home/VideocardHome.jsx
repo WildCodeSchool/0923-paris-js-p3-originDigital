@@ -1,13 +1,14 @@
 import "./VideocardHome.css";
 import Avatar from "@mui/material/Avatar";
+import TimeAgo from "react-timeago";
 
-function VideocardHome({ title, user, thumbnailUrl }) {
+function VideocardHome({ title, user, thumbnail, date }) {
   return (
     <div className="video_Card_Home">
       <img
         className="video_Thumbnail_Home"
         alt="video thumbnail"
-        src={thumbnailUrl}
+        src={thumbnail}
       />
       <div className="video_Data_Home">
         <div className="data_Container_Home">
@@ -21,7 +22,7 @@ function VideocardHome({ title, user, thumbnailUrl }) {
           <div className="channel_Details">
             <h3 className="video_Title">{title}</h3>
             <p className="creator_Username">{user}</p>
-            <p>200views</p>
+            <TimeAgo date={date} minPeriod={60} />
           </div>
         </div>
       </div>

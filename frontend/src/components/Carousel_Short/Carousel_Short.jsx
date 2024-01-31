@@ -5,7 +5,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./Carousel_Short.css";
 
-function SimpleCarousel2() {
+function CarouselShort() {
   return (
     <section>
       <Slider
@@ -100,4 +100,4 @@ function SimpleCarousel2() {
   );
 }
 
-export default SimpleCarousel2;
+export default CarouselShort;

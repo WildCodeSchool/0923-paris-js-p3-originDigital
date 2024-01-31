@@ -48,6 +48,12 @@
   margin-top: 1rem;
 }
 
+.categoryContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
 @media only screen and (min-width: 1024px) {
   .container_Carousel {
     width: 100%;

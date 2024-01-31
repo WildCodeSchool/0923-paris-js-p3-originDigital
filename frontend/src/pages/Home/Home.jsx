@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import Header from "../../components/Header/Header";
 import "./Home.css";
 import CarouselTrend from "../../components/Carousel_Trend/Carousel_Trend";
-import Carousel2 from "../../components/Carousel_Short/Carousel_Short";
+import CarouselShort from "../../components/Carousel_Short/Carousel_Short";
 import CategoryCarousel from "../../components/Carousel_Category/Carousel_Category";
 
 function Home() {
-  const [setCategories] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -35,6 +35,7 @@ function Home() {
 
     fetchCategories();
   }, []);
+
   return (
     <main className="container_Home">
       <div className="container_Body_Home">
@@ -45,16 +46,18 @@ function Home() {
         </div>
         <h1 className="title_Short">SHORTS</h1>
         <div className="container_Short">
-          <Carousel2 />
+          <CarouselShort />
         </div>
-        <h1 className="title_Category_Animal">CATEGORY ANIMALS</h1>
-        <div className="container_Carousel2">
-          <CategoryCarousel categoryId={7} />
-        </div>
-        <div className="container_Carousel3">
-          <h1 className="title_Category_Food">CATEGORY FOOD</h1>
-          <CategoryCarousel categoryId={1} />
-        </div>
+        {categories.map((category) => (
+          <div key={category.id} className="categoryContainer">
+            <h1 className={`title_Category_${category.name.toUpperCase()}`}>
+              CATEGORY {category.name.toUpperCase()}
+            </h1>
+            <div>
+              <CategoryCarousel categoryId={category.category_id} />
+            </div>
+          </div>
+        ))}
       </div>
     </main>
   );

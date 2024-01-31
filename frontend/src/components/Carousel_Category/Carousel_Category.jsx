@@ -67,7 +67,12 @@ function CategoryCarousel({ categoryId }) {
       >
         {videos.map((video) => (
           <div key={video.video_id}>
-            <VideocardHome title={video.title} thumbnailUrl={video.thumbnail} />
+            <VideocardHome
+              title={video.title}
+              thumbnailUrl={video.thumbnail}
+              user={video.username}
+              date={video.date_publication}
+            />
           </div>
         ))}
       </Slider>

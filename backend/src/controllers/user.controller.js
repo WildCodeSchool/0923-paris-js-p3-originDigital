@@ -73,6 +73,16 @@ const getOne = async (req, res, next) => {
   }
 };
 
+const getUsername = async (req, res, next) => {
+  try {
+    const [[user]] = await userModel.findByUsername(req.params.id);
+    if (user) res.status(200).json(user);
+    else res.sendStatus(404);
+  } catch (error) {
+    next(error);
+  }
+};
+
 const logOut = (req, res, next) => {
   try {
     res.clearCookie("auth-token").sendStatus(200);
@@ -130,4 +140,5 @@ module.exports = {
   getAllVideos,
   updateOne,
   removeOne,
+  getUsername,
 };

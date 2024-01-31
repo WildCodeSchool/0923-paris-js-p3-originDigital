@@ -1,0 +1,17 @@
+.comments_Component {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 1rem;
+  padding-left: 3%;
+  padding-right: 3%;
+  margin-top: 1.5rem;
+}
+.comments_Component p {
+  font-size: 18px;
+  font-weight: 600;
+}
+.comments_Component span {
+  font-size: 18px;
+}

@@ -9,7 +9,7 @@ require("dotenv").config();
 const database = require("./database/client");
 
 const env = process.env.APP_ENV;
-const prodURL = "https://origindigital.creativebrain.fr";
+const prodURL = "https://origindigital.creativebrain.fr/api";
 
 const seed = async () => {
   try {

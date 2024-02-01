@@ -167,6 +167,10 @@
   background-color: #0056b3;
 }
 
+.wrong_Credentials_container {
+  margin: 1rem;
+}
+
 @media only screen and (min-width: 1024px) {
   .container_Body_Header {
     min-height: 100vh;

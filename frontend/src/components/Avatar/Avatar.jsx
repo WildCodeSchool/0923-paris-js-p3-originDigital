@@ -1,14 +1,36 @@
 import * as React from "react";
 import Avatar from "@mui/material/Avatar";
-import { deepOrange } from "@mui/material/colors";
 
-export default function BackgroundLetterAvatars({ username }) {
-  // console.log("this ", username);
+function stringToColor(string) {
+  let hash = 0;
+  let i;
+
+  /* eslint-disable no-bitwise */
+  for (i = 0; i < string.length; i += 1) {
+    hash = string.charCodeAt(i) + ((hash << 5) - hash);
+  }
+
+  let color = "#";
+
+  for (i = 0; i < 3; i += 1) {
+    const value = (hash >> (i * 8)) & 0xff;
+    color += `00${value.toString(16)}`.slice(-2);
+  }
+  /* eslint-enable no-bitwise */
+
+  return color;
+}
+
+export default function BackgroundLetterAvatars({ username, imgsrc }) {
   return (
     <Avatar
-      sx={{ bgcolor: deepOrange[500] }}
+      sx={{
+        bgcolor: stringToColor(username),
+      }}
       alt={`${username?.toUpperCase()}`}
-      src="/broken-image.jpg"
-    />
+      src={imgsrc || "/broken-image.jpg"}
+    >
+      {username[0].toUpperCase()}
+    </Avatar>
   );
 }

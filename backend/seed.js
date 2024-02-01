@@ -23,7 +23,7 @@ const seed = async () => {
     await database.query("truncate add_tags");
     await database.query("truncate favorites");
     await database.query("truncate likes");
-    await database.query("truncate subcribe");
+    await database.query("truncate subscribe");
     await database.query("truncate upload");
     await database.query("truncate views");
     await database.query("truncate comments");

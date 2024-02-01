@@ -107,13 +107,13 @@ CREATE TABLE `likes` (
 --
 -- Table structure for table `subcribe`
 --
-DROP TABLE IF EXISTS `subcribe`;
+DROP TABLE IF EXISTS `subsscribe`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */
 ;
 /*!50503 SET character_set_client = utf8mb4 */
 ;
 
-CREATE TABLE `subcribe` (
+CREATE TABLE `subscribe` (
   `follower_id` int NOT NULL,
   `followed_id` int NOT NULL,
   PRIMARY KEY (`follower_id`,`followed_id`),

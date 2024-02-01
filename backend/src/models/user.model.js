@@ -41,6 +41,28 @@ const destroyByUserId = (userId) => {
   return db.query("DELETE FROM users where user_id = ?", [userId]);
 };
 
+const followUserId = (userId, followedId) => {
+  return db.query(
+    "INSERT INTO subscribe (follower_id, followed_id) VALUES (?,?)",
+    [userId, followedId]
+  );
+};
+
+const unfollowUserId = (userId, unfollowedId) => {
+  return db.query(
+    "DELETE FROM subscribe WHERE follower_id = ? AND followed_id = ?",
+    [userId, unfollowedId]
+  );
+};
+
+const isFollowedByUser = (userId, followedId) => {
+  return db.query(
+    // "SELECT EXISTS (SELECT 1 FROM subscribe WHERE follower_id = ? AND followed_id = ?) AS is_following ",
+    "SELECT * FROM users AS u JOIN subscribe AS s ON s.follower_id = u.user_id WHERE s.follower_id = ? AND s.followed_id = ?;",
+    [userId, followedId]
+  );
+};
+
 module.exports = {
   insert,
   findById,
@@ -49,4 +71,7 @@ module.exports = {
   findAll,
   editUserByUserId,
   destroyByUserId,
+  followUserId,
+  unfollowUserId,
+  isFollowedByUser,
 };

@@ -11,6 +11,7 @@ import Modal from "../../components/Modal/Modal";
 
 function UserProfile() {
   const auth = useContext(authContext);
+  const { isFollowed, setIsFollowed } = useSelectedUser();
   const { selectedUser, setSelectedUser } = useSelectedUser();
   const [openUserSettings, setOpenUserSettings] = useState(false);
   const [isEditingUsername, setIsEditingUsername] = useState(false);
@@ -73,18 +74,21 @@ function UserProfile() {
   const [newUserDescription, setNewUserDescription] = useState(
     auth?.user?.channel_description
   );
+  const [newUserAvatar, setNewUserAvatar] = useState(auth?.user?.avatar);
+  // console.log("current cat", auth?.user?.user_id);
+  // console.log("selected cat", selectedUser?.user_id)
 
-  useEffect(() => {
-    console.info("user", auth.user);
-  }, [auth.user]);
+  // useEffect(() => {
+  //   console.info("user", auth.user);
+  // }, [auth.user]);
 
-  useEffect(() => {
-    console.info("selected", selectedUser);
-  }, [selectedUser]);
+  // useEffect(() => {
+  //   console.info("selected", selectedUser);
+  // }, [selectedUser]);
 
-  useEffect(() => {
-    console.info("userVideos", userVideos);
-  }, [userVideos]);
+  // useEffect(() => {
+  //   console.info("userVideos", userVideos);
+  // }, [userVideos]);
 
   const handleEditUsername = () => {
     setIsEditingUsername(true);
@@ -95,6 +99,45 @@ function UserProfile() {
     setIsEditingUserDescription(true);
     setOpenUserSettings(false);
   };
+
+  const handleEditUserAvatar = (e) => {
+    setIsEditingUserDescription(true);
+    setOpenUserSettings(false);
+    setNewUserAvatar(e.target.files[0]);
+  };
+
+  useEffect(() => {
+    const handleSaveNewUserAvatar = async () => {
+      try {
+        const form = new FormData();
+        form.append("avatar", newUserAvatar);
+        const response = fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/users/${selectedUser?.user_id}`,
+          {
+            method: "PUT",
+            credentials: "include",
+            body: form,
+          }
+        );
+        if (response.status === 200) {
+          const userInfo = await response.json();
+          setNewUserAvatar(userInfo.avatar);
+          auth.setUser((prevUser) => ({
+            ...prevUser,
+            avatar: userInfo.avatar,
+          }));
+
+          setSelectedUser((prevUser) => ({
+            ...prevUser,
+            avatar: userInfo.avatar,
+          }));
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    handleSaveNewUserAvatar();
+  }, [newUserAvatar]);
 
   const handleSaveUsername = async () => {
     if (newUsername.trim() !== "") {
@@ -248,6 +291,54 @@ function UserProfile() {
     };
   }, []);
 
+  const handleFollowClick = async () => {
+    if (!isFollowed) {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/users/${
+            selectedUser?.user_id
+          }/follow`,
+          {
+            method: "POST",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              follower_id: auth?.user?.user_id,
+              followed_id: selectedUser?.user_id,
+            }),
+          }
+        );
+        if (response.status === 204) setIsFollowed(true);
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/users/${
+            selectedUser?.user_id
+          }/unfollow`,
+          {
+            method: "DELETE",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              follower_id: auth?.user?.user_id,
+              followed_id: selectedUser?.user_id,
+            }),
+          }
+        );
+        if (response.status === 204) setIsFollowed(false);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
   return (
     <>
       <Header />
@@ -259,7 +350,8 @@ function UserProfile() {
                 {selectedUser?.username ? (
                   <BackgroundLetterAvatars
                     sx={{ width: 40, height: 40 }}
-                    username={selectedUser.username || ""}
+                    username={selectedUser?.username}
+                    imgsrc={selectedUser.avatar}
                   />
                 ) : null}
               </div>
@@ -287,61 +379,75 @@ function UserProfile() {
                 )}
               </div>
             </div>
-            <div
-              className={`settings_Container ${
-                openUserSettings ? "active" : "inactive"
-              }`}
-              ref={settingsMenuRef}
-            >
+            {auth?.user?.user_id === selectedUser?.user_id ? (
               <div
-                className="icon_Settings_Container"
-                onClick={() => {
-                  setOpenUserSettings(!openUserSettings);
-                }}
-                onKeyDown={() => {
-                  setOpenUserSettings(!openUserSettings);
-                }}
-                role="button"
-                tabIndex={0}
-                aria-label="Toggle User Settings"
-              >
-                <Icon
-                  id="icon_Settings"
-                  type="button"
-                  icon="material-symbols:settings"
-                  color="#f3f3e6"
-                  width="35"
-                  height="35"
-                />
-              </div>
-              <div
-                className={`dropdown_Settings ${
+                className={`settings_Container ${
                   openUserSettings ? "active" : "inactive"
                 }`}
+                ref={settingsMenuRef}
               >
-                <button onClick={logOut} type="button">
-                  <ul>Disconnect</ul>
-                </button>
-                <button onClick={handleEditUsername} type="button">
-                  <ul>Edit username</ul>
-                </button>
-                <button type="button">
-                  <ul>Edit profile picture</ul>
-                </button>
-                <button onClick={handleEditUserDescription} type="button">
-                  <ul>Edit profile description</ul>
-                </button>
+                <div
+                  className="icon_Settings_Container"
+                  onClick={() => {
+                    setOpenUserSettings(!openUserSettings);
+                  }}
+                  onKeyDown={() => {
+                    setOpenUserSettings(!openUserSettings);
+                  }}
+                  role="button"
+                  tabIndex={0}
+                  aria-label="Toggle User Settings"
+                >
+                  <Icon
+                    id="icon_Settings"
+                    type="button"
+                    icon="material-symbols:settings"
+                    color="#f3f3e6"
+                    width="35"
+                    height="35"
+                  />
+                </div>
+                <div
+                  className={`dropdown_Settings ${
+                    openUserSettings ? "active" : "inactive"
+                  }`}
+                >
+                  <button onClick={logOut} type="button">
+                    <ul>Disconnect</ul>
+                  </button>
+                  <button onClick={handleEditUsername} type="button">
+                    <ul>Edit username</ul>
+                  </button>
+                  <button type="button" onClick={handleEditUserAvatar}>
+                    <ul>Edit profile picture</ul>
+                  </button>
+                  <button onClick={handleEditUserDescription} type="button">
+                    <ul>Edit profile description</ul>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setOpenModal(true);
+                      setOpenUserSettings(false);
+                    }}
+                  >
+                    <ul>Delete account</ul>
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="follow_Btn_Container">
                 <button
                   type="button"
-                  onClick={() => {
-                    setOpenModal(true);
-                    setOpenUserSettings(false);
-                  }}
+                  className={
+                    isFollowed ? "follow_Btn inactive" : "follow_Btn active"
+                  }
+                  onClick={handleFollowClick}
                 >
-                  <ul>Delete account</ul>
+                  {isFollowed ? "Unfollow" : "Follow"}
                 </button>
               </div>
-            </div>
+            )}
           </div>
           <div className="user_Description_Container">
             {isEditingUserDescription ? (

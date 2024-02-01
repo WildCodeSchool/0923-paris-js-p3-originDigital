@@ -48,7 +48,7 @@ const destroy = (id) => {
 
 const findByVideoNameOrCatOrTag = (videoName, categoryName, tagName) => {
   return db.query(
-    "SELECT DISTINCT v.* FROM videos v LEFT JOIN categories c ON v.category_id = c.category_id LEFT JOIN add_tags at ON v.video_id = at.video_id LEFT JOIN tags t ON at.tag_id = t.tag_id WHERE v.title LIKE ? OR c.name LIKE ? OR t.name LIKE ?",
+    "SELECT DISTINCT v.*, u.username FROM videos v JOIN users u ON v.user_id = u.user_id LEFT JOIN categories c ON v.category_id = c.category_id LEFT JOIN add_tags at ON v.video_id = at.video_id LEFT JOIN tags t ON at.tag_id = t.tag_id WHERE v.title LIKE ? OR c.name LIKE ? OR t.name LIKE ?",
     [`%${videoName}%`, `%${categoryName}%`, `%${tagName}%`]
   );
 };

@@ -10,6 +10,7 @@ function VideoCard({
   videoId,
   videoUserId,
   videoUsername,
+  videoUserAvatar,
   videoTitle,
   videoThumbnail,
   videoDate,
@@ -36,8 +37,6 @@ function VideoCard({
         }
       );
       if (response.status === 204) {
-        // window.location.reload(false);
-        // Signal to the parent component (UserProfile) that a video is deleted
         onDeleteVideo(videoId);
       }
     } catch (error) {
@@ -139,15 +138,11 @@ function VideoCard({
             <BackgroundLetterAvatars
               sx={{ width: 40, height: 40 }}
               username={videoUsername}
+              imgsrc={videoUserAvatar}
               onClick={() => {
                 navigate(`/usersprofile/${videoUserId}`);
               }}
             />
-            {/* <Avatar
-              className="avatar"
-              sx={{ width: 40, height: 40 }}
-              src="https://images.unsplash.com/photo-1561948955-570b270e7c36?q=80&w=1802&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            /> */}
           </div>
           <div className="channel_Details">
             <div

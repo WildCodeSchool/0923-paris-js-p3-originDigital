@@ -80,7 +80,7 @@ const routes = createBrowserRouter(
           </PrivateRoute>
         }
       />
-      <Route path="/search/:searchTerm" element={<SearchResult />} />
+      <Route path="/search/" element={<SearchResult />} />
       <Route path="/videos/:id" element={<Videos />} />
       <Route path="/shorts/:id" element={<Shorts />} />
       <Route

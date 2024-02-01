@@ -19,7 +19,7 @@ function Header() {
     setSearchTerm(event.target.value);
   };
   const handleSearch = () => {
-    Navigate(`/search/${searchTerm}`);
+    Navigate(`/search`);
   };
   const handleNavbarClick = (e) => {
     e.stopPropagation();

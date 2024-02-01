@@ -52,10 +52,8 @@ const getAll = async (req, res, next) => {
 };
 
 const getCurrentUser = async (req, res, next) => {
-  console.info("req.body.user_id", req.user_id);
   try {
     const [[user]] = await userModel.findById(req.user_id);
-    console.info(user);
     if (user) res.status(200).json(user);
     else res.sendStatus(404);
   } catch (error) {
@@ -104,6 +102,7 @@ const getAllVideos = async (req, res, next) => {
 
 const updateOne = async (req, res, next) => {
   try {
+    // console.log(req.files);
     const [updatedUser] = await userModel.editUserByUserId(
       req.body,
       req.params.id
@@ -130,6 +129,39 @@ const removeOne = async (req, res, next) => {
   }
 };
 
+const followUser = async (req, res, next) => {
+  try {
+    const [result] = await userModel.followUserId(req.user_id, req.params.id);
+    if (result.affectedRows > 0) res.sendStatus(204);
+    else res.sendStatus(404);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const unfollowUser = async (req, res, next) => {
+  try {
+    const [result] = await userModel.unfollowUserId(req.user_id, req.params.id);
+    if (result.affectedRows > 0) res.sendStatus(204);
+    else res.sendStatus(404);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const checkFollowUser = async (req, res, next) => {
+  try {
+    const [[result]] = await userModel.isFollowedByUser(
+      req.user_id,
+      req.params.id
+    );
+    if (result) res.status(200).json(result);
+    else res.sendStatus(404);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   add,
   login,
@@ -141,4 +173,7 @@ module.exports = {
   updateOne,
   removeOne,
   getUsername,
+  followUser,
+  unfollowUser,
+  checkFollowUser,
 };

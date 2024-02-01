@@ -5,6 +5,7 @@ const selectedUserContext = createContext();
 
 function SelectedUserProvider({ children }) {
   const [selectedUser, setSelectedUser] = useState(null);
+  const [isFollowed, setIsFollowed] = useState(false);
   const { id } = useParams();
 
   useEffect(() => {
@@ -29,9 +30,28 @@ function SelectedUserProvider({ children }) {
     getSelectedUser();
   }, []);
 
+  useEffect(() => {
+    const isFollowedByCurrentUser = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/users/${id}/isFollowing`,
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
+        if (response.status === 200) setIsFollowed(true);
+        else setIsFollowed(false);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    isFollowedByCurrentUser();
+  }, []);
+
   const auth = useMemo(
-    () => ({ selectedUser, setSelectedUser }),
-    [selectedUser]
+    () => ({ selectedUser, setSelectedUser, isFollowed, setIsFollowed }),
+    [selectedUser, isFollowed]
   );
 
   return (

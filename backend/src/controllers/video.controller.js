@@ -117,6 +117,20 @@ const removeOne = async (req, res, next) => {
   }
 };
 
+const getSearchResults = async (req, res, next) => {
+  try {
+    const { videoTitle, catName, tagName } = req.query;
+    const [videos] = await videoModel.findByVideoNameOrCatOrTag(
+      videoTitle,
+      catName,
+      tagName
+    );
+    res.status(200).json(videos);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   add,
   getAll,
@@ -125,4 +139,5 @@ module.exports = {
   getMostViewed,
   getVideosByCategoryController,
   removeOne,
+  getSearchResults,
 };

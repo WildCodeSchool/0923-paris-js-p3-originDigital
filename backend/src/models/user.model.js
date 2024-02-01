@@ -22,7 +22,10 @@ const findAll = () => {
 };
 
 const getVideosByUserId = (userId) => {
-  return db.query("SELECT * FROM videos WHERE user_id = ?", [userId]);
+  return db.query(
+    "SELECT v.*, u.username FROM videos AS v JOIN users AS u ON v.user_id = u.user_id WHERE u.user_id =?",
+    [userId]
+  );
 };
 
 const editUserByUserId = (newUserInfo, userId) => {
@@ -60,6 +63,28 @@ const deleteUser = async (userId) => {
   }
 };
 
+const followUserId = (userId, followedId) => {
+  return db.query(
+    "INSERT INTO subscribe (follower_id, followed_id) VALUES (?,?)",
+    [userId, followedId]
+  );
+};
+
+const unfollowUserId = (userId, unfollowedId) => {
+  return db.query(
+    "DELETE FROM subscribe WHERE follower_id = ? AND followed_id = ?",
+    [userId, unfollowedId]
+  );
+};
+
+const isFollowedByUser = (userId, followedId) => {
+  return db.query(
+    // "SELECT EXISTS (SELECT 1 FROM subscribe WHERE follower_id = ? AND followed_id = ?) AS is_following ",
+    "SELECT * FROM users AS u JOIN subscribe AS s ON s.follower_id = u.user_id WHERE s.follower_id = ? AND s.followed_id = ?;",
+    [userId, followedId]
+  );
+};
+
 module.exports = {
   insert,
   findById,
@@ -70,4 +95,7 @@ module.exports = {
   destroyByUserId,
   updateUser,
   deleteUser,
+  followUserId,
+  unfollowUserId,
+  isFollowedByUser,
 };

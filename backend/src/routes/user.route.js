@@ -17,6 +17,13 @@ router.get("/users/logOut", auth.isAuth, userController.logOut);
 router.get("/users/:id", userController.getOne);
 router.get("/users/:id/videos", userController.getAllVideos);
 router.put("/users/:id", userController.updateOne);
+router.get(
+  "/users/:id/isFollowing",
+  auth.isAuth,
+  userController.checkFollowUser
+);
+router.post("/users/:id/follow", auth.isAuth, userController.followUser);
+router.delete("/users/:id/unfollow", auth.isAuth, userController.unfollowUser);
 router.delete("/users/:id", userController.removeOne);
 
 module.exports = router;

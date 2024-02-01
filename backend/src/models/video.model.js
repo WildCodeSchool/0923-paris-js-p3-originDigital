@@ -25,7 +25,10 @@ const insertVideoTag = (videoId, tagId) => {
 };
 
 const findById = (id) => {
-  return db.query("SELECT * FROM videos WHERE video_id = ?", [id]);
+  return db.query(
+    "SELECT v.*, c.name, u.username FROM videos AS v JOIN categories AS c ON v.category_id = c.category_id JOIN users AS u ON u.user_id = v.user_id WHERE video_id = ?",
+    [id]
+  );
 };
 
 const findAll = () => {
@@ -57,6 +60,13 @@ const destroy = (id) => {
   return db.query("DELETE FROM videos WHERE video_id = ?", [id]);
 };
 
+const findByVideoNameOrCatOrTag = (videoName, categoryName, tagName) => {
+  return db.query(
+    "SELECT DISTINCT v.*, u.username FROM videos v JOIN users u ON v.user_id = u.user_id LEFT JOIN categories c ON v.category_id = c.category_id LEFT JOIN add_tags at ON v.video_id = at.video_id LEFT JOIN tags t ON at.tag_id = t.tag_id WHERE v.title LIKE ? OR c.name LIKE ? OR t.name LIKE ?",
+    [`%${videoName}%`, `%${categoryName}%`, `%${tagName}%`]
+  );
+};
+
 module.exports = {
   insert,
   findById,
@@ -66,4 +76,5 @@ module.exports = {
   findMostViewed,
   findByCategory,
   destroy,
+  findByVideoNameOrCatOrTag,
 };

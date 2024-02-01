@@ -35,7 +35,7 @@ function Addvideos() {
       form.append("video", videoFile);
       form.append("thumbnail", videoThumbnail);
       form.append("category_id", category);
-      form.append("type_video", 0);
+      form.append("type_video", 1);
       form.append("tags", tag);
 
       const response = await fetch(

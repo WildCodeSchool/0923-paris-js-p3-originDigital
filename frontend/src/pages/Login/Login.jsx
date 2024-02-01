@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import React, { useRef, useContext } from "react";
+import React, { useRef, useContext, useState } from "react";
 import Header from "../../components/Header/Header";
 import authContext from "../../context/AuthContext";
 import imageSign from "../../assets/logo_Mobile.svg";
@@ -11,6 +11,8 @@ function Login() {
   const username = useRef();
   const password = useRef();
   const auth = useContext(authContext);
+
+  const [isBadCredentials, setIsBadCredentials] = useState(false);
 
   const handleSubmit = async () => {
     try {
@@ -34,6 +36,7 @@ function Login() {
         navigate("/");
       } else {
         console.error("veuillez verifier votre saisie.");
+        setIsBadCredentials(true);
       }
     } catch (error) {
       console.error(error);
@@ -78,6 +81,13 @@ function Login() {
               Forgot your password?{" "}
             </a>
           </div>
+          {isBadCredentials ? (
+            <div className="wrong_Credentials_container">
+              <p>Wrong credentials. Please try again</p>
+            </div>
+          ) : (
+            ""
+          )}
           <div className="container_But_Log">
             <button
               className="signup_Button_Log"

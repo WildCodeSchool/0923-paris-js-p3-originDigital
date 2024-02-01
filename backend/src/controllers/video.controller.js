@@ -110,6 +110,19 @@ const getAllCommentsbyVideo = async (req, res, next) => {
     next(error);
   }
 };
+const getSearchResults = async (req, res, next) => {
+  try {
+    const { videoTitle, catName, tagName } = req.query;
+    const [videos] = await videoModel.findByVideoNameOrCatOrTag(
+      videoTitle,
+      catName,
+      tagName
+    );
+    res.status(200).json(videos);
+  } catch (error) {
+    next(error);
+  }
+};
 
 module.exports = {
   add,
@@ -119,4 +132,5 @@ module.exports = {
   removeOne,
   getAllVideoInfos,
   getAllCommentsbyVideo,
+  getSearchResults,
 };

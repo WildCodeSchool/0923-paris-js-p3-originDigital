@@ -130,6 +130,43 @@
   padding: 1rem 2rem;
 }
 
+.follow_Btn_Container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.follow_Btn {
+  border-radius: 50px;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.follow_Btn.active {
+  border: none;
+  background-color: var(--orange);
+  color: var(--black);
+}
+
+.follow_Btn.inactive {
+  border: 0.1rem solid var(--orange);
+  background-color: var(--black);
+  color: var(--white);
+}
+
+.follow_Btn.active:hover {
+  border: 0.1rem solid var(--orange);
+  background-color: var(--black);
+  color: var(--white);
+}
+
+.follow_Btn.inactive:hover {
+  border: none;
+  background-color: var(--orange);
+  color: var(--black);
+}
+
 @media (min-width: 1024px) {
   .video_Section {
     display: grid;

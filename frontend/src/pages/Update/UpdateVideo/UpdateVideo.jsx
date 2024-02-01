@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLoaderData } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import AsyncSelect from "react-select/async";
 import "./UpdateVideo.css";
@@ -8,10 +8,17 @@ import useSelectedVideo from "../../../context/SelectedVideo";
 import Header from "../../../components/Header/Header";
 
 function UpdateVideo() {
+  const currentVideo = useLoaderData();
+  console.info("current video", currentVideo.title);
   const maxCharacters = 255;
   const [errorThumbnail, setErrorThumbnail] = useState(false);
-  // const [errorFile, setErrorFile] = useState(false);
   const { selectedVideo } = useSelectedVideo();
+  const [defaultCat, setDefaultCat] = useState({
+    value: selectedVideo?.category_id,
+    label: selectedVideo?.name,
+  });
+  const [defaultTags, setDefaultTags] = useState([]);
+  // const [errorFile, setErrorFile] = useState(false);
   const navigate = useNavigate();
 
   const {
@@ -29,6 +36,14 @@ function UpdateVideo() {
     setVideoThumbnail,
   } = useOverviewContext();
 
+  useEffect(() => {
+    setCategory(selectedVideo?.category_id);
+  }, [category]);
+
+  useEffect(() => {
+    setTag();
+  }, []);
+  console.info("selectedVideo", selectedVideo);
   const handleUpdate = async () => {
     try {
       const form = new FormData();
@@ -37,13 +52,13 @@ function UpdateVideo() {
       form.append("video", videoFile);
       form.append("thumbnail", videoThumbnail);
       form.append("category_id", category);
-      form.append("type_video", 0);
+      form.append("type_video", 1);
       form.append("tags", tag);
 
       const response = await fetch(
         `${import.meta.env.VITE_BACKEND_URL}/videos`,
         {
-          method: "POST",
+          method: "PUT",
           credentials: "include",
           body: form,
         }
@@ -127,6 +142,56 @@ function UpdateVideo() {
     };
   }, []);
 
+  useEffect(() => {
+    const getOldCategoryName = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/categories/${
+            selectedVideo?.category_id
+          }`,
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
+        if (response.status === 200) {
+          const data = await response.json();
+          console.info("data cat", data);
+          // setCategory(data);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+      return true;
+    };
+    getOldCategoryName();
+  }, [selectedVideo]);
+
+  useEffect(() => {
+    const getOldTags = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/videos/${
+            selectedVideo?.video_id
+          }/tags`,
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
+        if (response.status === 200) {
+          const data = await response.json();
+          setDefaultTags(data);
+          console.info("data tags", defaultTags);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+      return true;
+    };
+    getOldTags();
+  }, []);
+
   const loadCategoryOptions = async (searchValue) => {
     try {
       const response = await fetch(
@@ -139,6 +204,15 @@ function UpdateVideo() {
 
       if (response.status === 200) {
         const categories = await response.json();
+        // console.log("cat", categories);
+        const defaultCategory = categories.find(
+          (categoryId) => categoryId.category_id === selectedVideo?.category_id
+        );
+        // console.log("aaaaaaaaaaaaaaa", defaultCategory);
+        setDefaultCat({
+          value: defaultCategory.category_id,
+          label: defaultCategory.name,
+        });
         const filteredOptions = categories
           .filter((option) =>
             option.name.toLowerCase().includes(searchValue.toLowerCase())
@@ -152,6 +226,8 @@ function UpdateVideo() {
     }
     return true;
   };
+
+  // console.log("selected cat", selectedVideo?.category_id);
 
   const loadTagOptions = async (searchValue) => {
     try {
@@ -296,7 +372,8 @@ function UpdateVideo() {
               className="title_Input"
               type="text"
               maxLength={255}
-              placeholder={selectedVideo?.title}
+              defaultValue={selectedVideo?.title}
+              placeholder="Enter video title..."
               onChange={handleVideoTitleChange}
             />
           </div>
@@ -304,7 +381,12 @@ function UpdateVideo() {
             <AsyncSelect
               loadOptions={loadCategoryOptions}
               defaultOptions
-              placeholder={selectedVideo?.category_id}
+              defaultValue={defaultCat}
+              // value={{
+              //   value: selectedVideo?.category_id,
+              //   label: category?.name,
+              // }}
+              placeholder="Select Category"
               onChange={handleCategoryChange}
               styles={colorStyles}
             />
@@ -314,6 +396,7 @@ function UpdateVideo() {
               loadOptions={loadTagOptions}
               defaultOptions
               isMulti
+              defaultValue={defaultTags}
               placeholder="Select Tags"
               onChange={handleTagChange}
               styles={colorStyles}
@@ -325,7 +408,8 @@ function UpdateVideo() {
               wrap
               rows={rows}
               maxLength={255}
-              placeholder={selectedVideo?.description}
+              defaultValue={selectedVideo?.description}
+              placeholder="Enter video description..."
               onChange={handleDescriptionChange}
             />
             <div className="text_Limit_Container">

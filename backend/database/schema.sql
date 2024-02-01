@@ -170,6 +170,7 @@ CREATE TABLE `users` (
   `channel_description` varchar(255) DEFAULT 'Hello! Welcome to my channel!',
   `admin` tinyint NOT NULL DEFAULT '0',
   `validate` tinyint DEFAULT '0',
+  `avatar` text,
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -226,5 +227,4 @@ CREATE TABLE `views` (
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2024-01-31 15:42:22
+-- Dump completed on 2024-01-30 10:05:46

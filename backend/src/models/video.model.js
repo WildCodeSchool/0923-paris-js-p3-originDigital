@@ -17,6 +17,25 @@ const insert = (video) => {
   );
 };
 
+const findAllVideoInfos = (videoId) => {
+  return db.query(
+    `
+    SELECT 
+      v.*,
+      u.*,
+      (SELECT COUNT(*) FROM likes WHERE video_id = v.video_id) AS like_count,
+      (SELECT COUNT(*) FROM views WHERE video_id = v.video_id) AS view_count
+    FROM videos v
+    LEFT JOIN users u ON v.user_id = u.user_id
+    LEFT JOIN likes l ON v.video_id = l.video_id
+    LEFT JOIN views vw ON v.video_id = vw.video_id
+    WHERE v.video_id = ?
+    GROUP BY v.video_id, u.user_id
+  `,
+    [videoId]
+  );
+};
+
 const insertVideoTag = (videoId, tagId) => {
   return db.query("INSERT INTO add_tags (video_id, tag_id) VALUES (?, ?)", [
     videoId,
@@ -43,6 +62,17 @@ const destroy = (id) => {
   return db.query("DELETE FROM videos WHERE video_id = ?", [id]);
 };
 
+const findCommentsInfoByVideo = (videoId) => {
+  return db.query(
+    `SELECT c.*, u.username
+     FROM comments c
+     JOIN users u ON c.user_id = u.user_id
+     WHERE c.video_id = ?
+     ORDER BY c.date_comment DESC`,
+    [videoId]
+  );
+};
+
 module.exports = {
   insert,
   findById,
@@ -50,4 +80,6 @@ module.exports = {
   insertVideoTag,
   update,
   destroy,
+  findAllVideoInfos,
+  findCommentsInfoByVideo,
 };

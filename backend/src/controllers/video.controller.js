@@ -89,10 +89,34 @@ const removeOne = async (req, res, next) => {
   }
 };
 
+const getAllVideoInfos = async (req, res, next) => {
+  try {
+    const [video] = await videoModel.findAllVideoInfos(req.params.id);
+    if (video.length > 0) {
+      res.status(200).json(video);
+    } else res.sendStatus(404);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getAllCommentsbyVideo = async (req, res, next) => {
+  try {
+    const [comments] = await videoModel.findCommentsInfoByVideo(req.params.id);
+    if (comments) {
+      res.status(200).json(comments);
+    } else res.sendStatus(404);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   add,
   getAll,
   getOne,
   edit,
   removeOne,
+  getAllVideoInfos,
+  getAllCommentsbyVideo,
 };

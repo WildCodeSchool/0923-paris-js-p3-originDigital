@@ -1,12 +1,16 @@
 import "./Comments.css";
 
-function Comments() {
+function Comments({ data }) {
   return (
     <div className="comments_Component">
       <p>Comments</p>
-      <span>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit... lore
-      </span>
+      {data.map((comment) => (
+        <span>
+          {comment.comment}
+          {comment.date_comment}
+          {comment.username}
+        </span>
+      ))}
     </div>
   );
 }

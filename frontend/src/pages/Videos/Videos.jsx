@@ -18,7 +18,13 @@ function Videos() {
   const auth = useContext(authContext);
   const { selectedVideo } = useSelectedVideo();
 
-  // console.log("authuser", auth.user);
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  }
 
   const handleSubmit = async () => {
     try {
@@ -40,9 +46,13 @@ function Videos() {
         );
         if (response.status === 201) {
           const newComment = await response.json();
+          const formattedNewComment = {
+            ...newComment,
+            date_comment: formatDate(newComment.date_comment),
+          };
           setComment("");
           setInputComment(false);
-          setComments([...comments, newComment]);
+          setComments([...comments, formattedNewComment]);
         }
       }
     } catch (error) {
@@ -50,26 +60,33 @@ function Videos() {
     }
   };
 
-  const showComments = async () => {
-    try {
-      const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/videos/${id}/comments`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
+  useEffect(() => {
+    const showComments = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/videos/${id}/comments`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include",
+          }
+        );
+        if (response.status === 200) {
+          const allComments = await response.json();
+          const formattedComments = allComments.map((coms) => ({
+            ...coms,
+            date_comment: formatDate(coms.date_comment),
+          }));
+          setComments(formattedComments);
         }
-      );
-      if (response.status === 200) {
-        const allComments = await response.json();
-        setComments(allComments);
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error(error);
-    }
-  };
+    };
+    showComments();
+  }, [comments]);
 
   const handleInputChange = (event) => {
     setComment(event.target.value);
@@ -78,10 +95,6 @@ function Videos() {
   const toggleInputComment = () => {
     setInputComment(!inputComment);
   };
-
-  useEffect(() => {
-    showComments();
-  }, []);
 
   return (
     <main>

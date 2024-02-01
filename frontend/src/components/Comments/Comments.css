@@ -12,6 +12,42 @@
   font-size: 18px;
   font-weight: 600;
 }
-.comments_Component span {
+
+.comment_Section p {
+  font-weight: 400;
+}
+
+.comment_Section {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+  width: 100%;
+  gap: 10px;
+}
+
+.comment_Info {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+.comment_Info .user p {
   font-size: 18px;
+  font-weight: 600;
+}
+.comment_Info .date p {
+  font-size: 16px;
+  font-style: italic;
+}
+
+span .date {
+  font-size: 16px;
+}
+
+@media (min-width: 1024px) {
+  .comment_Info {
+    justify-content: flex-start;
+    gap: 10%;
+    width: 100%;
+  }
 }

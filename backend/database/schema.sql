@@ -57,7 +57,7 @@ DROP TABLE IF EXISTS `comments`;
 CREATE TABLE `comments` (
   `comment_id` int NOT NULL AUTO_INCREMENT,
   `comment` varchar(255) NOT NULL,
-  `date_comment` date NOT NULL,
+  `date_comment` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `user_id` int NOT NULL,
   `video_id` int NOT NULL,
   PRIMARY KEY (`comment_id`),
@@ -227,5 +227,4 @@ CREATE TABLE `views` (
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2024-01-31 20:29:37
+-- Dump completed on 2024-01-30 10:05:46

@@ -27,7 +27,7 @@ function SelectedVideoProvider({ children }) {
       }
     };
     getSelectedVideo();
-  }, []);
+  }, [id]);
 
   const auth = useMemo(
     () => ({ selectedVideo, setSelectedVideo }),

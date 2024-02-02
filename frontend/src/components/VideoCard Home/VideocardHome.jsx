@@ -1,27 +1,40 @@
+import { useNavigate } from "react-router-dom";
 import "./VideocardHome.css";
-import Avatar from "@mui/material/Avatar";
 import TimeAgo from "react-timeago";
+import BackgroundLetterAvatars from "../Avatar/Avatar";
 
-function VideocardHome({ title, user, thumbnail, date }) {
+function VideocardHome({
+  title,
+  userId,
+  username,
+  thumbnailUrl,
+  date,
+  avatar,
+}) {
+  const navigate = useNavigate();
   return (
     <div className="video_Card_Home">
       <img
         className="video_Thumbnail_Home"
         alt="video thumbnail"
-        src={thumbnail}
+        src={thumbnailUrl}
       />
       <div className="video_Data_Home">
         <div className="data_Container_Home">
           <div className="avatar_Container">
-            <Avatar
-              className="avatar"
+            <BackgroundLetterAvatars
               sx={{ width: 40, height: 40 }}
-              src="https://images.unsplash.com/photo-1561948955-570b270e7c36?q=80&w=1802&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              username={username}
+              imgsrc={avatar}
+              userId={userId}
+              onClick={() => {
+                navigate(`/usersprofile/${userId}`);
+              }}
             />
           </div>
           <div className="channel_Details">
             <h3 className="video_Title">{title}</h3>
-            <p className="creator_Username">{user}</p>
+            <p className="creator_Username">{username}</p>
             <TimeAgo date={date} minPeriod={60} />
           </div>
         </div>

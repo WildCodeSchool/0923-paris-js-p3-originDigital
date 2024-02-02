@@ -12,8 +12,8 @@ const userRouter = require("./routes/user.route");
 const videoRouter = require("./routes/video.route");
 const categoryRouter = require("./routes/category.route");
 const tagRouter = require("./routes/tag.route");
-const followedRouter = require("./routes/followed.route");
-const followerRouter = require("./routes/follower.route");
+const followedRouter = require("./routes/user.route");
+const followerRouter = require("./routes/user.route");
 
 // Apply routes
 router.use(itemRouter);

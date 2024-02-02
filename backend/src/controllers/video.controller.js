@@ -89,21 +89,31 @@ const getMostViewed = async (req, res) => {
   }
 };
 
-const getVideosByCategoryController = async (req, res) => {
-  const { categoryId } = req.params;
+// const getVideosByCategoryController = async (req, res) => {
+//   const { categoryId } = req.params;
 
+//   try {
+//     const [videos] = await videoModel.findByCategory(categoryId);
+
+//     res.status(200).json(videos);
+//   } catch (error) {
+//     console.error(
+//       "Erreur lors de la récupération des vidéos par catégorie :",
+//       error
+//     );
+//     res
+//       .status(500)
+//       .send("Erreur lors de la récupération des vidéos par catégorie.");
+//   }
+// };
+
+const getAllVideosByCatId = async (req, res, next) => {
   try {
-    const [videos] = await videoModel.findByCategory(categoryId);
-
-    res.status(200).json(videos);
+    const [videos] = await videoModel.findByCategory(req.params.categoryId);
+    if (videos) res.status(200).json(videos);
+    else res.sendStatus(404);
   } catch (error) {
-    console.error(
-      "Erreur lors de la récupération des vidéos par catégorie :",
-      error
-    );
-    res
-      .status(500)
-      .send("Erreur lors de la récupération des vidéos par catégorie.");
+    next(error);
   }
 };
 
@@ -137,7 +147,7 @@ module.exports = {
   getOne,
   edit,
   getMostViewed,
-  getVideosByCategoryController,
+  getAllVideosByCatId,
   removeOne,
   getSearchResults,
 };

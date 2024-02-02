@@ -43,10 +43,10 @@ function CategoryCarousel({ categoryId }) {
       <Slider
         className="slider_Home"
         dots
-        infinite
+        finite
         speed={500}
         slidesToShow={3}
-        slidesToScroll={1}
+        slidesToScroll={3}
         arrows={false}
         responsive={[
           {
@@ -70,8 +70,12 @@ function CategoryCarousel({ categoryId }) {
             <VideocardHome
               title={video.title}
               thumbnailUrl={video.thumbnail}
-              user={video.username}
+              userId={video.userId}
+              username={video.username}
+              url={video.URL_video}
               date={video.date_publication}
+              avatar={video.avatar}
+              videoId={video.video_id}
             />
           </div>
         ))}

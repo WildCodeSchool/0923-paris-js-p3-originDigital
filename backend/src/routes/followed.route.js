@@ -1,8 +1,8 @@
-const express = require("express");
+// const express = require("express");
 
-const router = express.Router();
-const followedController = require("../controllers/followed.controller");
+// const router = express.Router();
+// const followedController = require("../controllers/followed.controller");
 
-router.get("/followed/:userId", followedController.getFolloweds);
+// router.get("/followed/:userId", followedController.getFollowed);
 
-module.exports = router;
+// module.exports = router;

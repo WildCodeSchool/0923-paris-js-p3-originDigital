@@ -1,11 +1,10 @@
 const FollowedModel = require("../models/followed.model");
 
-const getFolloweds = async (req, res) => {
-  const { userId } = req.params;
-
+const getFollowed = async (req, res) => {
+  //   const { userId } = req.params;
   try {
-    const [followeds] = await FollowedModel.findFollowedById(userId);
-    if (followeds) res.status(200).json(followeds);
+    const [followed] = await FollowedModel.findFollowedById(req.params.id);
+    if (followed) res.status(200).json(followed);
     else res.sendStatus(404);
   } catch (error) {
     console.error("Erreur lors de la récupération des followers :", error);
@@ -15,4 +14,4 @@ const getFolloweds = async (req, res) => {
   }
 };
 
-module.exports = { getFolloweds };
+module.exports = { getFollowed };

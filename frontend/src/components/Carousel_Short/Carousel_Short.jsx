@@ -1,6 +1,10 @@
 import React from "react";
 import Slider from "react-slick";
 import ShortCard from "../ShortCard/ShortCard";
+import image from "../../assets/IMG_20210528_173635.jpg";
+import image1 from "../../assets/IMG_20201008_111139.jpg";
+import image2 from "../../assets/IMG_20160222_142007247.jpg";
+import image3 from "../../assets/IMG_20210523_181918.jpg";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./Carousel_Short.css";
@@ -35,7 +39,7 @@ function CarouselShort() {
         <div>
           <ShortCard
             title="Short Title 1"
-            thumbnailUrl="https://img.youtube.com/vi/dqNEmR5uQCM/mqdefault.jpg"
+            thumbnailUrl={image}
             author="Author 1"
             views={1000}
             uploadDate="1 day ago"
@@ -53,7 +57,7 @@ function CarouselShort() {
         <div>
           <ShortCard
             title="Short Title 3"
-            thumbnailUrl="https://img.youtube.com/vi/dqNEmR5uQCM/mqdefault.jpg"
+            thumbnailUrl={image1}
             author="Author 1"
             views={1000}
             uploadDate="1 day ago"
@@ -62,7 +66,7 @@ function CarouselShort() {
         <div>
           <ShortCard
             title="Short Title 4"
-            thumbnailUrl="src/assets/31yMnUP2cPc-SD.jpg"
+            thumbnailUrl={image2}
             author="Author 2"
             views={500}
             uploadDate="2 days ago"
@@ -71,7 +75,7 @@ function CarouselShort() {
         <div>
           <ShortCard
             title="Short Title 5"
-            thumbnailUrl="src/assets/31yMnUP2cPc-SD.jpg"
+            thumbnailUrl={image3}
             author="Author 2"
             views={500}
             uploadDate="2 days ago"

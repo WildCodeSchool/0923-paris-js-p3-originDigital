@@ -1,50 +1,16 @@
 import { useState, useEffect, useRef } from "react";
 import { Icon } from "@iconify/react";
-import Avatar from "@mui/material/Avatar";
+import useSelectedUser from "../../context/SelectedUserContext";
+import BackgroundLetterAvatars from "../Avatar/Avatar";
 import Modal from "../Modal/Modal";
 import "./SubCard.css";
 
 function SubCard() {
   const [openModal, setOpenModal] = useState(false);
+  const { selectedUser } = useSelectedUser();
   const subOptionsMenuRef = useRef();
   const [openSubOptions, setOpenSubOptions] = useState(false);
-  const [usernames, setUsernames] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          `${import.meta.env.VITE_BACKEND_URL}/users`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error("Erreur lors de la récupération des données");
-        }
-
-        const users = await response.json();
-
-        const usersWithUsername = users.map((user) => ({
-          id: user.id,
-          username: user.username,
-        }));
-
-        setUsernames(usersWithUsername);
-      } catch (error) {
-        console.error(
-          "Erreur lors de la récupération des données :",
-          error.message
-        );
-      }
-    };
-
-    fetchData();
-  }, []);
   const handleClose = () => {
     setOpenModal(false);
   };
@@ -64,18 +30,11 @@ function SubCard() {
 
   return (
     <div className="container_Subcard_In">
-      <Avatar
-        className="avatar"
-        sx={{ width: 60, height: 50 }}
-        src="https://images.unsplash.com/photo-1561948955-570b270e7c36?q=80&w=1802&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      <BackgroundLetterAvatars
+        sx={{ width: 40, height: 40 }}
+        username={selectedUser?.username}
+        // imgsrc={selectedUser.avatar}
       />
-      <ul>
-        {usernames.map((user) => (
-          <li key={user.id} className="user_Sub">
-            {user.username}
-          </li>
-        ))}
-      </ul>
       <Icon
         id="icon_More_Vertical"
         type="button"

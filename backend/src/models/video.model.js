@@ -26,8 +26,19 @@ const insertVideoTag = (videoId, tagId) => {
 
 const findById = (id) => {
   return db.query(
-    "SELECT v.*, c.name, u.username FROM videos AS v JOIN categories AS c ON v.category_id = c.category_id JOIN users AS u ON u.user_id = v.user_id WHERE video_id = ?",
-    [id]
+    `    SELECT
+    v.*,
+    u.*,
+    c.name,
+    (SELECT COUNT(*) FROM likes WHERE video_id = v.video_id) AS like_count,
+    (SELECT COUNT(*) FROM views WHERE video_id = v.video_id) AS view_count
+  FROM videos v
+  LEFT JOIN users u ON v.user_id = u.user_id
+  LEFT JOIN likes l ON v.video_id = l.video_id
+  LEFT JOIN views vw ON v.video_id = vw.video_id
+  JOIN categories AS c ON v.category_id = c.category_id
+  WHERE v.video_id = ?
+  GROUP BY v.video_id, u.user_id,`[id]
   );
 };
 
@@ -53,7 +64,10 @@ const findMostViewed = () => {
 };
 
 const findByCategory = (categoryId) => {
-  return db.query("SELECT * FROM videos WHERE category_id = ?", [categoryId]);
+  return db.query(
+    "SELECT c.*, u.*, v.* FROM categories AS c JOIN videos AS v ON c.category_id = v.category_id JOIN users AS u ON u.user_id = v.user_id WHERE c.category_id = ?",
+    [categoryId]
+  );
 };
 
 const destroy = (id) => {

@@ -1,5 +1,7 @@
 const router = require("express").Router();
 
+const followerController = require("../controllers/follower.controller");
+const followedController = require("../controllers/followed.controller");
 const userController = require("../controllers/user.controller");
 const auth = require("../middlewares/auth");
 
@@ -22,6 +24,8 @@ router.get(
   auth.isAuth,
   userController.checkFollowUser
 );
+router.get("/users/:id/followers", followerController.getFollowers);
+router.get("/users/:id/followed", followedController.getFollowed);
 router.post("/users/:id/follow", auth.isAuth, userController.followUser);
 router.delete("/users/:id/unfollow", auth.isAuth, userController.unfollowUser);
 router.delete("/users/:id", userController.removeOne);

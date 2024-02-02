@@ -1,35 +1,36 @@
 import React, { useState, useEffect } from "react";
 import Subcard from "../SubCard/SubCard";
+import useSelectedUser from "../../context/SelectedUserContext";
 
 function FollowingTab() {
-  const [followeds, setFolloweds] = useState([]);
+  const [followeds, setFollowed] = useState([]);
+  const { selectedUser } = useSelectedUser();
 
   useEffect(() => {
-    const fetchFolloweds = async () => {
+    const fetchFollowed = async () => {
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_BACKEND_URL}/followed/:userId`,
+          `${import.meta.env.VITE_BACKEND_URL}/users/${
+            selectedUser?.user_id
+          }/followed`,
           {
             method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
             credentials: "include",
           }
         );
 
         if (response.status === 200) {
-          const followedsData = await response.json();
-          setFolloweds(followedsData);
+          const followedData = await response.json();
+          setFollowed(followedData);
         } else {
-          console.error("Erreur lors de la récupération des followeds.");
+          console.error("Erreur lors de la récupération des followed.");
         }
       } catch (error) {
         console.error("Erreur :", error);
       }
     };
 
-    fetchFolloweds();
+    fetchFollowed();
   }, []);
 
   return (

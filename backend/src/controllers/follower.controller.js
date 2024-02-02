@@ -1,10 +1,8 @@
 const FollowerModel = require("../models/follower.model");
 
 const getFollowers = async (req, res) => {
-  const { userId } = req.params;
-
   try {
-    const [followers] = await FollowerModel.findFollowerById(userId);
+    const [followers] = await FollowerModel.findFollowerById(req.params.id);
     if (followers) res.status(200).json(followers);
     else res.sendStatus(404);
   } catch (error) {

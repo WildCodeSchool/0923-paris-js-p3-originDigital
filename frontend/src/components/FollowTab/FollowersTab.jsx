@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from "react";
 import Subcard from "../SubCard/SubCard";
+import useSelectedUser from "../../context/SelectedUserContext";
 
 function FollowersTab() {
   const [followers, setFollowers] = useState([]);
+  const { selectedUser } = useSelectedUser();
 
   useEffect(() => {
     const fetchFollowers = async () => {
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_BACKEND_URL}/follower/:userId`,
+          `${import.meta.env.VITE_BACKEND_URL}/users/${
+            selectedUser?.user_id
+          }/followers`,
           {
             method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
             credentials: "include",
           }
         );

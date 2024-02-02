@@ -23,17 +23,22 @@ function CommentItem({ comment }) {
   return (
     <div className="all_Comments">
       <div className="comment_Section">
-        <BackgroundLetterAvatars
-          sx={{ width: 40, height: 40 }}
-          username={comment.username}
-        />
-        <div className="comment_Info">
-          <div className="user">
-            <p>{comment.username}:</p>
+        <div className="user_N_Date">
+          <div className="all_User">
+            <BackgroundLetterAvatars
+              sx={{ width: 40, height: 40 }}
+              username={comment.username}
+              userId={comment.user_id}
+            />
+            <div className="user">
+              <p>{comment.username}</p>
+            </div>
           </div>
           <div className="date">
             <p>{comment.date_comment}</p>
           </div>
+        </div>
+        <div className="comment_Info">
           <div
             className={`moreVert_Icon_Container_Comment ${
               isOpen ? "active" : "inactive"
@@ -65,7 +70,9 @@ function CommentItem({ comment }) {
             )}
           </div>
         </div>
-        <p>{comment.comment}</p>
+        <div className="comment_container">
+          <p>{comment.comment}</p>
+        </div>
       </div>
     </div>
   );
@@ -76,7 +83,7 @@ function Comments({ data }) {
     <div className="comments_Component">
       <p className="title">Comments</p>
       {data.map((comment) => (
-        <CommentItem key={comment.id} comment={comment} />
+        <CommentItem key={comment.comment_id} comment={comment} />
       ))}
     </div>
   );

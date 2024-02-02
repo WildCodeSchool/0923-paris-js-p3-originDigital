@@ -10,6 +10,7 @@
   padding-left: 3%;
   padding-right: 3%;
   margin-top: 1.5rem;
+  margin-left: 3%;
   width: 87%;
 }
 .comments_Component p {
@@ -21,21 +22,41 @@
   font-weight: 400;
 }
 
+.user_N_Date {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.comment_container {
+  margin-top: 1rem;
+  width: 94%;
+}
+
 .comment_Section {
   display: flex;
   flex-direction: column;
   margin-bottom: 1rem;
   width: 100%;
-  gap: 10px;
+  /* gap: 10px; */
 }
 
 .comment_Info {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  width: 100%;
+  justify-content: flex-end;
+  width: 80%;
 }
-.comment_Info .user p {
+.all_User {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+.user {
+  margin-top: 0.8rem;
+}
+.user p {
   font-size: 18px;
   font-weight: 600;
 }
@@ -53,7 +74,7 @@ span .date {
   align-items: baseline;
   flex-direction: row-reverse;
   position: absolute;
-  right: 0.2rem;
+  right: 1rem;
 }
 
 .moreVert_Icon_Container_Comment.active {
@@ -61,6 +82,8 @@ span .date {
   transform: translateY(0);
   transition: var(--speed) ease;
   border-radius: 10px;
+  padding: 1rem;
+  z-index: 1000;
 }
 
 .moreVert_Icon_Container_Comment.inactive {
@@ -106,12 +129,21 @@ span .date {
 }
 
 @media (min-width: 1024px) {
+  .comments_Component {
+    margin-left: 15%;
+    width: 60%;
+  }
   .comment_Info {
     justify-content: flex-start;
     gap: 3rem;
     width: 100%;
   }
   .moreVert_Icon_Container_Comment {
-    right: 1rem;
+    right: 20rem;
+  }
+  .user_N_Date {
+    justify-content: flex-start;
+    gap: 10%;
+    align-items: center;
   }
 }

@@ -28,7 +28,7 @@ function SelectedUserProvider({ children }) {
       }
     };
     getSelectedUser();
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     const isFollowedByCurrentUser = async () => {
@@ -47,7 +47,7 @@ function SelectedUserProvider({ children }) {
       }
     };
     isFollowedByCurrentUser();
-  }, []);
+  }, [id]);
 
   const auth = useMemo(
     () => ({ selectedUser, setSelectedUser, isFollowed, setIsFollowed }),

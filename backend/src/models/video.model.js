@@ -75,6 +75,23 @@ const update = (id, title, description, thumbnail, category) => {
   );
 };
 
+const findMostViewed = () => {
+  return db.query(`
+    SELECT videos.*, views.views
+    FROM videos
+    JOIN views ON videos.video_id = views.video_id
+    ORDER BY views.views DESC
+    LIMIT 3
+  `);
+};
+
+const findByCategory = (categoryId) => {
+  return db.query(
+    "SELECT c.*, u.*, v.* FROM categories AS c JOIN videos AS v ON c.category_id = v.category_id JOIN users AS u ON u.user_id = v.user_id WHERE c.category_id = ?",
+    [categoryId]
+  );
+};
+
 const destroy = (id) => {
   return db.query("DELETE FROM videos WHERE video_id = ?", [id]);
 };
@@ -103,6 +120,8 @@ module.exports = {
   findAll,
   insertVideoTag,
   update,
+  findMostViewed,
+  findByCategory,
   destroy,
   findAllVideoInfos,
   findCommentsInfoByVideo,

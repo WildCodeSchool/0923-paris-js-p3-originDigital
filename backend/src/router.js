@@ -12,6 +12,8 @@ const userRouter = require("./routes/user.route");
 const videoRouter = require("./routes/video.route");
 const categoryRouter = require("./routes/category.route");
 const tagRouter = require("./routes/tag.route");
+const followedRouter = require("./routes/user.route");
+const followerRouter = require("./routes/user.route");
 const commentRouter = require("./routes/comment.route");
 
 // Apply routes
@@ -20,6 +22,8 @@ router.use(userRouter);
 router.use(videoRouter);
 router.use(categoryRouter);
 router.use(tagRouter);
+router.use(followedRouter);
+router.use(followerRouter);
 router.use(commentRouter);
 
 /* ************************************************************************* */

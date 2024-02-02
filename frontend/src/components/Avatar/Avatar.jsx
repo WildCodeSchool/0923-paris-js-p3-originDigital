@@ -20,9 +20,11 @@ function stringToColor(string) {
   /* eslint-enable no-bitwise */
   return color;
 }
+
 export default function BackgroundLetterAvatars({ username, imgsrc, userId }) {
   const navigate = useNavigate();
   const initial = username ? username[0].toUpperCase() : "";
+
   return (
     <Avatar
       onClick={() => {

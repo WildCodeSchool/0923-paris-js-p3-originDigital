@@ -45,7 +45,7 @@ const insertVideoTag = (videoId, tagId) => {
 
 const findById = (id) => {
   return db.query(
-    "SELECT v.*, c.name, u.username FROM videos AS v JOIN categories AS c ON v.category_id = c.category_id JOIN users AS u ON u.user_id = v.user_id WHERE video_id = ?",
+    "SELECT v.*, c.name, u.username, u.avatar FROM videos AS v JOIN categories AS c ON v.category_id = c.category_id JOIN users AS u ON u.user_id = v.user_id WHERE video_id = ?",
     [id]
   );
 };
@@ -67,7 +67,7 @@ const destroy = (id) => {
 
 const findCommentsInfoByVideo = (videoId) => {
   return db.query(
-    `SELECT c.*, u.username
+    `SELECT c.*, u.username, u.avatar
      FROM comments c
      JOIN users u ON c.user_id = u.user_id
      WHERE c.video_id = ?

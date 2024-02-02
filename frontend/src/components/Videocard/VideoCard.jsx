@@ -16,7 +16,7 @@ function VideoCard({
   videoDate,
   videoViews,
   onDeleteVideo,
-  showVideoIcon = true, // Default to true if the prop is not provided
+  showVideoIcon = true,
 }) {
   const [openVideoOptions, setOpenVideoOptions] = useState(false);
   const navigate = useNavigate();

@@ -85,6 +85,44 @@ const edit = async (req, res, next) => {
   }
 };
 
+const getMostViewed = async (req, res) => {
+  try {
+    const mostViewedVideos = await videoModel.findMostViewed();
+    res.json(mostViewedVideos);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+// const getVideosByCategoryController = async (req, res) => {
+//   const { categoryId } = req.params;
+
+//   try {
+//     const [videos] = await videoModel.findByCategory(categoryId);
+
+//     res.status(200).json(videos);
+//   } catch (error) {
+//     console.error(
+//       "Erreur lors de la récupération des vidéos par catégorie :",
+//       error
+//     );
+//     res
+//       .status(500)
+//       .send("Erreur lors de la récupération des vidéos par catégorie.");
+//   }
+// };
+
+const getAllVideosByCatId = async (req, res, next) => {
+  try {
+    const [videos] = await videoModel.findByCategory(req.params.categoryId);
+    if (videos) res.status(200).json(videos);
+    else res.sendStatus(404);
+  } catch (error) {
+    next(error);
+  }
+};
+
 const removeOne = async (req, res, next) => {
   try {
     const [result] = await videoModel.destroy(req.params.id);
@@ -95,6 +133,27 @@ const removeOne = async (req, res, next) => {
   }
 };
 
+const getAllVideoInfos = async (req, res, next) => {
+  try {
+    const [video] = await videoModel.findAllVideoInfos(req.params.id);
+    if (video.length > 0) {
+      res.status(200).json(video);
+    } else res.sendStatus(404);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getAllCommentsbyVideo = async (req, res, next) => {
+  try {
+    const [comments] = await videoModel.findCommentsInfoByVideo(req.params.id);
+    if (comments) {
+      res.status(200).json(comments);
+    } else res.sendStatus(404);
+  } catch (error) {
+    next(error);
+  }
+};
 const getSearchResults = async (req, res, next) => {
   try {
     const { videoTitle, catName, tagName } = req.query;
@@ -114,6 +173,10 @@ module.exports = {
   getAll,
   getOne,
   edit,
+  getMostViewed,
+  getAllVideosByCatId,
   removeOne,
+  getAllVideoInfos,
+  getAllCommentsbyVideo,
   getSearchResults,
 };

@@ -14,6 +14,7 @@
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
+  padding: 1rem 0 1rem 0;
 }
 
 .container_Comment,
@@ -21,8 +22,7 @@
   transition:
     transform 0.5s ease,
     opacity 1s ease;
-  position: absolute;
-  bottom: -12rem;
+  position: relative;
   right: 1rem;
 }
 
@@ -87,17 +87,10 @@
   border: none;
   outline: none;
 }
-
 @media only screen and (min-width: 1024px) {
   .containeur_Body_Video {
     min-height: calc(100vh);
     justify-content: center;
     align-items: center;
-  }
-  .addCommentSection {
-    bottom: -29rem;
-  }
-  .container_Comment {
-    bottom: -29rem;
   }
 }

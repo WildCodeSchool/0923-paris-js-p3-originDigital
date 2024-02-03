@@ -20,8 +20,11 @@
 --
 
 DROP TABLE IF EXISTS `add_tags`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */
+;
+/*!50503 SET character_set_client = utf8mb4 */
+;
+
 CREATE TABLE `add_tags` (
   `video_id` int NOT NULL,
   `tag_id` int NOT NULL,
@@ -52,12 +55,15 @@ CREATE TABLE `categories` (
 --
 
 DROP TABLE IF EXISTS `comments`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */
+;
+/*!50503 SET character_set_client = utf8mb4 */
+;
+
 CREATE TABLE `comments` (
   `comment_id` int NOT NULL AUTO_INCREMENT,
   `comment` varchar(255) NOT NULL,
-  `date_comment` date NOT NULL,
+  `date_comment` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `user_id` int NOT NULL,
   `video_id` int NOT NULL,
   PRIMARY KEY (`comment_id`),
@@ -73,8 +79,11 @@ CREATE TABLE `comments` (
 --
 
 DROP TABLE IF EXISTS `favorites`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */
+;
+/*!50503 SET character_set_client = utf8mb4 */
+;
+
 CREATE TABLE `favorites` (
   `user_id` int NOT NULL,
   `video_id` int NOT NULL,
@@ -91,8 +100,11 @@ CREATE TABLE `favorites` (
 --
 
 DROP TABLE IF EXISTS `likes`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */
+;
+/*!50503 SET character_set_client = utf8mb4 */
+;
+
 CREATE TABLE `likes` (
   `user_id` int NOT NULL,
   `video_id` int NOT NULL,
@@ -140,8 +152,11 @@ CREATE TABLE `tags` (
 --
 
 DROP TABLE IF EXISTS `upload`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */
+;
+/*!50503 SET character_set_client = utf8mb4 */
+;
+
 CREATE TABLE `upload` (
   `user_id` int NOT NULL AUTO_INCREMENT,
   `video_id` int NOT NULL,
@@ -158,8 +173,11 @@ CREATE TABLE `upload` (
 --
 
 DROP TABLE IF EXISTS `users`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */
+;
+/*!50503 SET character_set_client = utf8mb4 */
+;
+
 CREATE TABLE `users` (
   `user_id` int NOT NULL AUTO_INCREMENT,
   `firstname` varchar(45) DEFAULT NULL,
@@ -180,8 +198,11 @@ CREATE TABLE `users` (
 --
 
 DROP TABLE IF EXISTS `videos`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */
+;
+/*!50503 SET character_set_client = utf8mb4 */
+;
+
 CREATE TABLE `videos` (
   `video_id` int NOT NULL AUTO_INCREMENT,
   `title` varchar(45) NOT NULL,
@@ -206,8 +227,11 @@ CREATE TABLE `videos` (
 --
 
 DROP TABLE IF EXISTS `views`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */
+;
+/*!50503 SET character_set_client = utf8mb4 */
+;
+
 CREATE TABLE `views` (
   `users_id` int NOT NULL,
   `video_id` int NOT NULL,
@@ -227,5 +251,4 @@ CREATE TABLE `views` (
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2024-01-31 20:29:37
+-- Dump completed on 2024-01-30 10:05:46

@@ -47,7 +47,7 @@ function SelectedUserProvider({ children }) {
       }
     };
     isFollowedByCurrentUser();
-  }, []);
+  }, [id]);
 
   const auth = useMemo(
     () => ({ selectedUser, setSelectedUser, isFollowed, setIsFollowed }),

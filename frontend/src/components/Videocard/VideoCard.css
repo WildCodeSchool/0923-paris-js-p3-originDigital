@@ -114,6 +114,19 @@
   cursor: pointer;
 }
 
+.hidden {
+  opacity: 0;
+  filter: blur(3px);
+  transform: translateX(-100%);
+  transition: all 1s;
+}
+
+.show {
+  opacity: 1;
+  filter: blur(0px);
+  transform: translateX(0);
+}
+
 @media (min-width: 1024px) {
   .video_Card {
     width: 295px;
@@ -135,5 +148,11 @@
   .video_Data {
     display: flex;
     /* padding: 10px; */
+  }
+}
+
+@media (preferes-reduced-motion) {
+  .hidden {
+    transition: none;
   }
 }

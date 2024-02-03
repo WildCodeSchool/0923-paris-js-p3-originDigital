@@ -1,3 +1,4 @@
+/* eslint-disable no-else-return */
 const db = require("../../database/client");
 
 const insert = (video) => {
@@ -36,10 +37,17 @@ const findAll = () => {
 };
 
 const update = (id, title, description, thumbnail, category) => {
-  return db.query(
-    "UPDATE videos SET title = ?, description = ?, thumbnail = ?, category_id = ? WHERE video_id = ?",
-    [title, description, thumbnail, category, id]
-  );
+  if (thumbnail) {
+    return db.query(
+      "UPDATE videos SET title = ?, description = ?, thumbnail = ?, category_id = ? WHERE video_id = ?",
+      [title, description, thumbnail, category, id]
+    );
+  } else {
+    return db.query(
+      "UPDATE videos SET title = ?, description = ?, category_id = ? WHERE video_id = ?",
+      [title, description, category, id]
+    );
+  }
 };
 
 const destroy = (id) => {

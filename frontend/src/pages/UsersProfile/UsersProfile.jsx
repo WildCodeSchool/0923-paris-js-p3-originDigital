@@ -379,6 +379,7 @@ function UserProfile() {
                 )}
               </div>
             </div>
+
             {auth?.user?.user_id === selectedUser?.user_id ? (
               <div
                 className={`settings_Container ${
@@ -487,6 +488,7 @@ function UserProfile() {
               videoDate={video.date_publication}
               videoViews={video.views}
               onDeleteVideo={handleDeleteVideoFromState}
+              showVideoIcon={auth?.user?.user_id === selectedUser?.user_id}
             />
           ))}
         </section>

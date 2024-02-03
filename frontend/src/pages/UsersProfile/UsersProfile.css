@@ -22,7 +22,7 @@
 .img_And_Username_Container {
   display: flex;
   align-items: center;
-  width: 80%;
+  width: 70%;
 }
 
 .user_Profile_Img_Container {
@@ -52,6 +52,17 @@
 .save_New_Data_Btn {
   background-color: var(--black);
   color: inherit;
+  border-radius: 50px;
+  border: 0.1rem solid var(--white);
+  padding: 0.5em 1rem;
+  margin: 0 1rem;
+  cursor: pointer;
+}
+
+.save_New_Data_Btn:hover {
+  background-color: var(--orange);
+  border: 0.1rem solid var(--orange);
+  color: var(--black);
 }
 
 #icon_Settings {
@@ -64,7 +75,7 @@
   justify-content: center;
   position: absolute;
   right: 1.5rem;
-  top: 1.5rem;
+  top: 0.3rem;
   flex-direction: column;
   padding: 1rem;
 }
@@ -125,9 +136,14 @@
   color: var(--orange);
 }
 
+.user_Description_Container {
+  /* width: 60%; */
+  margin: 0 2rem;
+}
+
 .user_Description {
   text-align: left;
-  padding: 1rem 2rem;
+  padding: 2rem;
 }
 
 .follow_Btn_Container {
@@ -141,6 +157,7 @@
   font-size: 1rem;
   padding: 0.5rem 1rem;
   cursor: pointer;
+  font-weight: 500;
 }
 
 .follow_Btn.active {
@@ -171,8 +188,17 @@
   .video_Section {
     display: grid;
     grid-gap: 3rem;
-    grid-template-columns: repeat(auto-fit, minmax(0, auto));
+    grid-template-columns: repeat(auto-fit, minmax(295px, auto));
     justify-content: start;
     margin: 2rem;
+  }
+
+  .img_And_Username_Container {
+    width: 80%;
+    margin: 2rem;
+  }
+
+  .user_Description {
+    padding: 1rem 2rem;
   }
 }

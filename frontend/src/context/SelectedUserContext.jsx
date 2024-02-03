@@ -28,7 +28,7 @@ function SelectedUserProvider({ children }) {
       }
     };
     getSelectedUser();
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     const isFollowedByCurrentUser = async () => {

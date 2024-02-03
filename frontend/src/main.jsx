@@ -90,14 +90,40 @@ const routes = createBrowserRouter(
             <UpdateVideo />
           </PrivateRoute>
         }
-        loader={({ params }) => {
-          return fetch(
+        loader={async ({ params }) => {
+          // return fetch(
+          //   `${import.meta.env.VITE_BACKEND_URL}/videos/${params.id}`,
+          //   {
+          //     method: "GET",
+          //     credentials: "include",
+          //   }
+          // );
+
+          const videoResponse = await fetch(
             `${import.meta.env.VITE_BACKEND_URL}/videos/${params.id}`,
             {
               method: "GET",
               credentials: "include",
             }
           );
+
+          if (videoResponse.status === 200) {
+            const video = await videoResponse.json();
+
+            const tagsResponse = await fetch(
+              `${import.meta.env.VITE_BACKEND_URL}/videos/${params.id}/tags`,
+              {
+                method: "GET",
+                credentials: "include",
+              }
+            );
+
+            if (tagsResponse.status === 200) {
+              const tags = await tagsResponse.json();
+              return { video, tags };
+            }
+          }
+          return true;
         }}
       />
       <Route

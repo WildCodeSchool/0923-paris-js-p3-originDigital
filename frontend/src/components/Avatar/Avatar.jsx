@@ -1,7 +1,11 @@
 import * as React from "react";
 import Avatar from "@mui/material/Avatar";
+import { useNavigate } from "react-router-dom";
 
 function stringToColor(string) {
+  if (!string) {
+    return "#000";
+  }
   let hash = 0;
   let i;
 
@@ -21,16 +25,22 @@ function stringToColor(string) {
   return color;
 }
 
-export default function BackgroundLetterAvatars({ username, imgsrc }) {
+export default function BackgroundLetterAvatars({ username, imgsrc, userId }) {
+  const navigate = useNavigate();
+  const initial = username ? username[0].toUpperCase() : "";
+
   return (
     <Avatar
+      onClick={() => {
+        navigate(`/usersprofile/${userId}`);
+      }}
       sx={{
         bgcolor: stringToColor(username),
       }}
       alt={`${username?.toUpperCase()}`}
       src={imgsrc || "/broken-image.jpg"}
     >
-      {username[0].toUpperCase()}
+      {initial}
     </Avatar>
   );
 }

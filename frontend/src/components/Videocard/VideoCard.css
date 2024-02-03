@@ -140,9 +140,3 @@
     transition: none;
   }
 }
-
-@media (preferes-reduced-motion) {
-  .hidden {
-    transition: none;
-  }
-}

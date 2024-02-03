@@ -21,7 +21,7 @@ function Navbar() {
     setToggleNavbarDestkop(false);
   };
   const handleSubscriptionClick = () => {
-    Navigate(`/usersprofile/${auth?.user.user_id}`);
+    Navigate(`/usersprofile/${auth?.user.user_id}/subscriptions`);
     setToggleNavbarDestkop(false);
   };
   const handleUserProfileClick = () => {
@@ -115,7 +115,7 @@ function Navbar() {
               className="subscription_Navbar_bloc"
               onClick={handleSubscriptionClick}
               onKeyDown={() => {
-                Navigate("/usersprofile/1");
+                Navigate(`/usersprofile/${auth?.user.user_id}/subscriptions`);
               }}
               tabIndex="-3"
               role="button"

@@ -91,14 +91,6 @@ const routes = createBrowserRouter(
           </PrivateRoute>
         }
         loader={async ({ params }) => {
-          // return fetch(
-          //   `${import.meta.env.VITE_BACKEND_URL}/videos/${params.id}`,
-          //   {
-          //     method: "GET",
-          //     credentials: "include",
-          //   }
-          // );
-
           const videoResponse = await fetch(
             `${import.meta.env.VITE_BACKEND_URL}/videos/${params.id}`,
             {

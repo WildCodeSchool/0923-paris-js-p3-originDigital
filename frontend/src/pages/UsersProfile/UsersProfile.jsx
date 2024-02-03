@@ -92,11 +92,13 @@ function UserProfile() {
 
   const handleEditUsername = () => {
     setIsEditingUsername(true);
+    setNewUsername(auth?.user?.username);
     setOpenUserSettings(false);
   };
 
   const handleEditUserDescription = () => {
     setIsEditingUserDescription(true);
+    setNewUserDescription(auth?.user?.channel_description);
     setOpenUserSettings(false);
   };
 
@@ -349,7 +351,9 @@ function UserProfile() {
               <div className="user_Profile_Img_Container">
                 {selectedUser?.username ? (
                   <BackgroundLetterAvatars
-                    sx={{ width: 40, height: 40 }}
+                    // sx={{ width: 60, height: 60 }}
+                    width={70}
+                    height={70}
                     username={selectedUser?.username}
                     imgsrc={selectedUser.avatar}
                   />
@@ -381,59 +385,61 @@ function UserProfile() {
             </div>
 
             {auth?.user?.user_id === selectedUser?.user_id ? (
-              <div
-                className={`settings_Container ${
-                  openUserSettings ? "active" : "inactive"
-                }`}
-                ref={settingsMenuRef}
-              >
+              <div className="settings_General_Wrapper">
                 <div
-                  className="icon_Settings_Container"
-                  onClick={() => {
-                    setOpenUserSettings(!openUserSettings);
-                  }}
-                  onKeyDown={() => {
-                    setOpenUserSettings(!openUserSettings);
-                  }}
-                  role="button"
-                  tabIndex={0}
-                  aria-label="Toggle User Settings"
-                >
-                  <Icon
-                    id="icon_Settings"
-                    type="button"
-                    icon="material-symbols:settings"
-                    color="#f3f3e6"
-                    width="35"
-                    height="35"
-                  />
-                </div>
-                <div
-                  className={`dropdown_Settings ${
+                  className={`settings_Container ${
                     openUserSettings ? "active" : "inactive"
                   }`}
+                  ref={settingsMenuRef}
                 >
-                  <button onClick={logOut} type="button">
-                    <ul>Disconnect</ul>
-                  </button>
-                  <button onClick={handleEditUsername} type="button">
-                    <ul>Edit username</ul>
-                  </button>
-                  <button type="button" onClick={handleEditUserAvatar}>
-                    <ul>Edit profile picture</ul>
-                  </button>
-                  <button onClick={handleEditUserDescription} type="button">
-                    <ul>Edit profile description</ul>
-                  </button>
-                  <button
-                    type="button"
+                  <div
+                    className="icon_Settings_Container"
                     onClick={() => {
-                      setOpenModal(true);
-                      setOpenUserSettings(false);
+                      setOpenUserSettings(!openUserSettings);
                     }}
+                    onKeyDown={() => {
+                      setOpenUserSettings(!openUserSettings);
+                    }}
+                    role="button"
+                    tabIndex={0}
+                    aria-label="Toggle User Settings"
                   >
-                    <ul>Delete account</ul>
-                  </button>
+                    <Icon
+                      id="icon_Settings"
+                      type="button"
+                      icon="material-symbols:settings"
+                      color="#f3f3e6"
+                      width="35"
+                      height="35"
+                    />
+                  </div>
+                  <div
+                    className={`dropdown_Settings ${
+                      openUserSettings ? "active" : "inactive"
+                    }`}
+                  >
+                    <button onClick={logOut} type="button">
+                      <ul>Disconnect</ul>
+                    </button>
+                    <button onClick={handleEditUsername} type="button">
+                      <ul>Edit username</ul>
+                    </button>
+                    <button type="button" onClick={handleEditUserAvatar}>
+                      <ul>Edit profile picture</ul>
+                    </button>
+                    <button onClick={handleEditUserDescription} type="button">
+                      <ul>Edit profile description</ul>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setOpenModal(true);
+                        setOpenUserSettings(false);
+                      }}
+                    >
+                      <ul>Delete account</ul>
+                    </button>
+                  </div>
                 </div>
               </div>
             ) : (

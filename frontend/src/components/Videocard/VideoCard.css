@@ -1,6 +1,7 @@
 .video_Card {
   width: 100%;
   position: relative;
+  margin: 1.5rem 0;
 }
 .video_Thumbnail {
   height: 200px;
@@ -16,6 +17,7 @@
 .data_Container {
   display: flex;
   width: 85%;
+  margin-left: 1rem;
 }
 .avatar_Container {
   display: flex;
@@ -121,8 +123,8 @@
     position: relative;
   }
   .video_Thumbnail {
-    height: 120px;
-    width: 267px;
+    height: 166px;
+    width: 295px;
     margin-bottom: 0;
     border-radius: 10px;
   }

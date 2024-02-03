@@ -156,7 +156,9 @@ function VideoCard({
         <div className="data_Container">
           <div className="avatar_Container">
             <BackgroundLetterAvatars
-              sx={{ width: 40, height: 40 }}
+              // sx={{ width: 60, height: 60 }}
+              width={50}
+              height={50}
               username={videoUsername}
               imgsrc={videoUserAvatar}
               userId={videoUserId}

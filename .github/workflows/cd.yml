@@ -41,7 +41,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            cd /var/www/html/rayj
+            cd /var/www/html/origindigital
             ls
             npm run db:migrate
             npm run db:seed

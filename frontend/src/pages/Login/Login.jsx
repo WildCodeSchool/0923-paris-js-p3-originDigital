@@ -37,6 +37,8 @@ function Login() {
       } else {
         console.error("veuillez verifier votre saisie.");
         setIsBadCredentials(true);
+        username.current.value = "";
+        password.current.value = "";
       }
     } catch (error) {
       console.error(error);
@@ -54,8 +56,8 @@ function Login() {
       )}
       <div className="container_Log">
         <div className="text_Title_Log">
-          <h1 className="title_Log">LOG IN</h1>
-          <p id="text_Log">Hey! Welcome back!</p>
+          {/* <h1 className="title_Log">LOG IN</h1> */}
+          <h1 id="text_Log">Hey! Welcome back!</h1>
         </div>
         <div className="container_Input_Log">
           <div className="container_Username_Log">

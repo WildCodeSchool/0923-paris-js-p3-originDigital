@@ -56,8 +56,8 @@ function Signup() {
       )}
       <div className="container_Sign">
         <div className="text_Title_Sign">
-          <h1 className="title_Signup">SIGN UP</h1>
-          <p id="join_Us">Join us!</p>
+          {/* <h1 className="title_Signup">SIGN UP</h1> */}
+          <h1 id="join_Us">Join us!</h1>
         </div>
         <div className="container_Input_Sign">
           <div className="container_Email">

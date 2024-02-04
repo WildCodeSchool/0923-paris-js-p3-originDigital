@@ -16,7 +16,7 @@ function VideoCard({
   videoDate,
   videoViews,
   onDeleteVideo,
-  showVideoIcon = true,
+  showVideoIcon, // Default to true if the prop is not provided
 }) {
   const [openVideoOptions, setOpenVideoOptions] = useState(false);
   const navigate = useNavigate();
@@ -57,8 +57,29 @@ function VideoCard({
     };
   }, []);
 
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, index) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            entry.target.classList.add("show");
+          }, 200 * index);
+        } else {
+          entry.target.classList.remove("show");
+        }
+      });
+    });
+
+    const hiddenElements = document.querySelectorAll(".hidden");
+    hiddenElements.forEach((el) => observer.observe(el));
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
   return (
-    <div className="video_Card">
+    <div className="video_Card hidden">
       <div
         className="thumbnail_Container"
         onClick={() => {
@@ -105,7 +126,6 @@ function VideoCard({
               height="35"
             />
           </div>
-
           <div
             className={`dropdown_Menu ${
               openVideoOptions ? "active" : "inactive"
@@ -136,12 +156,11 @@ function VideoCard({
         <div className="data_Container">
           <div className="avatar_Container">
             <BackgroundLetterAvatars
-              sx={{ width: 40, height: 40 }}
+              width={50}
+              height={50}
               username={videoUsername}
               imgsrc={videoUserAvatar}
-              onClick={() => {
-                navigate(`/usersprofile/${videoUserId}`);
-              }}
+              userId={videoUserId}
             />
           </div>
           <div className="channel_Details">

@@ -21,7 +21,13 @@ function stringToColor(string) {
   return color;
 }
 
-export default function BackgroundLetterAvatars({ username, imgsrc, userId }) {
+export default function BackgroundLetterAvatars({
+  username,
+  imgsrc,
+  userId,
+  width,
+  height,
+}) {
   const navigate = useNavigate();
   const initial = username ? username[0].toUpperCase() : "";
 
@@ -32,6 +38,8 @@ export default function BackgroundLetterAvatars({ username, imgsrc, userId }) {
       }}
       sx={{
         bgcolor: stringToColor(username),
+        width: { width },
+        height: { height },
       }}
       alt={`${username?.toUpperCase()}`}
       src={imgsrc || "/broken-image.jpg"}

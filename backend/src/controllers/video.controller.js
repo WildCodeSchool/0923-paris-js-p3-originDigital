@@ -55,25 +55,31 @@ const edit = async (req, res, next) => {
   try {
     const data = req.body;
     const { id } = req.params;
+    const thumbnail = `${req.protocol}://${req.get("host")}/upload/${
+      req.files[0]?.filename
+    }`;
     const [updatedVideo] = await videoModel.update(
       id,
       req.body.title,
       req.body.description,
-      req.body.thumbnail,
+      thumbnail,
       req.body.category_id
     );
 
     await tagModel.removeTagByVideo(req.params.id);
 
-    const tabNewTagId = data.tags.split(",").map(Number);
-    for (let i = 0; i < tabNewTagId.length; i += 1) {
-      const idNewTag = tabNewTagId[i];
-      const [[newTag]] = await tagModel.findById(idNewTag);
-      console.info("newTag", newTag);
-      await videoModel.insertVideoTag(req.params.id, idNewTag);
+    if (data.tags.trim() !== "undefined") {
+      const tabNewTagId = data.tags.split(",");
+      for (let i = 0; i < tabNewTagId.length; i += 1) {
+        const idNewTag = tabNewTagId[i];
+        await tagModel.findById(idNewTag);
+        await videoModel.insertVideoTag(req.params.id, idNewTag);
+      }
     }
-    if (updatedVideo.affectedRows > 0) res.status(201).send("ok");
-    else res.status(404).send("video not found");
+    if (updatedVideo.affectedRows > 0) {
+      const updateVideo = await videoModel.findById(id);
+      res.status(200).json(updateVideo);
+    } else res.status(404).send("video not found");
   } catch (error) {
     next(error);
   }
@@ -88,24 +94,6 @@ const getMostViewed = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
-
-// const getVideosByCategoryController = async (req, res) => {
-//   const { categoryId } = req.params;
-
-//   try {
-//     const [videos] = await videoModel.findByCategory(categoryId);
-
-//     res.status(200).json(videos);
-//   } catch (error) {
-//     console.error(
-//       "Erreur lors de la récupération des vidéos par catégorie :",
-//       error
-//     );
-//     res
-//       .status(500)
-//       .send("Erreur lors de la récupération des vidéos par catégorie.");
-//   }
-// };
 
 const getAllVideosByCatId = async (req, res, next) => {
   try {

@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import Avatar from "react-avatar-edit";
 import { Icon } from "@iconify/react";
 import Header from "../../components/Header/Header";
 import "./UsersProfile.css";
@@ -21,10 +22,41 @@ function UserProfile() {
     useState(false);
   const inputRef = useRef(null);
   const [openModal, setOpenModal] = useState(false);
+  const [openAvatarModal, setOpenAvatarModal] = useState(false);
   const [userVideos, setUserVideos] = useState([]);
+  const [errorUsername, setErrorUsername] = useState(false);
+  const [errorDescription, setErrorDescription] = useState(false);
+  const [profileImg, setProfileImg] = useState(auth?.user?.avatar);
+  const [newUsername, setNewUsername] = useState(auth?.user?.username);
+  const [newUserDescription, setNewUserDescription] = useState(
+    auth?.user?.channel_description
+  );
 
   const handleClose = () => {
     setOpenModal(false);
+  };
+
+  const handleAvatarClose = () => {
+    setOpenAvatarModal(false);
+  };
+
+  function dataURLtoFile(dataUrl, filename) {
+    const arr = dataUrl.split(",");
+    const mime = arr[0].match(/:(.*?);/)[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+
+    // eslint-disable-next-line no-plusplus
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+
+    return new File([u8arr], filename, { type: mime });
+  }
+
+  const onCrop = (i) => {
+    setProfileImg(dataURLtoFile(i, `avatar-${selectedUser.user_id}.png`));
   };
 
   useEffect(() => {
@@ -70,14 +102,6 @@ function UserProfile() {
     }
   };
 
-  const [newUsername, setNewUsername] = useState(auth?.user?.username);
-  const [newUserDescription, setNewUserDescription] = useState(
-    auth?.user?.channel_description
-  );
-  const [newUserAvatar, setNewUserAvatar] = useState(auth?.user?.avatar);
-  // console.log("current cat", auth?.user?.user_id);
-  // console.log("selected cat", selectedUser?.user_id)
-
   // useEffect(() => {
   //   console.info("user", auth.user);
   // }, [auth.user]);
@@ -102,44 +126,35 @@ function UserProfile() {
     setOpenUserSettings(false);
   };
 
-  const handleEditUserAvatar = (e) => {
-    setIsEditingUserDescription(true);
-    setOpenUserSettings(false);
-    setNewUserAvatar(e.target.files[0]);
-  };
-
-  useEffect(() => {
-    const handleSaveNewUserAvatar = async () => {
-      try {
-        const form = new FormData();
-        form.append("avatar", newUserAvatar);
-        const response = fetch(
-          `${import.meta.env.VITE_BACKEND_URL}/users/${selectedUser?.user_id}`,
-          {
-            method: "PUT",
-            credentials: "include",
-            body: form,
-          }
-        );
-        if (response.status === 200) {
-          const userInfo = await response.json();
-          setNewUserAvatar(userInfo.avatar);
-          auth.setUser((prevUser) => ({
-            ...prevUser,
-            avatar: userInfo.avatar,
-          }));
-
-          setSelectedUser((prevUser) => ({
-            ...prevUser,
-            avatar: userInfo.avatar,
-          }));
+  const handleSaveNewUserAvatar = async () => {
+    try {
+      const form = new FormData();
+      form.append("avatar", profileImg);
+      const response = fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/users/${selectedUser?.user_id}`,
+        {
+          method: "PUT",
+          credentials: "include",
+          body: form,
         }
-      } catch (error) {
-        console.error(error);
+      );
+      if (response.status === 200) {
+        const userInfo = await response.json();
+        setProfileImg(userInfo.avatar);
+        auth.setUser((prevUser) => ({
+          ...prevUser,
+          avatar: userInfo.avatar,
+        }));
+
+        setSelectedUser((prevUser) => ({
+          ...prevUser,
+          avatar: userInfo.avatar,
+        }));
       }
-    };
-    handleSaveNewUserAvatar();
-  }, [newUserAvatar]);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleSaveUsername = async () => {
     if (newUsername.trim() !== "") {
@@ -148,39 +163,40 @@ function UserProfile() {
         username: newUsername,
       }));
       setIsEditingUsername(false);
-    } else {
-      alert("Username cannot be empty!");
-    }
-    try {
-      const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/users/${selectedUser?.user_id}`,
-        {
-          method: "PUT",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username: newUsername,
-          }),
-        }
-      );
-      if (response.status === 200) {
-        const userInfo = await response.json();
-        setNewUsername(userInfo.username);
-        auth.setUser((prevUser) => ({
-          ...prevUser,
-          username: userInfo.username,
-        }));
+      setErrorUsername(false);
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/users/${selectedUser?.user_id}`,
+          {
+            method: "PUT",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              username: newUsername,
+            }),
+          }
+        );
+        if (response.status === 200) {
+          const userInfo = await response.json();
+          setNewUsername(userInfo.username);
+          auth.setUser((prevUser) => ({
+            ...prevUser,
+            username: userInfo.username,
+          }));
 
-        setSelectedUser((prevUser) => ({
-          ...prevUser,
-          username: userInfo.username,
-        }));
+          setSelectedUser((prevUser) => ({
+            ...prevUser,
+            username: userInfo.username,
+          }));
+        }
+        return newUsername;
+      } catch (error) {
+        console.error(error);
       }
-      return newUsername;
-    } catch (error) {
-      console.error(error);
+    } else {
+      setErrorUsername(true);
     }
     return true;
   };
@@ -192,39 +208,41 @@ function UserProfile() {
         description: newUserDescription,
       }));
       setIsEditingUserDescription(false);
-    } else {
-      alert("Description cannot be empty!");
-    }
-    try {
-      const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/users/${selectedUser?.user_id}`,
-        {
-          method: "PUT",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            channel_description: newUserDescription,
-          }),
-        }
-      );
-      if (response.status === 200) {
-        const userInfo = await response.json();
-        setNewUserDescription(userInfo.channel_description);
-        auth.setUser((prevUser) => ({
-          ...prevUser,
-          channel_description: userInfo.channel_description,
-        }));
+      setErrorDescription(false);
 
-        setSelectedUser((prevUser) => ({
-          ...prevUser,
-          channel_description: userInfo.channel_description,
-        }));
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/users/${selectedUser?.user_id}`,
+          {
+            method: "PUT",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              channel_description: newUserDescription,
+            }),
+          }
+        );
+        if (response.status === 200) {
+          const userInfo = await response.json();
+          setNewUserDescription(userInfo.channel_description);
+          auth.setUser((prevUser) => ({
+            ...prevUser,
+            channel_description: userInfo.channel_description,
+          }));
+
+          setSelectedUser((prevUser) => ({
+            ...prevUser,
+            channel_description: userInfo.channel_description,
+          }));
+        }
+        return newUserDescription;
+      } catch (error) {
+        console.error(error);
       }
-      return newUserDescription;
-    } catch (error) {
-      console.error(error);
+    } else {
+      setErrorDescription(true);
     }
     return true;
   };
@@ -351,7 +369,6 @@ function UserProfile() {
               <div className="user_Profile_Img_Container">
                 {selectedUser?.username ? (
                   <BackgroundLetterAvatars
-                    // sx={{ width: 60, height: 60 }}
                     width={70}
                     height={70}
                     username={selectedUser?.username}
@@ -361,22 +378,31 @@ function UserProfile() {
               </div>
               <div className="username_Container">
                 {isEditingUsername ? (
-                  <div className="input_Container">
-                    <input
-                      className="edit_Input"
-                      type="text"
-                      value={newUsername}
-                      onChange={(e) => setNewUsername(e.target.value)}
-                      ref={inputRef}
-                      required
-                    />
-                    <button
-                      className="save_New_Data_Btn"
-                      type="button"
-                      onClick={handleSaveUsername}
-                    >
-                      Save
-                    </button>
+                  <div className="edit_Container">
+                    <div className="input_Container">
+                      <input
+                        className="edit_Input"
+                        type="text"
+                        value={newUsername}
+                        onChange={(e) => setNewUsername(e.target.value)}
+                        ref={inputRef}
+                        required
+                      />
+                      <button
+                        className="save_New_Data_Btn"
+                        type="button"
+                        onClick={handleSaveUsername}
+                      >
+                        Save
+                      </button>
+                    </div>{" "}
+                    {errorUsername ? (
+                      <div className="error_Message_Container">
+                        <p className="error_Message">Username can't be empty</p>
+                      </div>
+                    ) : (
+                      ""
+                    )}
                   </div>
                 ) : (
                   <h1 className="username">{selectedUser?.username}</h1>
@@ -424,10 +450,32 @@ function UserProfile() {
                     <button onClick={handleEditUsername} type="button">
                       <ul>Edit username</ul>
                     </button>
-                    <button type="button" onClick={handleEditUserAvatar}>
+                    <button
+                      type="button"
+                      // onClick={() =>
+                      //   document.getElementById("profileImgFileInput").click()
+                      // }
+                      onClick={() => {
+                        // handleEditUserAvatar();
+                        setOpenAvatarModal(true);
+                        setOpenUserSettings(false);
+                      }}
+                    >
                       <ul>Edit profile picture</ul>
                     </button>
-                    <button onClick={handleEditUserDescription} type="button">
+                    {/* <input
+                      type="file"
+                      id="profileImgFileInput"
+                      accept="image/*"
+                      onChange={handleEditUserAvatar}
+                      style={{ display: "none" }}
+                    /> */}
+                    <button
+                      onClick={() => {
+                        handleEditUserDescription();
+                      }}
+                      type="button"
+                    >
                       <ul>Edit profile description</ul>
                     </button>
                     <button
@@ -458,22 +506,33 @@ function UserProfile() {
           </div>
           <div className="user_Description_Container">
             {isEditingUserDescription ? (
-              <div className="input_Container">
-                <input
-                  className="edit_Input"
-                  type="text"
-                  value={newUserDescription}
-                  onChange={(e) => setNewUserDescription(e.target.value)}
-                  ref={inputRef}
-                  required
-                />
-                <button
-                  className="save_New_Data_Btn"
-                  type="button"
-                  onClick={handleSaveUserDescription}
-                >
-                  Save
-                </button>
+              <div className="edit_Container">
+                <div className="input_Container">
+                  <input
+                    className="edit_Input"
+                    type="text"
+                    value={newUserDescription}
+                    onChange={(e) => setNewUserDescription(e.target.value)}
+                    ref={inputRef}
+                    required
+                  />
+                  <button
+                    className="save_New_Data_Btn"
+                    type="button"
+                    onClick={handleSaveUserDescription}
+                  >
+                    Save
+                  </button>
+                </div>
+                {errorDescription ? (
+                  <div className="error_Message_Container">
+                    <p className="error_Message">
+                      Channel description cannot be empty
+                    </p>
+                  </div>
+                ) : (
+                  ""
+                )}
               </div>
             ) : (
               <h2 className="user_Description">
@@ -522,6 +581,28 @@ function UserProfile() {
                 }}
               >
                 NO
+              </button>
+            </div>
+          </Modal>
+        )}
+        {openAvatarModal && (
+          <Modal onClose={handleAvatarClose}>
+            <div className="modal_Content">
+              <Avatar
+                width={390}
+                height={295}
+                onCrop={onCrop}
+                onClose={handleAvatarClose}
+              />
+              <button
+                type="button"
+                className="modal_Btn"
+                onClick={() => {
+                  handleSaveNewUserAvatar();
+                  setOpenAvatarModal(false);
+                }}
+              >
+                Save profile picture
               </button>
             </div>
           </Modal>

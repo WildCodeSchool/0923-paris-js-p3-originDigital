@@ -33,7 +33,6 @@ const editUserByUserId = (newUserInfo, userId) => {
   const updateValues = fieldsToUpdate.map((field) => `${field} = ?`).join(", ");
   const query = `UPDATE users SET ${updateValues} WHERE user_id = ?`;
   const values = [...fieldsToUpdate.map((field) => newUserInfo[field]), userId];
-
   return db.query(query, values);
 };
 

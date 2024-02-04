@@ -120,7 +120,7 @@
 .dropdown_Settings.inactive {
   opacity: 0;
   visibility: hidden;
-  /* display: none; */
+  display: none;
 }
 
 .dropdown_Settings button {
@@ -190,6 +190,12 @@
   border: none;
   background-color: var(--orange);
   color: var(--black);
+}
+
+.error_Message {
+  text-align: left;
+  padding: 0.5rem 0;
+  color: var(--orange);
 }
 
 @media (min-width: 1024px) {

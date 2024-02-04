@@ -38,6 +38,24 @@ function Navbar() {
     setToggleNavbarDestkop(false);
   };
 
+  const logOut = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/users/logOut`,
+        {
+          method: "GET",
+          credentials: "include",
+        }
+      );
+      if (response.status === 200) {
+        auth.setUser(null);
+        Navigate("/");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     const handleDocumentClick = (e) => {
       if (!toggleNavbarDesktop) {
@@ -133,9 +151,7 @@ function Navbar() {
             <div
               className="logOut_Navbar_bloc"
               onClick={handleSettingsCategoriesClick}
-              onKeyDown={() => {
-                Navigate("/settingscategories");
-              }}
+              onKeyDown={logOut}
               tabIndex="-8"
               role="button"
             >
@@ -146,7 +162,7 @@ function Navbar() {
                 width="39"
                 height="39"
               />
-              <span className="text_LogOut_Navbar">Log Out</span>
+              <span className="text_LogOut_Navbar">Log out</span>
             </div>
 
             <div
@@ -165,7 +181,7 @@ function Navbar() {
                 width="39"
                 height="39"
               />
-              <span className="text_Profil_Navbar">Username</span>
+              <span className="text_Profil_Navbar">{auth?.user?.username}</span>
             </div>
           </>
         ) : (

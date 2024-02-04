@@ -130,7 +130,7 @@ function UserProfile() {
     try {
       const form = new FormData();
       form.append("avatar", profileImg);
-      const response = fetch(
+      const response = await fetch(
         `${import.meta.env.VITE_BACKEND_URL}/users/${selectedUser?.user_id}`,
         {
           method: "PUT",
@@ -445,31 +445,20 @@ function UserProfile() {
                     }`}
                   >
                     <button onClick={logOut} type="button">
-                      <ul>Disconnect</ul>
+                      <ul>Log out</ul>
                     </button>
                     <button onClick={handleEditUsername} type="button">
                       <ul>Edit username</ul>
                     </button>
                     <button
                       type="button"
-                      // onClick={() =>
-                      //   document.getElementById("profileImgFileInput").click()
-                      // }
                       onClick={() => {
-                        // handleEditUserAvatar();
                         setOpenAvatarModal(true);
                         setOpenUserSettings(false);
                       }}
                     >
                       <ul>Edit profile picture</ul>
                     </button>
-                    {/* <input
-                      type="file"
-                      id="profileImgFileInput"
-                      accept="image/*"
-                      onChange={handleEditUserAvatar}
-                      style={{ display: "none" }}
-                    /> */}
                     <button
                       onClick={() => {
                         handleEditUserDescription();
@@ -552,6 +541,7 @@ function UserProfile() {
               videoThumbnail={video.thumbnail}
               videoDate={video.date_publication}
               videoViews={video.views}
+              videoUserAvatar={selectedUser.avatar}
               onDeleteVideo={handleDeleteVideoFromState}
               showVideoIcon={auth?.user?.user_id === selectedUser?.user_id}
             />

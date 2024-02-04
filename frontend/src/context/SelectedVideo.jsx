@@ -1,10 +1,12 @@
 import { createContext, useState, useMemo, useEffect, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 
 const selectedVideoContext = createContext();
 
 function SelectedVideoProvider({ children }) {
   const [selectedVideo, setSelectedVideo] = useState(null);
+  const [selectedVideoTags, setSelectedVideoTags] = useState([]);
+  const location = useLocation();
   const { id } = useParams();
 
   useEffect(() => {
@@ -27,11 +29,36 @@ function SelectedVideoProvider({ children }) {
       }
     };
     getSelectedVideo();
-  }, []);
+
+    const getSelectedVideoTags = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/videos/${id}/tags`,
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
+
+        if (response.status === 200) {
+          const tags = await response.json();
+          setSelectedVideoTags(tags);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getSelectedVideoTags();
+  }, [id, location.pathname]);
 
   const auth = useMemo(
-    () => ({ selectedVideo, setSelectedVideo }),
-    [selectedVideo]
+    () => ({
+      selectedVideo,
+      setSelectedVideo,
+      selectedVideoTags,
+      setSelectedVideoTags,
+    }),
+    [selectedVideo, selectedVideoTags]
   );
 
   return (

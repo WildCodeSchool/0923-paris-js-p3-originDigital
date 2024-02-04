@@ -1,7 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import React, { useRef, useContext } from "react";
+import React, { useRef, useContext, useState } from "react";
 import Header from "../../components/Header/Header";
 import authContext from "../../context/AuthContext";
+import imageSign from "../../assets/logo_Mobile.svg";
 import "./Login.css";
 
 function Login() {
@@ -10,6 +11,8 @@ function Login() {
   const username = useRef();
   const password = useRef();
   const auth = useContext(authContext);
+
+  const [isBadCredentials, setIsBadCredentials] = useState(false);
 
   const handleSubmit = async () => {
     try {
@@ -33,6 +36,9 @@ function Login() {
         navigate("/");
       } else {
         console.error("veuillez verifier votre saisie.");
+        setIsBadCredentials(true);
+        username.current.value = "";
+        password.current.value = "";
       }
     } catch (error) {
       console.error(error);
@@ -43,19 +49,15 @@ function Login() {
     <section className="container_Body_Header">
       {isMobile ? (
         <div className="container_Header_Log">
-          <img
-            id="logo_Sign"
-            src="src/assets/logoprin.png"
-            alt="logo_Overview"
-          />
+          <img id="logo_Sign" src={imageSign} alt="logo_Overview" />
         </div>
       ) : (
         <Header />
       )}
       <div className="container_Log">
         <div className="text_Title_Log">
-          <h1 className="title_Log">LOG IN</h1>
-          <p id="text_Log">Hey! Welcome back!</p>
+          {/* <h1 className="title_Log">LOG IN</h1> */}
+          <h1 id="text_Log">Hey! Welcome back!</h1>
         </div>
         <div className="container_Input_Log">
           <div className="container_Username_Log">
@@ -81,6 +83,13 @@ function Login() {
               Forgot your password?{" "}
             </a>
           </div>
+          {isBadCredentials ? (
+            <div className="wrong_Credentials_container">
+              <p>Wrong credentials. Please try again</p>
+            </div>
+          ) : (
+            ""
+          )}
           <div className="container_But_Log">
             <button
               className="signup_Button_Log"

@@ -1,78 +1,31 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import TimeAgo from "react-timeago";
 import "./VideoCard.css";
+import TimeAgo from "react-timeago";
 import { Icon } from "@iconify/react";
 import Modal from "../Modal/Modal";
-// import useSelectedUser from "../../context/SelectedUserContext";
 import BackgroundLetterAvatars from "../Avatar/Avatar";
 
 function VideoCard({
   videoId,
   videoUserId,
+  videoUsername,
+  videoUserAvatar,
   videoTitle,
   videoThumbnail,
   videoDate,
   videoViews,
+  onDeleteVideo,
+  showVideoIcon, // Default to true if the prop is not provided
 }) {
   const [openVideoOptions, setOpenVideoOptions] = useState(false);
   const navigate = useNavigate();
-  // const { selectedUser } = useSelectedUser();
   const videoOptionsMenuRef = useRef();
   const [openModal, setOpenModal] = useState(false);
-  // const [videoDetails, setVideoDetails] = useState(null);
-  const [videoUsername, setVideoUsername] = useState(null);
 
   const handleClose = () => {
     setOpenModal(false);
   };
-
-  // useEffect(() => {
-  //   const getVideoById = async () => {
-  //     try {
-  //       const response = await fetch(
-  //         `${import.meta.env.VITE_BACKEND_URL}/videos/${videoId}`,
-  //         {
-  //           method: "GET",
-  //           credentials: "include",
-  //         }
-  //       );
-  //       if (response.status === 200) {
-  //         const video = await response.json();
-  //         setVideoDetails(video);
-  //       }
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //     return true;
-  //   };
-  //   getVideoById();
-  // }, [videoId]);
-
-  useEffect(() => {
-    const getUsernameById = async () => {
-      try {
-        const response = await fetch(
-          // `${import.meta.env.VITE_BACKEND_URL}/users/${videoDetails?.user_id}`,
-          `${import.meta.env.VITE_BACKEND_URL}/users/${videoUserId}`,
-          {
-            method: "GET",
-            credentials: "include",
-          }
-        );
-        if (response.status === 200) {
-          const result = await response.json();
-          setVideoUsername(result.username);
-        }
-        return videoUsername;
-      } catch (error) {
-        console.error(error);
-      }
-      return true;
-    };
-    getUsernameById();
-    // }, [videoDetails?.user_id, selectedUser]);
-  }, [videoUserId]);
 
   const handleDeleteVideo = async () => {
     try {
@@ -84,7 +37,7 @@ function VideoCard({
         }
       );
       if (response.status === 204) {
-        window.location.reload(false);
+        onDeleteVideo(videoId);
       }
     } catch (error) {
       console.error(error);
@@ -104,8 +57,29 @@ function VideoCard({
     };
   }, []);
 
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, index) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            entry.target.classList.add("show");
+          }, 200 * index);
+        } else {
+          entry.target.classList.remove("show");
+        }
+      });
+    });
+
+    const hiddenElements = document.querySelectorAll(".hidden");
+    hiddenElements.forEach((el) => observer.observe(el));
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
   return (
-    <div className="video_Card">
+    <div className="video_Card hidden">
       <div
         className="thumbnail_Container"
         onClick={() => {
@@ -121,82 +95,75 @@ function VideoCard({
         <img
           className="video_Thumbnail"
           alt="video thumbnail"
-          // src={videoDetails?.thumbnail}
           src={videoThumbnail}
         />
       </div>
-      <div
-        className={`moreVert_Icon_Container ${
-          openVideoOptions ? "active" : "inactive"
-        }`}
-        ref={videoOptionsMenuRef}
-      >
+      {showVideoIcon && (
         <div
-          className="video_Card_Icon_Wrapper"
-          onClick={() => {
-            setOpenVideoOptions(!openVideoOptions);
-          }}
-          onKeyDown={() => {
-            setOpenVideoOptions(!openVideoOptions);
-          }}
-          role="button"
-          tabIndex={0}
-          aria-label="Open video options"
-        >
-          <Icon
-            id="icon_More_Vertical"
-            type="button"
-            icon="pepicons-pop:dots-y"
-            color="#f3f3e6"
-            width="35"
-            height="35"
-          />
-        </div>
-
-        <div
-          className={`dropdown_Menu ${
+          className={`moreVert_Icon_Container ${
             openVideoOptions ? "active" : "inactive"
           }`}
+          ref={videoOptionsMenuRef}
         >
-          <button
-            type="button"
+          <div
+            className="video_Card_Icon_Wrapper"
             onClick={() => {
-              setOpenVideoOptions(false);
-              navigate(`/videos/${videoId}/edit`);
+              setOpenVideoOptions(!openVideoOptions);
             }}
-          >
-            <ul>Edit video details</ul>
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              setOpenModal(true);
-              setOpenVideoOptions(false);
+            onKeyDown={() => {
+              setOpenVideoOptions(!openVideoOptions);
             }}
+            role="button"
+            tabIndex={0}
+            aria-label="Open video options"
           >
-            <ul>Delete video</ul>
-          </button>
+            <Icon
+              id="icon_More_Vertical"
+              type="button"
+              icon="pepicons-pop:dots-y"
+              color="#f3f3e6"
+              width="35"
+              height="35"
+            />
+          </div>
+          <div
+            className={`dropdown_Menu ${
+              openVideoOptions ? "active" : "inactive"
+            }`}
+          >
+            <button
+              type="button"
+              onClick={() => {
+                setOpenVideoOptions(false);
+                navigate(`/videos/${videoId}/edit`);
+              }}
+            >
+              <ul>Edit video details</ul>
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setOpenModal(true);
+                setOpenVideoOptions(false);
+              }}
+            >
+              <ul>Delete video</ul>
+            </button>
+          </div>
         </div>
-      </div>
+      )}
       <div className="video_Data">
         <div className="data_Container">
           <div className="avatar_Container">
             <BackgroundLetterAvatars
-              // className="avatar"
-              sx={{ width: 40, height: 40 }}
+              width={50}
+              height={50}
               username={videoUsername}
-              onClick={() => {
-                navigate(`/usersprofile/${videoUserId}`);
-              }}
+              imgsrc={videoUserAvatar}
+              userId={videoUserId}
             />
-            {/* <Avatar
-              className="avatar"
-              sx={{ width: 40, height: 40 }}
-              src="https://images.unsplash.com/photo-1561948955-570b270e7c36?q=80&w=1802&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            /> */}
           </div>
           <div className="channel_Details">
-            {/* <h3 className="video_Title">{videoDetails?.title}</h3> */}
             <div
               className="video_Title_Container"
               onClick={() => {
@@ -229,7 +196,6 @@ function VideoCard({
 
             <p>
               {videoViews} views &bull;{" "}
-              {/* <TimeAgo date={videoDetails?.date_publication} minPeriod={60} /> */}
               <TimeAgo date={videoDate} minPeriod={60} />
             </p>
           </div>

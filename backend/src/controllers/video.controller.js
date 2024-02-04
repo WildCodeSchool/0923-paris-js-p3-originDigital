@@ -55,25 +55,51 @@ const edit = async (req, res, next) => {
   try {
     const data = req.body;
     const { id } = req.params;
+    const thumbnail = `${req.protocol}://${req.get("host")}/upload/${
+      req.files[0]?.filename
+    }`;
     const [updatedVideo] = await videoModel.update(
       id,
       req.body.title,
       req.body.description,
-      req.body.thumbnail,
+      thumbnail,
       req.body.category_id
     );
 
     await tagModel.removeTagByVideo(req.params.id);
 
-    const tabNewTagId = data.tags.split(",").map(Number);
-    for (let i = 0; i < tabNewTagId.length; i += 1) {
-      const idNewTag = tabNewTagId[i];
-      const [[newTag]] = await tagModel.findById(idNewTag);
-      console.info("newTag", newTag);
-      await videoModel.insertVideoTag(req.params.id, idNewTag);
+    if (data.tags.trim() !== "undefined") {
+      const tabNewTagId = data.tags.split(",");
+      for (let i = 0; i < tabNewTagId.length; i += 1) {
+        const idNewTag = tabNewTagId[i];
+        await tagModel.findById(idNewTag);
+        await videoModel.insertVideoTag(req.params.id, idNewTag);
+      }
     }
-    if (updatedVideo.affectedRows > 0) res.status(201).send("ok");
-    else res.status(404).send("video not found");
+    if (updatedVideo.affectedRows > 0) {
+      const updateVideo = await videoModel.findById(id);
+      res.status(200).json(updateVideo);
+    } else res.status(404).send("video not found");
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getMostViewed = async (req, res) => {
+  try {
+    const mostViewedVideos = await videoModel.findMostViewed();
+    res.json(mostViewedVideos);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+const getAllVideosByCatId = async (req, res, next) => {
+  try {
+    const [videos] = await videoModel.findByCategory(req.params.categoryId);
+    if (videos) res.status(200).json(videos);
+    else res.sendStatus(404);
   } catch (error) {
     next(error);
   }
@@ -89,10 +115,50 @@ const removeOne = async (req, res, next) => {
   }
 };
 
+const getAllVideoInfos = async (req, res, next) => {
+  try {
+    const [video] = await videoModel.findAllVideoInfos(req.params.id);
+    if (video.length > 0) {
+      res.status(200).json(video);
+    } else res.sendStatus(404);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getAllCommentsbyVideo = async (req, res, next) => {
+  try {
+    const [comments] = await videoModel.findCommentsInfoByVideo(req.params.id);
+    if (comments) {
+      res.status(200).json(comments);
+    } else res.sendStatus(404);
+  } catch (error) {
+    next(error);
+  }
+};
+const getSearchResults = async (req, res, next) => {
+  try {
+    const { videoTitle, catName, tagName } = req.query;
+    const [videos] = await videoModel.findByVideoNameOrCatOrTag(
+      videoTitle,
+      catName,
+      tagName
+    );
+    res.status(200).json(videos);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   add,
   getAll,
   getOne,
   edit,
+  getMostViewed,
+  getAllVideosByCatId,
   removeOne,
+  getAllVideoInfos,
+  getAllCommentsbyVideo,
+  getSearchResults,
 };

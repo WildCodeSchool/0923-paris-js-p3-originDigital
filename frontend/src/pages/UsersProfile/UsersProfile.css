@@ -16,13 +16,13 @@
 
 .img_And_Username_And_Settings_Container {
   display: flex;
-  position: relative;
+  /* position: relative; */
 }
 
 .img_And_Username_Container {
   display: flex;
   align-items: center;
-  width: 80%;
+  width: 60%;
 }
 
 .user_Profile_Img_Container {
@@ -52,10 +52,25 @@
 .save_New_Data_Btn {
   background-color: var(--black);
   color: inherit;
+  border-radius: 50px;
+  border: 0.1rem solid var(--white);
+  padding: 0.5em 1rem;
+  margin: 0 1rem;
+  cursor: pointer;
+}
+
+.save_New_Data_Btn:hover {
+  background-color: var(--orange);
+  border: 0.1rem solid var(--orange);
+  color: var(--black);
 }
 
 #icon_Settings {
   cursor: pointer;
+}
+
+.settings_General_Wrapper {
+  position: relative;
 }
 
 .settings_Container {
@@ -63,10 +78,9 @@
   align-items: flex-end;
   justify-content: center;
   position: absolute;
-  right: 1.5rem;
-  top: 1.5rem;
+  right: -8rem;
+  top: 2rem;
   flex-direction: column;
-  padding: 1rem;
 }
 
 .settings_Container.active {
@@ -75,6 +89,7 @@
   transition: var(--speed) ease;
   border-radius: 10px;
   z-index: 1;
+  padding: 1rem;
 }
 
 .settings_Container.inactive {
@@ -84,10 +99,14 @@
 .dropdown_Settings {
   background-color: var(--grey);
   position: relative;
+  /* top: 100%;
+  right: 0; */
   display: flex;
   flex-direction: column;
   width: max-content;
   border-radius: 10px;
+  opacity: 0;
+  visibility: hidden;
 }
 
 .dropdown_Settings.active {
@@ -101,6 +120,7 @@
 .dropdown_Settings.inactive {
   opacity: 0;
   visibility: hidden;
+  display: none;
 }
 
 .dropdown_Settings button {
@@ -125,17 +145,73 @@
   color: var(--orange);
 }
 
+.user_Description_Container {
+  margin: 0 2rem;
+}
+
 .user_Description {
   text-align: left;
-  padding: 1rem 2rem;
+  padding: 1rem;
+}
+
+.follow_Btn_Container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.follow_Btn {
+  border-radius: 50px;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.follow_Btn.active {
+  border: none;
+  background-color: var(--orange);
+  color: var(--black);
+}
+
+.follow_Btn.inactive {
+  border: 0.1rem solid var(--orange);
+  background-color: var(--black);
+  color: var(--white);
+}
+
+.follow_Btn.active:hover {
+  border: 0.1rem solid var(--orange);
+  background-color: var(--black);
+  color: var(--white);
+}
+
+.follow_Btn.inactive:hover {
+  border: none;
+  background-color: var(--orange);
+  color: var(--black);
+}
+
+.error_Message {
+  text-align: left;
+  padding: 0.5rem 0;
+  color: var(--orange);
 }
 
 @media (min-width: 1024px) {
   .video_Section {
     display: grid;
     grid-gap: 3rem;
-    grid-template-columns: repeat(auto-fit, minmax(0, auto));
+    grid-template-columns: repeat(auto-fit, minmax(295px, auto));
     justify-content: start;
     margin: 2rem;
+  }
+
+  .user_Description {
+    padding: 1rem 2rem;
+  }
+
+  .img_And_Username_Container {
+    width: 70%;
   }
 }

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import { Icon } from "@iconify/react";
 import { useNavigate } from "react-router-dom";
 import "./Header.css";
@@ -8,16 +8,16 @@ import imageSign from "../../assets/logo_Mobile.svg";
 
 function Header() {
   const Navigate = useNavigate();
-  const { setToggleNavbarDestkop } = useOverview();
-  const [searchTerm, setSearchTerm] = useState("");
-  const auth = useContext(authContext);
+  const { setToggleNavbarDestkop, searchTerm, setSearchTerm } = useOverview();
 
-  console.info("current user", auth.user);
+  const auth = useContext(authContext);
 
   const handleInputChange = (event) => {
     setSearchTerm(event.target.value);
   };
-  const handleSearch = () => {};
+  const handleSearch = () => {
+    Navigate(`/search`);
+  };
   const handleNavbarClick = (e) => {
     e.stopPropagation();
     setToggleNavbarDestkop(true);
@@ -27,7 +27,7 @@ function Header() {
   };
 
   return (
-    <main className={auth.user ? "header" : "header-unregistered"}>
+    <header className={auth.user ? "header" : "header-unregistered"}>
       <div
         className="container_Logo"
         onClick={handleLogoClick}
@@ -51,8 +51,8 @@ function Header() {
           onClick={handleSearch}
           icon="iconoir:search"
           color="#f3f3e6"
-          width="50"
-          height="50"
+          width="30"
+          height="30"
         />
       </div>
       {auth.user ? (
@@ -75,7 +75,7 @@ function Header() {
           Log In
         </button>
       )}
-    </main>
+    </header>
   );
 }
 

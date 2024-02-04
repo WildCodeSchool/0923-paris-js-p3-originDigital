@@ -25,6 +25,7 @@ import NotFound from "./pages/NotFound/NotFound";
 import ForgotPassword from "./pages/Forgot/ForgotPassword";
 import UpdateShort from "./pages/Update/UpdateShort/UpdateShort";
 import UpdateVideo from "./pages/Update/UpdateVideo/UpdateVideo";
+import SearchResult from "./pages/SearchResult/SearchResult";
 import App from "./App";
 import useAuthContext from "./context/AuthContext";
 
@@ -79,6 +80,7 @@ const routes = createBrowserRouter(
           </PrivateRoute>
         }
       />
+      <Route path="/search/" element={<SearchResult />} />
       <Route path="/videos/:id" element={<Videos />} />
       <Route path="/shorts/:id" element={<Shorts />} />
       <Route
@@ -88,6 +90,33 @@ const routes = createBrowserRouter(
             <UpdateVideo />
           </PrivateRoute>
         }
+        loader={async ({ params }) => {
+          const videoResponse = await fetch(
+            `${import.meta.env.VITE_BACKEND_URL}/videos/${params.id}`,
+            {
+              method: "GET",
+              credentials: "include",
+            }
+          );
+
+          if (videoResponse.status === 200) {
+            const video = await videoResponse.json();
+
+            const tagsResponse = await fetch(
+              `${import.meta.env.VITE_BACKEND_URL}/videos/${params.id}/tags`,
+              {
+                method: "GET",
+                credentials: "include",
+              }
+            );
+
+            if (tagsResponse.status === 200) {
+              const tags = await tagsResponse.json();
+              return { video, tags };
+            }
+          }
+          return true;
+        }}
       />
       <Route
         path="/shorts/:id/edit"

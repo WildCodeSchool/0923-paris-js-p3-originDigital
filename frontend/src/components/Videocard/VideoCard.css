@@ -1,29 +1,28 @@
 .video_Card {
   width: 100%;
   position: relative;
+  margin: 1.5rem 0;
 }
-
 .video_Thumbnail {
   height: 200px;
   width: 100%;
   object-fit: cover;
 }
-
 .video_Data {
   display: flex;
   padding: 0.3rem 0;
   align-items: center;
   justify-content: space-between;
 }
-
 .data_Container {
   display: flex;
   width: 85%;
+  margin-left: 1rem;
 }
-
 .avatar_Container {
-  margin: 0 1rem;
   display: flex;
+  align-items: center;
+  margin-right: 1rem;
 }
 
 .MuiAvatar-root {
@@ -38,7 +37,6 @@
   right: 1rem;
   flex-direction: column;
 }
-
 .moreVert_Icon_Container.active {
   background-color: var(--grey);
   transform: translateX(0);
@@ -46,7 +44,6 @@
   padding: 1rem;
   border-radius: 10px;
 }
-
 .moreVert_Icon_Container.inactive {
   transition: var(--speed) cubic-bezier(0.6, -0.28, 0.735, 0.045);
 }
@@ -62,7 +59,6 @@
   align-items: flex-start;
   width: 100%;
 }
-
 .dropdown_Menu.active {
   opacity: 1;
   visibility: visible;
@@ -70,13 +66,11 @@
   transition: var(--speed) cubic-bezier(0.6, -0.28, 0.735, 0.045);
   z-index: 1;
 }
-
 .dropdown_Menu.inactive {
   opacity: 0;
   visibility: hidden;
   transition: var(--speed) cubic-bezier(0.6, -0.28, 0.735, 0.045);
 }
-
 .dropdown_Menu button {
   border: none;
   background-color: transparent;
@@ -87,31 +81,39 @@
   font-family: inherit;
   padding: 0;
 }
-
 .dropdown_Menu ul {
   list-style: none;
   padding: 1rem;
   text-align: left;
 }
-
 .dropdown_Menu button:hover {
   color: var(--orange);
   cursor: pointer;
 }
-
 .channel_Details {
   text-align: left;
 }
-
 .video_Title {
   font-size: 1.2rem;
   cursor: pointer;
 }
-
 .creator_Username {
   font-size: 1rem;
   line-height: 1.5rem;
   cursor: pointer;
+}
+
+.hidden {
+  opacity: 0;
+  filter: blur(3px);
+  transform: translateX(-100%);
+  transition: all 1s;
+}
+
+.show {
+  opacity: 1;
+  filter: blur(0px);
+  transform: translateX(0);
 }
 
 @media (min-width: 1024px) {
@@ -120,9 +122,8 @@
     margin-bottom: 40px;
     position: relative;
   }
-
   .video_Thumbnail {
-    height: 162px;
+    height: 166px;
     width: 295px;
     margin-bottom: 0;
     border-radius: 10px;
@@ -131,9 +132,13 @@
   .thumbnail_Container {
     cursor: pointer;
   }
-
   .video_Data {
     display: flex;
-    /* padding: 10px; */
+  }
+}
+
+@media (preferes-reduced-motion) {
+  .hidden {
+    transition: none;
   }
 }

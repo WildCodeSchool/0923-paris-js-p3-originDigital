@@ -3,7 +3,11 @@ import { Icon } from "@iconify/react";
 import BackgroundLetterAvatars from "../Avatar/Avatar";
 import "./Comments.css";
 
-function CommentItem({ comment }) {
+function CommentItem({
+  comment,
+  handleDeleteCommentFromState,
+  handleUpdateCommentInState,
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef();
 
@@ -19,6 +23,46 @@ function CommentItem({ comment }) {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
+
+  const handleUpdateComment = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/comments/${comment.comment_id}`,
+        {
+          method: "PUT",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            // comment: newUserComment,
+          }),
+        }
+      );
+      if (response.status === 204) {
+        handleUpdateCommentInState(comment.comment_id);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleDeleteComment = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/comments/${comment.comment_id}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        }
+      );
+      if (response.status === 204) {
+        handleDeleteCommentFromState(comment.comment_id);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div className="all_Comments">
@@ -60,10 +104,22 @@ function CommentItem({ comment }) {
               <div
                 className={`dropdown_Menu ${isOpen ? "active" : "inactive"}`}
               >
-                <button type="button" onClick={() => setIsOpen(false)}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsOpen(false);
+                    handleUpdateComment();
+                  }}
+                >
                   <ul>Edit Comment</ul>
                 </button>
-                <button type="button" onClick={() => setIsOpen(false)}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsOpen(false);
+                    handleDeleteComment();
+                  }}
+                >
                   <ul>Delete Comment</ul>
                 </button>
               </div>

@@ -12,7 +12,20 @@ const findById = (id) => {
   return db.query("SELECT * FROM comments WHERE comment_id = ?", [id]);
 };
 
+const changeComment = (commentId, newCommentText) => {
+  return db.query("UPDATE comments SET comment = ? WHERE comment_id = ?", [
+    newCommentText,
+    commentId,
+  ]);
+};
+
+const deleteComment = (commentId) => {
+  return db.query("DELETE FROM comments WHERE comment_id = ?", [commentId]);
+};
+
 module.exports = {
   insertComment,
   findById,
+  changeComment,
+  deleteComment,
 };

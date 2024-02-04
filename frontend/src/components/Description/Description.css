@@ -6,7 +6,8 @@
   gap: 1rem;
   padding-left: 3%;
   padding-right: 3%;
-  height: 11.33rem;
+  padding-bottom: 2rem;
+  height: auto;
   border-bottom: 0.0002rem solid;
   border-bottom-color: var(--white);
 }

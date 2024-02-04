@@ -1,15 +1,15 @@
 import ReactPlayer from "react-player";
-import { React, useState, useEffect, useRef } from "react";
-import "./WatchingVideoCard.css";
-import Avatar from "@mui/material/Avatar";
 import { Icon } from "@iconify/react";
+import { React, useState, useEffect, useRef } from "react";
+import BackgroundLetterAvatars from "../../Avatar/Avatar";
+import "./WatchingVideoCard.css";
 import video from "../../../../../backend/public/upload/1706026627893.0.6409657439334755.VID-20231009-WA0012_1.mp4";
 import follow from "../../../assets/follow.png";
 import unfollow from "../../../assets/unfollow.png";
 import Modal from "../../Modal/Modal";
 import useOverview from "../../../context/Overviewcontext";
 
-function VideoCard() {
+function VideoCard({ data }) {
   const { isFollowed, setIsFollowed } = useOverview();
   const [openVideoOptions, setOpenVideoOptions] = useState(false);
   const videoOptionsMenuRef = useRef();
@@ -50,12 +50,12 @@ function VideoCard() {
         <div className="flex_Watch_Video_Info">
           {!isMobile && (
             <div className="avatar_Container_Watch">
-              <Avatar
-                className="avatar"
+              <BackgroundLetterAvatars
                 sx={{ width: 35, height: 35 }}
-                src="https://images.unsplash.com/photo-1561948955-570b270e7c36?q=80&w=1802&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                username={data.username}
+                userId={data.user_id}
               />
-              <p className="creator_Username_Watch">Xoxoxoxo45</p>
+              <p className="creator_Username_Watch">{data.username}</p>
             </div>
           )}
           <div className="view_Icon_Watch_Bloc">
@@ -66,7 +66,7 @@ function VideoCard() {
               width="38"
               height="38"
             />
-            <span>100 K</span>
+            <span>{data.view_count || 0}</span>
           </div>
           <div className="like_Icon_Watch_Bloc">
             <div className="like_Icon_Watch_Bloc">
@@ -90,7 +90,7 @@ function VideoCard() {
                   onClick={() => setIsLiked(true)}
                 />
               )}
-              <span>254</span>
+              <span>{data.like_count || 0}</span>
             </div>
           </div>
           <div className="favorite_Icon_Watch_Bloc">
@@ -201,16 +201,16 @@ function VideoCard() {
           <div className="data_Container_Watch">
             {isMobile && (
               <div className="avatar_Container_Watch_Mobile">
-                <Avatar
-                  className="avatar"
+                <BackgroundLetterAvatars
                   sx={{ width: 35, height: 35 }}
-                  src="https://images.unsplash.com/photo-1561948955-570b270e7c36?q=80&w=1802&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                  username={data.username}
+                  userId={data.user_id}
                 />
-                <p className="creator_Username_Watch">Xoxoxoxo45</p>
+                <p className="creator_Username_Watch">{data.username}</p>
               </div>
             )}
             <div className="channel_Details_Watch">
-              <h3 className="video_Title_Watch">Le chat sympa !</h3>
+              <h3 className="video_Title_Watch">{data.title}</h3>
             </div>
           </div>
         </div>

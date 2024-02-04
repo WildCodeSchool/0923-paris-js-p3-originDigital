@@ -12,6 +12,7 @@ import useSelectedVideo from "../../context/SelectedVideo";
 
 function Videos() {
   const { id } = useParams();
+  const [videoInfo, setVideoInfo] = useState({});
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
   const [inputComment, setInputComment] = useState(false);
@@ -26,6 +27,35 @@ function Videos() {
     return `${day}/${month}/${year}`;
   }
 
+  useEffect(() => {
+    const fetchVideoInfo = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:3310/api/videos/${id}/info`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include",
+          }
+        );
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        setVideoInfo(data[0]);
+      } catch (error) {
+        console.error("Could not fetch video info:", error);
+      }
+    };
+
+    fetchVideoInfo();
+  }, [id]);
+
+  if (!videoInfo) {
+    return <div>Loading...</div>;
+  }
   const handleSubmit = async () => {
     try {
       if (comment.trim() !== "") {
@@ -96,14 +126,32 @@ function Videos() {
     setInputComment(!inputComment);
   };
 
+  const handleDeleteCommentFromState = (deletedCommentId) => {
+    setComments((prevComments) =>
+      prevComments.filter((com) => com.comment_id !== deletedCommentId)
+    );
+  };
+
+  const handleUpdateCommentInState = (updatedComment) => {
+    setComments((prevComments) =>
+      prevComments.map((com) =>
+        com.comment_id === updatedComment.comment_id ? updatedComment : com
+      )
+    );
+  };
+
   return (
     <main>
       <Header />
       <div className="containeur_Body_Video">
-        <WatchingVideoCard />
+        <WatchingVideoCard data={videoInfo} />
         <div>
-          <Description />
-          <Comments data={comments} />
+          <Description data={videoInfo} />
+          <Comments
+            data={comments}
+            handleDeleteCommentFromState={handleDeleteCommentFromState}
+            handleUpdateCommentInState={handleUpdateCommentInState}
+          />
         </div>
         <div className="inputSection">
           {inputComment ? (

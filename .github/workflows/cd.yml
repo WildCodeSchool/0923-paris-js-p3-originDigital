@@ -27,3 +27,4 @@ jobs:
             git pull origin main
             npm i
             npm run build
+            pm2 reload origindigital

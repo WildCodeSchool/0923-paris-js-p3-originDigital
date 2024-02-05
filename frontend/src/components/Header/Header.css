@@ -2,15 +2,14 @@
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
   flex-wrap: wrap;
+  padding: 1rem 0;
 }
 .header-unregistered {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  padding-top: 1rem;
+  margin-top: 1rem;
   flex-wrap: wrap;
   border-bottom: 0.0002rem solid var(--white);
   margin-bottom: 1rem;
@@ -26,11 +25,11 @@
   display: flex;
   align-items: center;
   width: 56%;
-  height: 3.938rem;
+  height: 3rem;
   border-radius: 50px 50px 50px 50px;
   background-color: var(--black);
-  border: solid 2px rgba(255, 255, 255, 1);
-  color: rgba(255, 255, 255, 1);
+  border: solid 1px var(--white);
+  color: var(--white);
   font-family: "poppins";
   font-weight: bold;
   font-size: 15px;
@@ -44,25 +43,26 @@
   height: 90%;
   background-color: var(--black);
   border-style: none;
-  color: rgba(255, 255, 255, 1);
+  color: var(--white);
   font-size: 20px;
   border-radius: 50px;
 }
 .input_Search::placeholder {
   padding: 0;
+  color: var(--light-grey);
 }
 .logIn_Btn {
   background-color: var(--orange);
   color: var(--black);
   border-radius: 50px;
   border: none;
-  font-size: 30px;
+  font-size: 25px;
   font-weight: 500;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 87.5%;
-  height: 3.938rem;
+  height: 3rem;
   cursor: pointer;
   margin-top: 1rem;
   margin-bottom: 1rem;
@@ -75,6 +75,10 @@
 .input_Search:focus {
   border: none;
   outline: none;
+}
+
+.user_Profile_Container {
+  cursor: pointer;
 }
 
 @media only screen and (min-width: 1024px) {
@@ -93,7 +97,7 @@
   }
   .container_Search {
     width: 44%;
-    height: 3.8rem;
+    height: 2.5rem;
     font-family: "poppins";
     font-weight: bold;
     font-size: 25px;
@@ -107,7 +111,7 @@
     height: 90%;
     background-color: var(--black);
     border-style: none;
-    color: rgba(255, 255, 255, 1);
+    color: var(--white);
     font-size: 15px;
     border-radius: 50px;
   }
@@ -115,6 +119,6 @@
     border-bottom: none;
   }
   .logIn_Btn {
-    width: 17.78%;
+    width: 17%;
   }
 }

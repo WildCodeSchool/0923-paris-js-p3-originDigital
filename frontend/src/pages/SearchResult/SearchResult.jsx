@@ -45,25 +45,27 @@ function SearchResult() {
   return (
     <>
       <Header />
-      <div className="searched_Text_Container">
-        <p>{resultText}</p>
+      <div className="search_Result_Section_Wrapper">
+        <div className="searched_Text_Container">
+          <p>{resultText}</p>
+        </div>
+        <section className="search_Result_Section">
+          {searchResultList.map((video) => (
+            <VideoCard
+              key={video.video_id}
+              videoId={video.video_id}
+              videoUserId={video.user_id}
+              videoUsername={video.username}
+              videoTitle={video.title}
+              videoThumbnail={video.thumbnail}
+              videoDate={video.date_publication}
+              videoViews={video.views}
+              onDeleteVideo={undefined}
+              showVideoIcon={false}
+            />
+          ))}
+        </section>
       </div>
-      <section className="search_Result_Section">
-        {searchResultList.map((video) => (
-          <VideoCard
-            key={video.video_id}
-            videoId={video.video_id}
-            videoUserId={video.user_id}
-            videoUsername={video.username}
-            videoTitle={video.title}
-            videoThumbnail={video.thumbnail}
-            videoDate={video.date_publication}
-            videoViews={video.views}
-            onDeleteVideo={undefined}
-            showVideoIcon={false}
-          />
-        ))}
-      </section>
     </>
   );
 }

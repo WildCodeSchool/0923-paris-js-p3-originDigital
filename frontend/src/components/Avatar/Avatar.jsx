@@ -37,7 +37,7 @@ export default function BackgroundLetterAvatars({
         navigate(`/usersprofile/${userId}`);
       }}
       sx={{
-        bgcolor: username ? stringToColor(username) : "#000",
+        bgcolor: stringToColor(username),
         width: { width },
         height: { height },
       }}

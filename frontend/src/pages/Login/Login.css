@@ -6,12 +6,17 @@
   flex-direction: column;
 }
 
+/* #logo_Sign {
+  width: 80px;
+  height: 80px;
+} */
+
 .container_Header_Log {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 0.5rem;
-  margin-bottom: 1rem;
+  margin-top: 3rem;
+  margin-bottom: 1.5rem;
 }
 
 .container_Log {
@@ -27,7 +32,7 @@
   justify-content: center;
   color: var(--white);
   align-items: center;
-  margin-bottom: 1rem;
+  padding: 1rem;
 }
 
 .title_Log {
@@ -42,7 +47,7 @@
   justify-content: center;
   color: var(--white);
   align-items: center;
-  gap: 0.5rem;
+  gap: 1rem;
   width: 80%;
 }
 
@@ -60,15 +65,20 @@
 }
 
 #username_Login {
-  height: 3.8rem;
+  height: 3rem;
   border-radius: 50px 50px 50px 50px;
   background-color: var(--black);
-  border: solid 2px rgba(255, 255, 255, 1);
-  padding-left: 4.5%;
+  border: solid 1px rgba(255, 255, 255, 1);
+  padding-left: 1.5rem;
   color: rgba(255, 255, 255, 1);
   font-family: "poppins";
   font-size: 15px;
   margin-bottom: 0.5rem;
+}
+
+#username_Login::placeholder {
+  color: var(--light-grey);
+  padding-left: 0;
 }
 
 .container_Password {
@@ -84,15 +94,20 @@
 }
 
 #pass_Log {
-  height: 3.8rem;
+  height: 3rem;
   border-radius: 50px 50px 50px 50px;
   background-color: var(--black);
-  border: solid 2px rgba(255, 255, 255, 1);
-  padding-left: 4.5%;
+  border: solid 1px rgba(255, 255, 255, 1);
+  padding-left: 1.5rem;
   color: rgba(255, 255, 255, 1);
   font-family: "poppins";
   font-size: 15px;
   margin-bottom: 0.5rem;
+}
+
+#pass_Log::placeholder {
+  color: var(--light-grey);
+  padding-left: 0;
 }
 
 .link_Log {
@@ -104,6 +119,11 @@
 
 .text_Log_End {
   color: var(--white);
+  padding: 1rem;
+}
+
+#text_Log {
+  font-size: 30px;
 }
 
 .container_But_Log {
@@ -116,13 +136,14 @@
 
 .signup_Button_Log {
   width: 100%;
-  margin-top: 3rem;
-  height: 3.8rem;
+  margin-top: 1.5rem;
+  height: 3rem;
   background-color: rgba(221, 167, 79, 1);
   border-radius: 50px 50px 50px 50px;
   font-family: "poppins";
   font-size: 25px;
-  border: 1.5px rgba(221, 167, 79, 1);
+  border: 1px rgba(221, 167, 79, 1);
+  cursor: pointer;
 }
 
 .signup_End_Log {
@@ -133,6 +154,7 @@
   font-size: 22px;
   font-family: "poppins";
   width: 100%;
+  cursor: pointer;
 }
 
 .welcome-modal {
@@ -169,14 +191,17 @@
 
 .wrong_Credentials_container {
   margin: 1rem;
+  text-align: center;
 }
 
 @media only screen and (min-width: 1024px) {
   .container_Body_Header {
     min-height: 100vh;
   }
-  .text_Title_Log {
-    margin-bottom: 4rem;
+
+  #logo_Sign {
+    width: 63px;
+    height: 63px;
   }
 
   .title_Log {

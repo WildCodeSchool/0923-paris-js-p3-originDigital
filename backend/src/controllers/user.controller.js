@@ -100,10 +100,14 @@ const getAllVideos = async (req, res, next) => {
 
 const updateOne = async (req, res, next) => {
   try {
-    const avatarFilename = `${req.protocol}://${req.get("host")}/upload/${
-      req.file.filename
-    }`;
-    const newUserInfo = { ...req.body, avatar: avatarFilename };
+    let newUserInfo = req.body;
+    if (req.file) {
+      const avatarFilename = `${req.protocol}://${req.get("host")}/upload/${
+        req.file.filename
+      }`;
+      newUserInfo = { ...req.body, avatar: avatarFilename };
+    }
+
     const [updatedUser] = await userModel.editUserByUserId(
       newUserInfo,
       req.params.id
@@ -163,6 +167,26 @@ const checkFollowUser = async (req, res, next) => {
   }
 };
 
+const getFollowerListById = async (req, res, next) => {
+  try {
+    const [result] = await userModel.getFollowerList(req.params.id);
+    if (result) res.status(200).json(result);
+    else res.sendStatus(404);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getFollowingListById = async (req, res, next) => {
+  try {
+    const [result] = await userModel.getFollowedList(req.params.id);
+    if (result) res.status(200).json(result);
+    else res.sendStatus(404);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   add,
   login,
@@ -177,4 +201,6 @@ module.exports = {
   followUser,
   unfollowUser,
   checkFollowUser,
+  getFollowingListById,
+  getFollowerListById,
 };

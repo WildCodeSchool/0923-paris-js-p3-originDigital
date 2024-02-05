@@ -66,6 +66,11 @@
   cursor: pointer;
   margin-top: 1rem;
   margin-bottom: 1rem;
+  transition: all cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.logIn_Btn:hover {
+  letter-spacing: 0.25rem;
 }
 #icon_Sign {
   display: none;
@@ -94,6 +99,7 @@
   }
   #icon_Search {
     display: block;
+    cursor: pointer;
   }
   .container_Search {
     width: 44%;

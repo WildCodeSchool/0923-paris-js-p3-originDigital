@@ -162,6 +162,26 @@ const checkFollowUser = async (req, res, next) => {
   }
 };
 
+const getFollowerListById = async (req, res, next) => {
+  try {
+    const [result] = await userModel.getFollowerList(req.params.id);
+    if (result) res.status(200).json(result);
+    else res.sendStatus(404);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getFollowingListById = async (req, res, next) => {
+  try {
+    const [result] = await userModel.getFollowedList(req.params.id);
+    if (result) res.status(200).json(result);
+    else res.sendStatus(404);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   add,
   login,
@@ -176,4 +196,6 @@ module.exports = {
   followUser,
   unfollowUser,
   checkFollowUser,
+  getFollowingListById,
+  getFollowerListById,
 };

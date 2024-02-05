@@ -5,11 +5,28 @@
   flex-wrap: wrap;
   align-items: center;
   flex-direction: row;
-  margin-top: 0.5rem;
+  padding: 1rem;
 }
 
+.container_Title_Sub {
+  padding: 1.5rem;
+}
+
+.MuiTabs-root {
+  margin: 1rem 0;
+}
 .avatar {
-  margin-left: 1rem;
+  margin-left: 1rem 0;
+}
+
+.avatar_And_Username_Container {
+  display: flex;
+  color: var(--white);
+  align-items: center;
+}
+
+.avatar_container {
+  margin: 1rem;
 }
 
 .user_Sub {

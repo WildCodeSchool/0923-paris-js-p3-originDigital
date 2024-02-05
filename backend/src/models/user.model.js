@@ -85,6 +85,19 @@ const isFollowedByUser = (userId, followedId) => {
   );
 };
 
+const getFollowerList = (userId) => {
+  return db.query(
+    "SELECT u.*, s.* FROM users AS u JOIN subscribe AS s ON s.follower_id = u.user_id WHERE s.followed_id = ? ",
+    [userId]
+  );
+};
+const getFollowedList = (userId) => {
+  return db.query(
+    "SELECT u.*, s.* FROM users AS u JOIN subscribe AS s ON s.followed_id = u.user_id WHERE s.follower_id = ? ",
+    [userId]
+  );
+};
+
 module.exports = {
   insert,
   findById,
@@ -98,4 +111,6 @@ module.exports = {
   followUserId,
   unfollowUserId,
   isFollowedByUser,
+  getFollowerList,
+  getFollowedList,
 };

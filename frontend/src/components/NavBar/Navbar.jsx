@@ -11,7 +11,6 @@ function Navbar() {
   const { isAdmin, toggleNavbarDesktop, setToggleNavbarDestkop } =
     useOverview();
   const navbarRef = useRef(null);
-
   const handleFavoritesClick = () => {
     Navigate("/favorites");
     setToggleNavbarDestkop(false);
@@ -28,7 +27,6 @@ function Navbar() {
     Navigate(`/usersprofile/${auth?.user.user_id}`);
     setToggleNavbarDestkop(false);
   };
-
   const handleSettingsCategoriesClick = () => {
     Navigate(`/settingscategories}`);
     setToggleNavbarDestkop(false);
@@ -37,7 +35,6 @@ function Navbar() {
     Navigate("/adminreviews");
     setToggleNavbarDestkop(false);
   };
-
   const logOut = async () => {
     try {
       const response = await fetch(
@@ -55,7 +52,6 @@ function Navbar() {
       console.error(error);
     }
   };
-
   useEffect(() => {
     const handleDocumentClick = (e) => {
       if (!toggleNavbarDesktop) {
@@ -70,7 +66,6 @@ function Navbar() {
       document.body.removeEventListener("click", handleDocumentClick);
     };
   }, [toggleNavbarDesktop]);
-
   return (
     <section className="main_Navbar">
       <div
@@ -147,7 +142,6 @@ function Navbar() {
               />
               <span className="text_Subscription_Navbar">Subscriptions</span>
             </div>
-
             <div
               className="logOut_Navbar_bloc"
               onClick={handleSettingsCategoriesClick}
@@ -164,7 +158,6 @@ function Navbar() {
               />
               <span className="text_LogOut_Navbar">Log out</span>
             </div>
-
             <div
               className="profil_Navbar_bloc"
               onClick={handleUserProfileClick}
@@ -248,5 +241,4 @@ function Navbar() {
     </section>
   );
 }
-
 export default Navbar;

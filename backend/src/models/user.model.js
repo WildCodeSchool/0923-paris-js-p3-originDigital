@@ -89,7 +89,6 @@ const getFollowerList = (userId) => {
     [userId]
   );
 };
-
 const getFollowedList = (userId) => {
   return db.query(
     "SELECT u.*, s.* FROM users AS u JOIN subscribe AS s ON s.followed_id = u.user_id WHERE s.follower_id = ? ",

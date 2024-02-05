@@ -93,4 +93,11 @@
     justify-content: center;
     align-items: center;
   }
+  .desc_N_Coms {
+    width: 966px;
+  }
+  .container_Comment,
+  .addCommentSection {
+    right: 3rem;
+  }
 }

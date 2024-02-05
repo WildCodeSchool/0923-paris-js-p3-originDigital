@@ -4,7 +4,7 @@ function Description({ data }) {
   return (
     <div className="description_Component">
       <p>Description</p>
-      <span>{data.description}</span>
+      <span>{data?.description}</span>
     </div>
   );
 }

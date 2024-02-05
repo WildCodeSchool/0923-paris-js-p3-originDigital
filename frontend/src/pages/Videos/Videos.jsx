@@ -30,21 +30,18 @@ function Videos() {
   useEffect(() => {
     const fetchVideoInfo = async () => {
       try {
-        const response = await fetch(
-          `http://localhost:3310/api/videos/${id}/info`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            credentials: "include",
-          }
-        );
+        const response = await fetch(`http://localhost:3310/api/videos/${id}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        });
         if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+          // throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        setVideoInfo(data[0]);
+        setVideoInfo(data);
       } catch (error) {
         console.error("Could not fetch video info:", error);
       }
@@ -53,9 +50,6 @@ function Videos() {
     fetchVideoInfo();
   }, [id]);
 
-  if (!videoInfo) {
-    return <div>Loading...</div>;
-  }
   const handleSubmit = async () => {
     try {
       if (comment.trim() !== "") {
@@ -116,7 +110,7 @@ function Videos() {
       }
     };
     showComments();
-  }, [comments]);
+  }, []);
 
   const handleInputChange = (event) => {
     setComment(event.target.value);
@@ -135,7 +129,9 @@ function Videos() {
   const handleUpdateCommentInState = (updatedComment) => {
     setComments((prevComments) =>
       prevComments.map((com) =>
-        com.comment_id === updatedComment.comment_id ? updatedComment : com
+        com.comment_id === updatedComment.comment_id
+          ? { ...updatedComment }
+          : com
       )
     );
   };
@@ -145,7 +141,7 @@ function Videos() {
       <Header />
       <div className="containeur_Body_Video">
         <WatchingVideoCard data={videoInfo} />
-        <div>
+        <div className="desc_N_Coms">
           <Description data={videoInfo} />
           <Comments
             data={comments}

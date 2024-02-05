@@ -9,7 +9,14 @@ const insertComment = (com) => {
 };
 
 const findById = (id) => {
-  return db.query("SELECT * FROM comments WHERE comment_id = ?", [id]);
+  return db.query(
+    `
+    SELECT comments.*, users.avatar 
+    FROM comments 
+    JOIN users ON comments.user_id = users.user_id 
+    WHERE comments.comment_id = ?`,
+    [id]
+  );
 };
 
 const changeComment = (commentId, newCommentText) => {

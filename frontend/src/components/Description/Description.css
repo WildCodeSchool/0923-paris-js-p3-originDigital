@@ -18,3 +18,13 @@
 .description_Component span {
   font-size: 18px;
 }
+
+.desc_N_Coms {
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .desc_N_Coms {
+    width: 100%;
+  }
+}

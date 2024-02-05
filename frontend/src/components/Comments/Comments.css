@@ -33,13 +33,16 @@
   margin-top: 1rem;
   width: 94%;
 }
-
+.comment_container input {
+  background-color: var(--black);
+  color: var(--white);
+  font-size: 18px;
+}
 .comment_Section {
   display: flex;
   flex-direction: column;
   margin-bottom: 1rem;
   width: 100%;
-  /* gap: 10px; */
 }
 
 .comment_Info {

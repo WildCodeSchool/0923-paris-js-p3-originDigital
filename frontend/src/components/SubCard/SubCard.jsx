@@ -168,51 +168,6 @@ function SubCard({ username, avatar, userId, followType, onRemoveFollower }) {
           )}
         </div>
       </div>
-
-      {/* <Icon
-        id="icon_More_Vertical"
-        type="button"
-        icon="pepicons-pop:dots-y"
-        color="#f3f3e6"
-        width="35"
-        height="35"
-        onClick={() => {
-          setOpenSubOptions(!openSubOptions);
-        }}
-      />
-      <div
-        className={`moreVert_Icon_ContainerSub ${
-          openSubOptions ? "active" : "inactive"
-        }`}
-      >
-        <div
-          className={`dropdown_Menu ${openSubOptions ? "active" : "inactive"}`}
-        >
-          {followType ? (
-            <button
-              type="button"
-              onClick={() => {
-                setOpenSubOptions(false);
-                handleUnfollowClick();
-                onRemoveFollower();
-              }}
-            >
-              Remove follower
-            </button>
-          ) : (
-            <button
-              type="button"
-              onClick={() => {
-                setOpenSubOptions(false);
-                handleUnfollowClick();
-                onRemoveFollower();
-              }}
-            >
-              Unfollow account
-            </button>
-          )}
-        </div>
-      </div> */}
     </div>
   );
 }

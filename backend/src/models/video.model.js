@@ -1,3 +1,4 @@
+/* eslint-disable no-else-return */
 const db = require("../../database/client");
 
 const insert = (video) => {
@@ -26,7 +27,7 @@ const insertVideoTag = (videoId, tagId) => {
 
 const findById = (id) => {
   return db.query(
-    `SELECT v.*, u.*, c.name, (SELECT SUM(count) FROM views WHERE video_id = v.video_id) AS view_count FROM videos v LEFT JOIN users u ON v.user_id = u.user_id LEFT JOIN likes l ON v.video_id = l.video_id LEFT JOIN views vw ON v.video_id = vw.video_id JOIN categories AS c ON v.category_id = c.category_id WHERE v.video_id = ? GROUP BY v.video_id, u.user_id`,
+    `SELECT v.*, u.*, c.name, (SELECT COUNT(*) FROM likes WHERE video_id = v.video_id) AS like_count, (SELECT COUNT(views.count) FROM views WHERE video_id = v.video_id) AS view_count FROM videos v LEFT JOIN users u ON v.user_id = u.user_id LEFT JOIN likes l ON v.video_id = l.video_id LEFT JOIN views vw ON v.video_id = vw.video_id JOIN categories AS c ON v.category_id = c.category_id WHERE v.video_id = ? GROUP BY v.video_id, u.user_id`,
     [id]
   );
 };
@@ -42,9 +43,33 @@ const findAll = () => {
 };
 
 const update = (id, title, description, thumbnail, category) => {
+  if (thumbnail) {
+    return db.query(
+      "UPDATE videos SET title = ?, description = ?, thumbnail = ?, category_id = ? WHERE video_id = ?",
+      [title, description, thumbnail, category, id]
+    );
+  } else {
+    return db.query(
+      "UPDATE videos SET title = ?, description = ?, category_id = ? WHERE video_id = ?",
+      [title, description, category, id]
+    );
+  }
+};
+
+const findMostViewed = () => {
+  return db.query(`
+    SELECT videos.*, views.views
+    FROM videos
+    JOIN views ON videos.video_id = views.video_id
+    ORDER BY views.views DESC
+    LIMIT 3
+  `);
+};
+
+const findByCategory = (categoryId) => {
   return db.query(
-    "UPDATE videos SET title = ?, description = ?, thumbnail = ?, category_id = ? WHERE video_id = ?",
-    [title, description, thumbnail, category, id]
+    "SELECT c.*, u.*, v.* FROM categories AS c JOIN videos AS v ON c.category_id = v.category_id JOIN users AS u ON u.user_id = v.user_id WHERE c.category_id = ?",
+    [categoryId]
   );
 };
 
@@ -76,6 +101,8 @@ module.exports = {
   findAll,
   insertVideoTag,
   update,
+  findMostViewed,
+  findByCategory,
   destroy,
   updateViewCount,
   findCommentsInfoByVideo,

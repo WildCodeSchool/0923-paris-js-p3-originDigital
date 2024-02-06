@@ -15,7 +15,10 @@ const findAll = () => {
 };
 
 const findNameById = (id) => {
-  return db.query("SELECT * FROM categories where category_id = ?", [id]);
+  return db.query(
+    "SELECT c.*, u.*, v.* FROM categories AS c JOIN videos AS v ON c.category_id = v.category_id JOIN users AS u ON u.user_id = v.user_id WHERE c.category_id = ?",
+    [id]
+  );
 };
 
 module.exports = {

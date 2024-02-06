@@ -11,9 +11,6 @@ function Header() {
   const { setToggleNavbarDestkop, searchTerm, setSearchTerm } = useOverview();
 
   const auth = useContext(authContext);
-  // useEffect(() => {
-  //   console.info("current user", auth.user);
-  // }, []);
 
   const handleInputChange = (event) => {
     setSearchTerm(event.target.value);
@@ -30,7 +27,7 @@ function Header() {
   };
 
   return (
-    <main className={auth.user ? "header" : "header-unregistered"}>
+    <header className={auth.user ? "header" : "header-unregistered"}>
       <div
         className="container_Logo"
         onClick={handleLogoClick}
@@ -54,8 +51,8 @@ function Header() {
           onClick={handleSearch}
           icon="iconoir:search"
           color="#f3f3e6"
-          width="50"
-          height="50"
+          width="30"
+          height="30"
         />
       </div>
       {auth.user ? (
@@ -78,7 +75,7 @@ function Header() {
           Log In
         </button>
       )}
-    </main>
+    </header>
   );
 }
 

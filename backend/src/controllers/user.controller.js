@@ -71,6 +71,16 @@ const getOne = async (req, res, next) => {
   }
 };
 
+const getUsername = async (req, res, next) => {
+  try {
+    const [[user]] = await userModel.findByUsername(req.params.id);
+    if (user) res.status(200).json(user);
+    else res.sendStatus(404);
+  } catch (error) {
+    next(error);
+  }
+};
+
 const logOut = (req, res, next) => {
   try {
     res.clearCookie("auth-token").sendStatus(200);
@@ -81,9 +91,7 @@ const logOut = (req, res, next) => {
 
 const getAllVideos = async (req, res, next) => {
   try {
-    console.info("req", req.params.id);
     const [videos] = await userModel.getVideosByUserId(req.params.id);
-    console.info(videos);
     res.status(200).json(videos);
   } catch (error) {
     next(error);
@@ -92,9 +100,12 @@ const getAllVideos = async (req, res, next) => {
 
 const updateOne = async (req, res, next) => {
   try {
-    // console.log(req.files);
+    const avatarFilename = `${req.protocol}://${req.get("host")}/upload/${
+      req.file.filename
+    }`;
+    const newUserInfo = { ...req.body, avatar: avatarFilename };
     const [updatedUser] = await userModel.editUserByUserId(
-      req.body,
+      newUserInfo,
       req.params.id
     );
     if (updatedUser.affectedRows > 0) {
@@ -162,6 +173,7 @@ module.exports = {
   getAllVideos,
   updateOne,
   removeOne,
+  getUsername,
   followUser,
   unfollowUser,
   checkFollowUser,

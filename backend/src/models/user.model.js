@@ -33,12 +33,33 @@ const editUserByUserId = (newUserInfo, userId) => {
   const updateValues = fieldsToUpdate.map((field) => `${field} = ?`).join(", ");
   const query = `UPDATE users SET ${updateValues} WHERE user_id = ?`;
   const values = [...fieldsToUpdate.map((field) => newUserInfo[field]), userId];
-
   return db.query(query, values);
 };
 
 const destroyByUserId = (userId) => {
   return db.query("DELETE FROM users where user_id = ?", [userId]);
+};
+
+const updateUser = async (userId, newData) => {
+  const { mail, username, password } = newData;
+  const result = await db.query(
+    "UPDATE Users SET (mail, username, password) WHERE user_id = ?, ?, ?, ?",
+    [mail, username, password, userId]
+  );
+  return result.rows[0];
+};
+
+const deleteUser = async (userId) => {
+  try {
+    await db.query("DELETE FROM Users WHERE user_id = ?", [userId]);
+    return { success: true, message: "Utilisateur supprimé avec succès" };
+  } catch (error) {
+    console.error(
+      "Erreur lors de la suppression de l'utilisateur :",
+      error.message
+    );
+    throw error;
+  }
 };
 
 const followUserId = (userId, followedId) => {
@@ -57,7 +78,6 @@ const unfollowUserId = (userId, unfollowedId) => {
 
 const isFollowedByUser = (userId, followedId) => {
   return db.query(
-    // "SELECT EXISTS (SELECT 1 FROM subscribe WHERE follower_id = ? AND followed_id = ?) AS is_following ",
     "SELECT * FROM users AS u JOIN subscribe AS s ON s.follower_id = u.user_id WHERE s.follower_id = ? AND s.followed_id = ?;",
     [userId, followedId]
   );
@@ -71,6 +91,8 @@ module.exports = {
   findAll,
   editUserByUserId,
   destroyByUserId,
+  updateUser,
+  deleteUser,
   followUserId,
   unfollowUserId,
   isFollowedByUser,

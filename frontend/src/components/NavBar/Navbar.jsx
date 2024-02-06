@@ -21,7 +21,7 @@ function Navbar() {
     setToggleNavbarDestkop(false);
   };
   const handleSubscriptionClick = () => {
-    Navigate(`/usersprofile/${auth?.user.user_id}`);
+    Navigate(`/usersprofile/${auth?.user.user_id}/subscriptions`);
     setToggleNavbarDestkop(false);
   };
   const handleUserProfileClick = () => {
@@ -36,6 +36,24 @@ function Navbar() {
   const handleAdminReviewClick = () => {
     Navigate("/adminreviews");
     setToggleNavbarDestkop(false);
+  };
+
+  const logOut = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/users/logOut`,
+        {
+          method: "GET",
+          credentials: "include",
+        }
+      );
+      if (response.status === 200) {
+        auth.setUser(null);
+        Navigate("/");
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
@@ -54,7 +72,7 @@ function Navbar() {
   }, [toggleNavbarDesktop]);
 
   return (
-    <main>
+    <section className="main_Navbar">
       <div
         ref={navbarRef}
         className={`containeur_Body_Navbar ${
@@ -115,7 +133,7 @@ function Navbar() {
               className="subscription_Navbar_bloc"
               onClick={handleSubscriptionClick}
               onKeyDown={() => {
-                Navigate("/usersprofile/1");
+                Navigate(`/usersprofile/${auth?.user.user_id}/subscriptions`);
               }}
               tabIndex="-3"
               role="button"
@@ -133,9 +151,7 @@ function Navbar() {
             <div
               className="logOut_Navbar_bloc"
               onClick={handleSettingsCategoriesClick}
-              onKeyDown={() => {
-                Navigate("/settingscategories");
-              }}
+              onKeyDown={logOut}
               tabIndex="-8"
               role="button"
             >
@@ -146,7 +162,7 @@ function Navbar() {
                 width="39"
                 height="39"
               />
-              <span className="text_LogOut_Navbar">Log Out</span>
+              <span className="text_LogOut_Navbar">Log out</span>
             </div>
 
             <div
@@ -165,7 +181,7 @@ function Navbar() {
                 width="39"
                 height="39"
               />
-              <span className="text_Profil_Navbar">Username</span>
+              <span className="text_Profil_Navbar">{auth?.user?.username}</span>
             </div>
           </>
         ) : (
@@ -229,7 +245,7 @@ function Navbar() {
           </>
         )}
       </div>
-    </main>
+    </section>
   );
 }
 

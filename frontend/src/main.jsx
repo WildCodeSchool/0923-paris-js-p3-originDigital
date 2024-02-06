@@ -39,7 +39,7 @@ function PrivateRoute({ children }) {
     if (isLoading) setPage("...loading");
     else if (user) setPage(children);
     else navigate("/login");
-  }, [user, location]);
+  }, [user, location, isLoading]);
   return page;
 }
 
@@ -52,19 +52,21 @@ function PublicRoute({ children }) {
     if (isLoading) setPage("...loading");
     else if (!user) setPage(children);
     else navigate(-1);
-  }, [user, location]);
+  }, [user, location, isLoading]);
   return page;
 }
 
 function AdminRoute({ children }) {
-  const { user } = useContext(useAuthContext);
+  const location = useLocation();
+  const { user, isLoading } = useContext(useAuthContext);
   const navigate = useNavigate();
+  const [page, setPage] = useState(null);
   useEffect(() => {
-    if (!user && user.admin !== "1") {
-      navigate("/");
-    }
-  }, [user]);
-  return children;
+    if (isLoading) setPage("...loading");
+    else if (!user || user.admin !== "1") navigate("/");
+    else setPage(children);
+  }, [user, location, isLoading]);
+  return page;
 }
 
 const routes = createBrowserRouter(

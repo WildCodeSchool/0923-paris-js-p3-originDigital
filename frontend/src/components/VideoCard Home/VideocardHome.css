@@ -13,6 +13,7 @@
   padding: 0.3rem 0;
   align-items: center;
   justify-content: space-between;
+  color: var(--white);
 }
 .data_Container_Home {
   display: flex;

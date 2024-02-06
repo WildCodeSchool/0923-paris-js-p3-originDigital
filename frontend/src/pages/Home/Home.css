@@ -6,6 +6,7 @@
   color: var(--white);
   min-height: calc(100vh - 5.5rem);
   justify-content: flex-start;
+  margin: 0 1rem;
 }
 
 .container_Body_Home {
@@ -22,17 +23,21 @@
 
 .title_Top {
   margin-bottom: 0.5rem;
+  font-size: 20px;
 }
 
 .title_Short {
   margin-top: 1.5rem;
   margin-bottom: 0.5rem;
+  /* margin-left: 1rem; */
+  font-size: 20px;
 }
 
 .container_Short {
   display: flex;
   flex-direction: column;
   margin-top: 1rem;
+  /* padding: 1rem; */
 }
 
 .title_Category_Animal {
@@ -51,7 +56,13 @@
 .categoryContainer {
   display: flex;
   flex-direction: column;
+  /* margin: 1rem; */
   gap: 5px;
+  font-size: 20px;
+}
+
+.categoryContainer:hover {
+  color: var(--orange);
 }
 
 @media only screen and (min-width: 1024px) {

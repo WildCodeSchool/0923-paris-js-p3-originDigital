@@ -18,7 +18,6 @@ function Videos() {
   const [inputComment, setInputComment] = useState(false);
   const auth = useContext(authContext);
   const { selectedVideo } = useSelectedVideo();
-
   function formatDate(dateString) {
     const date = new Date(dateString);
     const day = date.getDate().toString().padStart(2, "0");
@@ -26,30 +25,33 @@ function Videos() {
     const year = date.getFullYear();
     return `${day}/${month}/${year}`;
   }
-
   useEffect(() => {
     const fetchVideoInfo = async () => {
       try {
-        const response = await fetch(`http://localhost:3310/api/videos/${id}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-        });
+        const response = await fetch(
+          `http://localhost:3310/api/videos/${id}/info`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include",
+          }
+        );
         if (!response.ok) {
-          // throw new Error(`HTTP error! status: ${response.status}`);
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        setVideoInfo(data);
+        setVideoInfo(data[0]);
       } catch (error) {
         console.error("Could not fetch video info:", error);
       }
     };
-
     fetchVideoInfo();
   }, [id]);
-
+  if (!videoInfo) {
+    return <div>Loading...</div>;
+  }
   const handleSubmit = async () => {
     try {
       if (comment.trim() !== "") {
@@ -83,7 +85,6 @@ function Videos() {
       console.error(error);
     }
   };
-
   useEffect(() => {
     const showComments = async () => {
       try {
@@ -110,32 +111,25 @@ function Videos() {
       }
     };
     showComments();
-  }, []);
-
+  }, [comments]);
   const handleInputChange = (event) => {
     setComment(event.target.value);
   };
-
   const toggleInputComment = () => {
     setInputComment(!inputComment);
   };
-
   const handleDeleteCommentFromState = (deletedCommentId) => {
     setComments((prevComments) =>
       prevComments.filter((com) => com.comment_id !== deletedCommentId)
     );
   };
-
   const handleUpdateCommentInState = (updatedComment) => {
     setComments((prevComments) =>
       prevComments.map((com) =>
-        com.comment_id === updatedComment.comment_id
-          ? { ...updatedComment }
-          : com
+        com.comment_id === updatedComment.comment_id ? updatedComment : com
       )
     );
   };
-
   return (
     <main>
       <Header />
@@ -169,7 +163,7 @@ function Videos() {
                 type="button"
                 onClick={handleSubmit}
                 icon="material-symbols:upload"
-                color="#f3f3e6"
+                color="#F3F3E6"
                 width="50"
                 height="50"
               />
@@ -194,5 +188,4 @@ function Videos() {
     </main>
   );
 }
-
 export default Videos;

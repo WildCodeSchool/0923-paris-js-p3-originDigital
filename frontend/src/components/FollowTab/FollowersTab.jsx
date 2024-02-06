@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Subcard from "../Videocard/SubCard/SubCard";
+import Subcard from "../SubCard/SubCard";
 import useSelectedUser from "../../context/SelectedUserContext";
 
 function FollowersTab() {

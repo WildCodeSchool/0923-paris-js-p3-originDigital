@@ -1,10 +1,14 @@
 import "./Description.css";
 
-function Description({ data }) {
+function Description() {
   return (
     <div className="description_Component">
       <p>Description</p>
-      <span>{data?.description}</span>
+      <span>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis atque
+        nostrum veniam dolorem excepturi esse neque fugiat quibusdam, odio qui
+        et maiores eos pariatur ab deserunt sapiente error molestiae magni?
+      </span>
     </div>
   );
 }

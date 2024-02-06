@@ -17,6 +17,7 @@ function VideoCard({
   videoViews,
   onDeleteVideo,
   showVideoIcon, // Default to true if the prop is not provided
+  isInSlider, //  Default to true if the prop is not provided
 }) {
   const [openVideoOptions, setOpenVideoOptions] = useState(false);
   const navigate = useNavigate();
@@ -58,24 +59,27 @@ function VideoCard({
   }, []);
 
   useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry, index) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => {
-            entry.target.classList.add("show");
-          }, 200 * index);
-        } else {
-          entry.target.classList.remove("show");
-        }
+    if (!isInSlider) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+          if (entry.isIntersecting) {
+            setTimeout(() => {
+              entry.target.classList.add("show");
+            }, 200 * index);
+          } else {
+            entry.target.classList.remove("show");
+          }
+        });
       });
-    });
 
-    const hiddenElements = document.querySelectorAll(".hidden");
-    hiddenElements.forEach((el) => observer.observe(el));
+      const hiddenElements = document.querySelectorAll(".hidden");
+      hiddenElements.forEach((el) => observer.observe(el));
 
-    return () => {
-      observer.disconnect();
-    };
+      return () => {
+        observer.disconnect();
+      };
+    }
+    return true;
   }, []);
 
   return (

@@ -21,9 +21,12 @@ function AuthProvider({ children }) {
           const currentUser = await response.json();
           setUser(currentUser);
           setIsLoading(false);
+        } else {
+          setIsLoading(false);
         }
       } catch (error) {
         console.error(error);
+        setIsLoading(false);
       }
     };
     getCurrentUser();

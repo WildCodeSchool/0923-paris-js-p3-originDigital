@@ -132,6 +132,7 @@ function VideoCard({
             }`}
           >
             <button
+              className="settings_dropdown_Btn"
               type="button"
               onClick={() => {
                 setOpenVideoOptions(false);
@@ -141,6 +142,7 @@ function VideoCard({
               <ul>Edit video details</ul>
             </button>
             <button
+              className="settings_dropdown_Btn"
               type="button"
               onClick={() => {
                 setOpenModal(true);

@@ -64,16 +64,7 @@
   visibility: hidden;
   transition: var(--speed) cubic-bezier(0.6, -0.28, 0.735, 0.045);
 }
-.dropdown_Menu button {
-  border: none;
-  background-color: transparent;
-  width: 100%;
-  color: inherit;
-  font-size: inherit;
-  font-weight: inherit;
-  font-family: inherit;
-  padding: 0;
-}
+
 .dropdown_Menu ul {
   list-style: none;
   padding: 1rem;

@@ -100,6 +100,7 @@ function CommentItem({
                 className={`dropdown_Menu ${isOpen ? "active" : "inactive"}`}
               >
                 <button
+                  className="comments_dropdown_Btn"
                   type="button"
                   onClick={() => {
                     setIsOpen(false);
@@ -109,6 +110,7 @@ function CommentItem({
                   <ul>Edit Comment</ul>
                 </button>
                 <button
+                  className="comments_dropdown_Btn"
                   type="button"
                   onClick={() => {
                     setIsOpen(false);

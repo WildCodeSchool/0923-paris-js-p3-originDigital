@@ -369,6 +369,7 @@ function UserProfile() {
                     height={70}
                     username={selectedUser?.username}
                     imgsrc={selectedUser?.avatar}
+                    userId={selectedUser?.user_id}
                   />
                 ) : null}
               </div>

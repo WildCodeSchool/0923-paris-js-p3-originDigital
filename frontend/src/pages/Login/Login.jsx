@@ -33,6 +33,7 @@ function Login() {
       if (response.status === 200) {
         const user = await response.json();
         auth.setUser(user);
+        auth.setIsLoading(false);
         navigate("/");
       } else {
         console.error("veuillez verifier votre saisie.");

@@ -1,64 +1,65 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLoaderData } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import AsyncSelect from "react-select/async";
 import "./UpdateShort.css";
-import useOverviewContext from "../../../context/Overviewcontext";
 import Header from "../../../components/Header/Header";
 
 function UpdateShort() {
+  const currentVideo = useLoaderData();
   const maxCharacters = 255;
   const [errorThumbnail, setErrorThumbnail] = useState(false);
-  const [errorFile, setErrorFile] = useState(false);
+  const [selectedVideo, setSelectedVideo] = useState(currentVideo.video);
+  const [defaultTags] = useState(currentVideo.tags);
+  const [videoTitle, setVideoTitle] = useState(currentVideo.video.title);
+  const [videoThumbnail, setVideoThumbnail] = useState(null);
+  const [videoDescription, setVideoDescription] = useState(
+    currentVideo.video.description
+  );
+  const [videoCategory, setVideoCategory] = useState({
+    value: selectedVideo?.category_id,
+    label: selectedVideo?.name,
+  });
+
+  const formatDefaultTags = () => {
+    const tags = [];
+    for (const t of defaultTags) {
+      tags.push({
+        value: t.tag_id,
+        label: t.tag_name,
+      });
+    }
+    return tags;
+  };
+  const [videoTags, setVideoTags] = useState(formatDefaultTags());
   const navigate = useNavigate();
 
-  const {
-    videoTitle,
-    setVideoTitle,
-    description,
-    setDescription,
-    category,
-    setCategory,
-    setTag,
-    tag,
-    videoFile,
-    setVideoFile,
-    videoThumbnail,
-    setVideoThumbnail,
-  } = useOverviewContext();
-
-  const handleUpload = async () => {
+  const handleUpdate = async () => {
     try {
       const form = new FormData();
       form.append("title", videoTitle);
-      form.append("description", description);
-      form.append("video", videoFile);
+      form.append("description", videoDescription);
       form.append("thumbnail", videoThumbnail);
-      form.append("category_id", category);
-      form.append("type_video", 0);
-      form.append("tags", tag);
+      form.append("category_id", videoCategory);
+      form.append("tags", videoTags);
 
       const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/videos`,
+        `${import.meta.env.VITE_BACKEND_URL}/videos/${selectedVideo?.video_id}`,
         {
-          method: "POST",
+          method: "PUT",
           credentials: "include",
           body: form,
         }
       );
 
-      if (response.status === 201) {
-        const video = await response.json();
-        console.info(video);
-        navigate("/upload");
+      if (response.status === 200) {
+        const updatedVideo = await response.json();
+        setSelectedVideo(updatedVideo);
+        navigate(`/usersprofile/${selectedVideo?.user_id}`);
       }
     } catch (error) {
       console.error(error);
     }
-  };
-
-  const handleVideoFileChange = (e) => {
-    setVideoFile(e.target.files[0]);
   };
 
   const handleVideoThumbnailChange = (e) => {
@@ -76,16 +77,6 @@ function UpdateShort() {
     }
   }, [videoThumbnail]);
 
-  useEffect(() => {
-    if (videoFile) {
-      const maxFileSize = 30 * 1024 * 1024;
-      if (videoFile.size > maxFileSize) {
-        setVideoFile(null);
-        setErrorFile(true);
-      }
-    }
-  }, [videoFile]);
-
   const handleVideoTitleChange = (e) => {
     setVideoTitle(e.target.value);
   };
@@ -94,22 +85,18 @@ function UpdateShort() {
     const inputValue = e.target.value;
 
     if (inputValue.length <= maxCharacters) {
-      setDescription(inputValue);
+      setVideoDescription(inputValue);
     }
   };
 
   const handleCategoryChange = (e) => {
-    setCategory(e.value);
+    setVideoCategory(e.value);
   };
 
   const handleTagChange = (e) => {
     const tagArray = e.map((item) => item.value);
-    setTag(tagArray);
+    setVideoTags(tagArray);
   };
-
-  useEffect(() => {
-    console.info(tag);
-  }, [tag]);
 
   const [rows, setRows] = useState(window.innerWidth > 1024 ? 4 : 7);
 
@@ -221,9 +208,9 @@ function UpdateShort() {
     <>
       <Header />
       <section className="container_Body_Add_Video">
-        <h1 className="upload_Main_Title_Video">Short upload settings</h1>
+        <h1 className="upload_Main_Title_Video">Video edit settings</h1>
         <div className="grid_Container">
-          <label htmlFor="fileInput">
+          {/* <label htmlFor="fileInput">
             <div
               className={`add_An_Element_Container ${errorFile ? "error" : ""}`}
             >
@@ -253,12 +240,19 @@ function UpdateShort() {
             accept=".mp4"
             onChange={handleVideoFileChange}
             style={{ display: "none" }}
-          />
+          /> */}
           <label htmlFor="thumbnailInput">
             <div
               className={`add_A_Thumbnail_Container ${
                 errorThumbnail ? "error" : ""
               }`}
+              style={{
+                backgroundImage: `url(
+                ${!videoThumbnail ? selectedVideo?.thumbnail : null}
+              )`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
             >
               <h2>Add a thumbnail</h2>
               <div className="plus_Icon_Container">
@@ -292,7 +286,8 @@ function UpdateShort() {
               className="title_Input"
               type="text"
               maxLength={255}
-              placeholder="Add a video title"
+              defaultValue={selectedVideo?.title}
+              placeholder="Enter video title..."
               onChange={handleVideoTitleChange}
             />
           </div>
@@ -300,6 +295,7 @@ function UpdateShort() {
             <AsyncSelect
               loadOptions={loadCategoryOptions}
               defaultOptions
+              defaultValue={videoCategory}
               placeholder="Select Category"
               onChange={handleCategoryChange}
               styles={colorStyles}
@@ -310,6 +306,7 @@ function UpdateShort() {
               loadOptions={loadTagOptions}
               defaultOptions
               isMulti
+              defaultValue={videoTags}
               placeholder="Select Tags"
               onChange={handleTagChange}
               styles={colorStyles}
@@ -321,18 +318,19 @@ function UpdateShort() {
               wrap
               rows={rows}
               maxLength={255}
-              placeholder="Add video description"
+              defaultValue={selectedVideo?.description}
+              placeholder="Enter video description..."
               onChange={handleDescriptionChange}
             />
             <div className="text_Limit_Container">
               <div className="text_Limit">
-                {maxCharacters - description.length}/255
+                {maxCharacters - videoDescription.length}/255
               </div>
             </div>
           </div>
         </div>
-        <button type="button" className="upload_Btn" onClick={handleUpload}>
-          UPLOAD
+        <button type="button" className="upload_Btn" onClick={handleUpdate}>
+          SAVE CHANGES
         </button>
       </section>
     </>

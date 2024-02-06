@@ -3,16 +3,16 @@ import Subcard from "../SubCard/SubCard";
 import useSelectedUser from "../../context/SelectedUserContext";
 
 function FollowingTab() {
-  const [followeds, setFollowed] = useState([]);
-  const { selectedUser } = useSelectedUser();
+  const [following, setFollowing] = useState([]);
+  const { selectedUser, isFollowed, setIsFollowed } = useSelectedUser();
 
   useEffect(() => {
-    const fetchFollowed = async () => {
+    const fetchFollowing = async () => {
       try {
         const response = await fetch(
           `${import.meta.env.VITE_BACKEND_URL}/users/${
             selectedUser?.user_id
-          }/followed`,
+          }/following`,
           {
             method: "GET",
             credentials: "include",
@@ -20,8 +20,8 @@ function FollowingTab() {
         );
 
         if (response.status === 200) {
-          const followedData = await response.json();
-          setFollowed(followedData);
+          const followingData = await response.json();
+          setFollowing(followingData);
         } else {
           console.error("Erreur lors de la récupération des followed.");
         }
@@ -30,14 +30,32 @@ function FollowingTab() {
       }
     };
 
-    fetchFollowed();
-  }, []);
+    fetchFollowing();
+  }, [isFollowed]);
+
+  const handleRemoveFollower = (followerId) => {
+    setFollowing((prevFollowing) =>
+      prevFollowing.filter((follower) => follower.user_id !== followerId)
+    );
+    setIsFollowed(false);
+  };
 
   return (
     <div className="container_Sub">
-      {followeds.map((followed) => (
-        <Subcard key={followed.id} followed={followed} />
-      ))}
+      {following
+        ? following.map((follow) => (
+            <Subcard
+              key={follow.user_id}
+              userId={follow.user_id}
+              username={follow.username}
+              avatar={follow.avatar}
+              width={50}
+              height={50}
+              followType={false}
+              onRemoveFollower={() => handleRemoveFollower(follow.user_id)}
+            />
+          ))
+        : ""}
     </div>
   );
 }

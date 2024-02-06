@@ -71,7 +71,7 @@
   visibility: hidden;
   transition: var(--speed) cubic-bezier(0.6, -0.28, 0.735, 0.045);
 }
-.dropdown_Menu button {
+.settings_dropdown_Btn {
   border: none;
   background-color: transparent;
   width: 100%;

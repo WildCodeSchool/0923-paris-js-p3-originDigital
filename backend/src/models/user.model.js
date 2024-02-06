@@ -23,7 +23,7 @@ const findAll = () => {
 
 const getVideosByUserId = (userId) => {
   return db.query(
-    "SELECT v.*, u.username FROM videos AS v JOIN users AS u ON v.user_id = u.user_id WHERE u.user_id =?",
+    "SELECT v.*, u.username, u.avatar, SUM(vw.count) AS view_count FROM videos AS v JOIN users AS u ON v.user_id = u.user_id LEFT JOIN views AS vw ON vw.video_id = v.video_id WHERE u.user_id = ? GROUP BY v.video_id;",
     [userId]
   );
 };
@@ -78,8 +78,21 @@ const unfollowUserId = (userId, unfollowedId) => {
 
 const isFollowedByUser = (userId, followedId) => {
   return db.query(
-    "SELECT * FROM users AS u JOIN subscribe AS s ON s.follower_id = u.user_id WHERE s.follower_id = ? AND s.followed_id = ?;",
+    "SELECT * FROM users AS u JOIN subscribe AS s ON s.follower_id = u.user_id WHERE s.follower_id = ? AND s.followed_id = ?",
     [userId, followedId]
+  );
+};
+
+const getFollowerList = (userId) => {
+  return db.query(
+    "SELECT u.*, s.* FROM users AS u JOIN subscribe AS s ON s.follower_id = u.user_id WHERE s.followed_id = ? ",
+    [userId]
+  );
+};
+const getFollowedList = (userId) => {
+  return db.query(
+    "SELECT u.*, s.* FROM users AS u JOIN subscribe AS s ON s.followed_id = u.user_id WHERE s.follower_id = ? ",
+    [userId]
   );
 };
 
@@ -96,4 +109,6 @@ module.exports = {
   followUserId,
   unfollowUserId,
   isFollowedByUser,
+  getFollowerList,
+  getFollowedList,
 };

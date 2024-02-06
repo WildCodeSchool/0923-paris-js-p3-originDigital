@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Slider from "react-slick";
-import VideocardHome from "../VideoCard Home/VideocardHome";
+// import VideocardHome from "../VideoCard Home/VideocardHome";
+import VideoCard from "../Videocard/VideoCard";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./Carousel_Category.css";
@@ -67,7 +68,22 @@ function CategoryCarousel({ categoryId }) {
       >
         {videos.map((video) => (
           <div key={video.video_id}>
-            <VideocardHome
+            <VideoCard
+              key={video.video_id}
+              videoId={video.video_id}
+              videoUserId={video.user_id}
+              videoUsername={video.username}
+              videoTitle={video.title}
+              videoThumbnail={video.thumbnail}
+              videoDate={video.date_publication}
+              videoViews={video.view_count}
+              videoUserAvatar={video.avatar}
+              isInSlider={false}
+              // onDeleteVideo={handleDeleteVideoFromState}
+              showVideoIcon={false}
+            />
+
+            {/* <VideocardHome
               title={video.title}
               thumbnailUrl={video.thumbnail}
               userId={video.userId}
@@ -76,7 +92,7 @@ function CategoryCarousel({ categoryId }) {
               date={video.date_publication}
               avatar={video.avatar}
               videoId={video.video_id}
-            />
+            /> */}
           </div>
         ))}
       </Slider>

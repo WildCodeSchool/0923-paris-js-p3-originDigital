@@ -1,26 +1,40 @@
 import ReactPlayer from "react-player";
-import { React, useState, useEffect, useRef } from "react";
-import "./WatchingVideoCard.css";
-import Avatar from "@mui/material/Avatar";
 import { Icon } from "@iconify/react";
-import video from "../../../../../backend/public/upload/1706026627893.0.6409657439334755.VID-20231009-WA0012_1.mp4";
+import { React, useState, useEffect, useRef } from "react";
+import BackgroundLetterAvatars from "../../Avatar/Avatar";
+import "./WatchingVideoCard.css";
 import follow from "../../../assets/follow.png";
 import unfollow from "../../../assets/unfollow.png";
 import Modal from "../../Modal/Modal";
 import useOverview from "../../../context/Overviewcontext";
+import useSelectedVideo from "../../../context/SelectedVideo";
 
-function VideoCard() {
+function VideoCard({ data }) {
   const { isFollowed, setIsFollowed } = useOverview();
   const [openVideoOptions, setOpenVideoOptions] = useState(false);
   const videoOptionsMenuRef = useRef();
   const [openModal, setOpenModal] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
+  const { selectedVideo } = useSelectedVideo();
 
   const isMobile = window.innerWidth < 1024;
   const handleClose = () => {
     setOpenModal(false);
   };
+
+  function formatViewCount(viewCount) {
+    if (viewCount < 1000) {
+      return viewCount;
+      // eslint-disable-next-line no-else-return
+    } else if (viewCount >= 1000000) {
+      return `${(viewCount / 1000000).toFixed(1)} M`;
+    } else if (viewCount >= 1000) {
+      return `${(viewCount / 1000).toFixed(1)} K`;
+    }
+    return true;
+  }
+  const formattedViewCount = formatViewCount(data?.view_count);
 
   const handleFollowClick = () => {
     setIsFollowed(!isFollowed);
@@ -39,23 +53,82 @@ function VideoCard() {
     };
   }, []);
 
+  const handleAddViews = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/videos/${data.video_id}`,
+        {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            idVideo: data.video_id,
+            idUser: data.user_id,
+            count: data.count,
+          }),
+        }
+      );
+      if (response.status === 200) {
+        try {
+          const responseUpdate = await fetch(
+            `${import.meta.env.VITE_BACKEND_URL}/videos/viewsUpdate/${
+              data.video_id
+            }/`,
+            {
+              method: "PUT",
+              credentials: "include",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                idVideo: data.video_id,
+                idUser: data.user_id,
+                newCount: response.count + 1,
+              }),
+            }
+          );
+          if (responseUpdate.status === 204) {
+            // faire une MAJ de compteur si ça ne renvoie pas de count depuis useContext
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <>
       {isMobile ? (
-        <ReactPlayer controls url={video} height={380} width="100%" />
+        <ReactPlayer
+          controls
+          url={selectedVideo?.URL_video}
+          height={380}
+          width="100%"
+          onStart={handleAddViews}
+        />
       ) : (
-        <ReactPlayer controls url={video} height={543} width={966} />
+        <ReactPlayer
+          controls
+          url={selectedVideo?.URL_video}
+          height={543}
+          width={966}
+          onStart={handleAddViews}
+        />
       )}
       <div className="watch_Video_Card">
         <div className="flex_Watch_Video_Info">
           {!isMobile && (
             <div className="avatar_Container_Watch">
-              <Avatar
-                className="avatar"
+              <BackgroundLetterAvatars
                 sx={{ width: 35, height: 35 }}
-                src="https://images.unsplash.com/photo-1561948955-570b270e7c36?q=80&w=1802&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                username={data?.username}
+                userId={data?.user_id}
               />
-              <p className="creator_Username_Watch">Xoxoxoxo45</p>
+              <p className="creator_Username_Watch">{data?.username}</p>
             </div>
           )}
           <div className="view_Icon_Watch_Bloc">
@@ -66,7 +139,7 @@ function VideoCard() {
               width="38"
               height="38"
             />
-            <span>100 K</span>
+            <span>{formattedViewCount}</span>
           </div>
           <div className="like_Icon_Watch_Bloc">
             <div className="like_Icon_Watch_Bloc">
@@ -90,7 +163,7 @@ function VideoCard() {
                   onClick={() => setIsLiked(true)}
                 />
               )}
-              <span>254</span>
+              <span>{data?.count}</span>
             </div>
           </div>
           <div className="favorite_Icon_Watch_Bloc">
@@ -201,16 +274,16 @@ function VideoCard() {
           <div className="data_Container_Watch">
             {isMobile && (
               <div className="avatar_Container_Watch_Mobile">
-                <Avatar
-                  className="avatar"
+                <BackgroundLetterAvatars
                   sx={{ width: 35, height: 35 }}
-                  src="https://images.unsplash.com/photo-1561948955-570b270e7c36?q=80&w=1802&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                  username={data?.username}
+                  userId={data?.user_id}
                 />
-                <p className="creator_Username_Watch">Xoxoxoxo45</p>
+                <p className="creator_Username_Watch">{data?.username}</p>
               </div>
             )}
             <div className="channel_Details_Watch">
-              <h3 className="video_Title_Watch">Le chat sympa !</h3>
+              <h3 className="video_Title_Watch">{data?.title}</h3>
             </div>
           </div>
         </div>

@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { Icon } from "@iconify/react";
-import useSelectedUser from "../../context/SelectedUserContext";
-import BackgroundLetterAvatars from "../Avatar/Avatar";
-import Modal from "../Modal/Modal";
+import useSelectedUser from "../../../context/SelectedUserContext";
+import BackgroundLetterAvatars from "../../Avatar/Avatar";
+import Modal from "../../Modal/Modal";
 import "./SubCard.css";
 
 function SubCard() {

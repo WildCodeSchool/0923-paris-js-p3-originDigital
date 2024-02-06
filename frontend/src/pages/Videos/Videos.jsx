@@ -126,7 +126,9 @@ function Videos() {
   const handleUpdateCommentInState = (updatedComment) => {
     setComments((prevComments) =>
       prevComments.map((com) =>
-        com.comment_id === updatedComment.comment_id ? updatedComment : com
+        com.comment_id === updatedComment.comment_id
+          ? { ...updatedComment }
+          : com
       )
     );
   };

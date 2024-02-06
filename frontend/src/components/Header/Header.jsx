@@ -7,23 +7,61 @@ import authContext from "../../context/AuthContext";
 import imageSign from "../../assets/logo_Mobile.svg";
 
 function Header() {
-  const Navigate = useNavigate();
-  const { setToggleNavbarDestkop, searchTerm, setSearchTerm } = useOverview();
-
+  const navigate = useNavigate();
+  const {
+    setToggleNavbarDestkop,
+    searchTerm,
+    setSearchTerm,
+    setSearchResultList,
+  } = useOverview();
   const auth = useContext(authContext);
 
   const handleInputChange = (event) => {
     setSearchTerm(event.target.value);
   };
-  const handleSearch = () => {
-    Navigate(`/search`);
+
+  const loadSearchResult = async () => {
+    try {
+      const response = await fetch(
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }/videos/search?videoTitle=${searchTerm}&catName=${searchTerm}&tagName=${searchTerm}`,
+        {
+          method: "GET",
+          credentials: "include",
+        }
+      );
+      if (response.status === 200) {
+        const videos = await response.json();
+        setSearchResultList(videos);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
+
+  const handleSearch = () => {
+    if (searchTerm.trim() !== "") {
+      loadSearchResult();
+      navigate(`/search`);
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      if (searchTerm.trim() !== "") {
+        loadSearchResult();
+        navigate(`/search`);
+      }
+    }
+  };
+
   const handleNavbarClick = (e) => {
     e.stopPropagation();
     setToggleNavbarDestkop(true);
   };
   const handleLogoClick = () => {
-    Navigate("/");
+    navigate("/");
   };
 
   return (
@@ -44,6 +82,7 @@ function Header() {
           placeholder="SEARCH"
           value={searchTerm}
           onChange={handleInputChange}
+          onKeyDown={handleKeyPress}
         />
         <Icon
           id="icon_Search"
@@ -70,7 +109,7 @@ function Header() {
         <button
           type="button"
           className="logIn_Btn"
-          onClick={() => Navigate("/login")}
+          onClick={() => navigate("/login")}
         >
           Log In
         </button>

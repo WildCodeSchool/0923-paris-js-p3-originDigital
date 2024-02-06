@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import {
   createBrowserRouter,
@@ -6,6 +6,7 @@ import {
   Route,
   RouterProvider,
   useNavigate,
+  useLocation,
 } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Favorites from "./pages/Favorites/Favorites";
@@ -30,21 +31,29 @@ import App from "./App";
 import useAuthContext from "./context/AuthContext";
 
 function PrivateRoute({ children }) {
-  const { user } = useContext(useAuthContext);
+  const location = useLocation();
+  const { user, isLoading } = useContext(useAuthContext);
   const navigate = useNavigate();
+  const [page, setPage] = useState(null);
   useEffect(() => {
-    if (!user) navigate("/login");
-  }, [user]);
-  return children;
+    if (isLoading) setPage("...loading");
+    else if (user) setPage(children);
+    else navigate("/login");
+  }, [user, location]);
+  return page;
 }
 
 function PublicRoute({ children }) {
-  const { user } = useContext(useAuthContext);
+  const location = useLocation();
+  const { user, isLoading } = useContext(useAuthContext);
   const navigate = useNavigate();
+  const [page, setPage] = useState(null);
   useEffect(() => {
-    if (user) navigate(-2);
-  }, [user]);
-  return children;
+    if (isLoading) setPage("...loading");
+    else if (!user) setPage(children);
+    else navigate(-1);
+  }, [user, location]);
+  return page;
 }
 
 function AdminRoute({ children }) {

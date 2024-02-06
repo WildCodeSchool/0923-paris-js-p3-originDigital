@@ -1,5 +1,4 @@
 const router = require("express").Router();
-
 const userController = require("../controllers/user.controller");
 const auth = require("../middlewares/auth");
 const fileUpload = require("../middlewares/fileUpload");
@@ -23,8 +22,16 @@ router.get(
   auth.isAuth,
   userController.checkFollowUser
 );
-router.get("/users/:id/followers", userController.getFollowerListById);
-router.get("/users/:id/following", userController.getFollowingListById);
+router.get(
+  "/users/:id/followers",
+  auth.isAuth,
+  userController.getFollowerListById
+);
+router.get(
+  "/users/:id/following",
+  auth.isAuth,
+  userController.getFollowingListById
+);
 router.post("/users/:id/follow", auth.isAuth, userController.followUser);
 router.delete("/users/:id/unfollow", auth.isAuth, userController.unfollowUser);
 router.delete("/users/:id", userController.removeOne);

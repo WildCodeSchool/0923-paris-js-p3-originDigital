@@ -46,6 +46,7 @@ function Navbar() {
       );
       if (response.status === 200) {
         auth.setUser(null);
+        setToggleNavbarDestkop(false);
         Navigate("/");
       }
     } catch (error) {
@@ -144,7 +145,7 @@ function Navbar() {
             </div>
             <div
               className="logOut_Navbar_bloc"
-              onClick={handleSettingsCategoriesClick}
+              onClick={logOut}
               onKeyDown={logOut}
               tabIndex="-8"
               role="button"

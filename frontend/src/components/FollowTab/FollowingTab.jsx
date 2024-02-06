@@ -5,6 +5,7 @@ import useSelectedUser from "../../context/SelectedUserContext";
 function FollowingTab() {
   const [following, setFollowing] = useState([]);
   const { selectedUser, isFollowed, setIsFollowed } = useSelectedUser();
+
   useEffect(() => {
     const fetchFollowing = async () => {
       try {
@@ -45,6 +46,7 @@ function FollowingTab() {
         ? following.map((follow) => (
             <Subcard
               key={follow.user_id}
+              userId={follow.user_id}
               username={follow.username}
               avatar={follow.avatar}
               width={50}

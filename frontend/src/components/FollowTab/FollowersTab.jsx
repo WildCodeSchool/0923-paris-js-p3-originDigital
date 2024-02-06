@@ -46,7 +46,8 @@ function FollowersTab() {
         ? followers.map((follow) => (
             <Subcard
               key={follow.user_id}
-              username={selectedUser?.username}
+              userId={follow.user_id}
+              username={follow.username}
               avatar={follow.avatar}
               width={50}
               height={50}

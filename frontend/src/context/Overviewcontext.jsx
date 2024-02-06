@@ -13,7 +13,7 @@ export function OverviewProvider({ children }) {
   const [category, setCategory] = useState("");
   const [tag, setTag] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-
+  const [searchResultList, setSearchResultList] = useState([]);
   const [videoStats, setVideoStats] = useState([]);
   const [topTrend, setTopTrend] = useState([]);
   const [topCategory, setTopCategory] = useState([]);
@@ -49,6 +49,8 @@ export function OverviewProvider({ children }) {
       setUser,
       searchTerm,
       setSearchTerm,
+      searchResultList,
+      setSearchResultList,
     }),
     [
       isAdmin,
@@ -65,6 +67,7 @@ export function OverviewProvider({ children }) {
       videoThumbnail,
       user,
       searchTerm,
+      searchResultList,
     ]
   );
 

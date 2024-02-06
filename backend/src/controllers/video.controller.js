@@ -45,7 +45,7 @@ const getOne = async (req, res, next) => {
   try {
     const [[video]] = await videoModel.findById(req.params.id);
     if (video) res.status(200).json(video);
-    else res.status(404).json({ error: "Video not found" });
+    else res.sendStatus(404);
   } catch (error) {
     next(error);
   }
@@ -115,15 +115,11 @@ const removeOne = async (req, res, next) => {
   }
 };
 
-const changeViewCount = async (req, res, next) => {
+const getAllVideoInfos = async (req, res, next) => {
   try {
-    const [response] = await videoModel.updateViewCount(
-      req.params.idVideo,
-      req.params.idUser,
-      req.params.newCount
-    );
-    if (response.length > 0) {
-      res.status(200).json(response);
+    const [video] = await videoModel.findAllVideoInfos(req.params.id);
+    if (video.length > 0) {
+      res.status(200).json(video);
     } else res.sendStatus(404);
   } catch (error) {
     next(error);
@@ -162,7 +158,7 @@ module.exports = {
   getMostViewed,
   getAllVideosByCatId,
   removeOne,
-  changeViewCount,
+  getAllVideoInfos,
   getAllCommentsbyVideo,
   getSearchResults,
 };

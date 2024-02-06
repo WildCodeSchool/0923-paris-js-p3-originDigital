@@ -23,34 +23,4 @@ const getCommentById = async (req, res, next) => {
     next(error);
   }
 };
-
-const updateComment = async (req, res, next) => {
-  try {
-    const [result] = await commentModel.changeComment(
-      req.params.id,
-      req.body.comment
-    );
-    if (result.affectedRows > 0) {
-      res.status(204);
-    } else {
-      res.status(404).send("Comment not found");
-    }
-  } catch (error) {
-    next(error);
-  }
-};
-
-const removeComment = async (req, res, next) => {
-  try {
-    const [result] = await commentModel.deleteComment(req.params.id);
-    if (result.affectedRows > 0) {
-      res.sendStatus(204);
-    } else {
-      res.sendStatus(404);
-    }
-  } catch (error) {
-    next(error);
-  }
-};
-
-module.exports = { postComment, getCommentById, updateComment, removeComment };
+module.exports = { postComment, getCommentById };

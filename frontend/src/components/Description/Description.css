@@ -6,8 +6,7 @@
   gap: 1rem;
   padding-left: 3%;
   padding-right: 3%;
-  padding-bottom: 2rem;
-  height: auto;
+  height: 11.33rem;
   border-bottom: 0.0002rem solid;
   border-bottom-color: var(--white);
 }
@@ -17,14 +16,4 @@
 }
 .description_Component span {
   font-size: 18px;
-}
-
-.desc_N_Coms {
-  width: 100%;
-}
-
-@media (min-width: 1024px) {
-  .desc_N_Coms {
-    width: 100%;
-  }
 }

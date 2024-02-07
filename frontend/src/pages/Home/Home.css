@@ -14,8 +14,14 @@
   flex-direction: column;
   justify-content: center;
   color: var(--white);
-  padding-top: 2rem;
   padding-bottom: 5.5rem;
+}
+.connectedHome {
+  padding-top: 7rem;
+}
+
+.notConnectedHome {
+  padding-top: 2rem;
 }
 
 .container_Carousel {
@@ -77,6 +83,6 @@
     width: 100%;
   }
   .container_Home {
-    padding-bottom: 15rem;
+    padding-bottom: 0;
   }
 }

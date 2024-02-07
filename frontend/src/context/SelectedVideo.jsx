@@ -1,5 +1,5 @@
 import { createContext, useState, useMemo, useEffect, useContext } from "react";
-import { useParams, useLocation, useNavigate } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 
 const selectedVideoContext = createContext();
 
@@ -8,7 +8,6 @@ function SelectedVideoProvider({ children }) {
   const [selectedVideoTags, setSelectedVideoTags] = useState([]);
   const location = useLocation();
   const { id } = useParams();
-  const navigate = useNavigate();
 
   useEffect(() => {
     const getSelectedVideo = async () => {
@@ -24,8 +23,6 @@ function SelectedVideoProvider({ children }) {
         if (response.status === 200) {
           const video = await response.json();
           setSelectedVideo(video);
-        } else {
-          navigate("/*");
         }
       } catch (error) {
         console.error(error);

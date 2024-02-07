@@ -1,13 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import "./SearchResult.css";
 import VideoCard from "../../components/Videocard/VideoCard";
 import Header from "../../components/Header/Header";
 import useOverview from "../../context/Overviewcontext";
+import authContext from "../../context/AuthContext";
 
 function SearchResult() {
   const { searchTerm, searchResultList } = useOverview();
   const [resultText, setResultText] = useState("");
-  // console.log("search result list", searchResultList);
+  const auth = useContext(authContext);
 
   useEffect(() => {
     if (searchResultList.length === 0) {
@@ -22,7 +23,11 @@ function SearchResult() {
   return (
     <>
       <Header />
-      <div className="search_Result_Section_Wrapper">
+      <div
+        className={`search_Result_Section_Wrapper ${
+          auth?.user ? "connectedSearch" : "notConnectedSearch"
+        }`}
+      >
         <div className="searched_Text_Container">
           <p>{resultText}</p>
         </div>

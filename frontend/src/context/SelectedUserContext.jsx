@@ -1,5 +1,5 @@
 import { createContext, useState, useMemo, useEffect, useContext } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const selectedUserContext = createContext();
 
@@ -7,7 +7,6 @@ function SelectedUserProvider({ children }) {
   const [selectedUser, setSelectedUser] = useState(null);
   const [isFollowed, setIsFollowed] = useState(false);
   const { id } = useParams();
-  const navigate = useNavigate();
 
   useEffect(() => {
     const getSelectedUser = async () => {
@@ -23,8 +22,6 @@ function SelectedUserProvider({ children }) {
         if (response.status === 200) {
           const user = await response.json();
           setSelectedUser(user);
-        } else {
-          navigate("/*");
         }
       } catch (error) {
         console.error(error);

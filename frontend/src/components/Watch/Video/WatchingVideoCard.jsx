@@ -190,7 +190,7 @@ function VideoCard({ data }) {
         <ReactPlayer
           controls
           url={selectedVideo?.URL_video}
-          height={380}
+          height={280}
           width="100%"
           onStart={handleAddViews}
         />

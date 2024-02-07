@@ -17,6 +17,7 @@ function VideoCard({ data }) {
   const [isLiked, setIsLiked] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const { selectedVideo } = useSelectedVideo();
+  const [viewCountTracker, setViewCountTracker] = useState(data?.view_count);
 
   const isMobile = window.innerWidth < 1024;
   const handleClose = () => {
@@ -32,9 +33,9 @@ function VideoCard({ data }) {
     } else if (viewCount >= 1000) {
       return `${(viewCount / 1000).toFixed(1)} K`;
     }
-    return true;
+    return viewCount;
   }
-  const formattedViewCount = formatViewCount(data?.view_count);
+  const formattedViewCount = formatViewCount(viewCountTracker);
 
   const handleFollowClick = () => {
     setIsFollowed(!isFollowed);
@@ -53,53 +54,103 @@ function VideoCard({ data }) {
     };
   }, []);
 
+  useEffect(() => {
+    const fetchViewCount = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/videos/${data.video_id}`,
+          {
+            method: "GET",
+            credentials: "include",
+            body: JSON.stringify({
+              idVideo: data.video_id,
+              idUser: data.user_id,
+              count: data.view_count,
+            }),
+          }
+        );
+        if (response.ok) {
+          const jsonData = await response.json();
+          setViewCountTracker(jsonData.viewCount);
+        }
+      } catch (error) {
+        console.error(
+          "Erreur lors de la récupération du nombre de vues:",
+          error
+        );
+      }
+    };
+
+    fetchViewCount();
+  }, [data.video_id]);
+
   const handleAddViews = async () => {
+    // Appelée lors du démarrage de la vidéo pour incrémenter le nombre de vues
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/videos/${data.video_id}`,
+        `${import.meta.env.VITE_BACKEND_URL}/videos/${
+          data.video_id
+        }/viewsUpdate`,
         {
-          method: "GET",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            idVideo: data.video_id,
-            idUser: data.user_id,
-            count: data.count,
-          }),
+          method: "PUT",
         }
       );
-      if (response.status === 200) {
-        try {
-          const responseUpdate = await fetch(
-            `${import.meta.env.VITE_BACKEND_URL}/videos/viewsUpdate/${
-              data.video_id
-            }/`,
-            {
-              method: "PUT",
-              credentials: "include",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                idVideo: data.video_id,
-                idUser: data.user_id,
-                newCount: response.count + 1,
-              }),
-            }
-          );
-          if (responseUpdate.status === 204) {
-            // faire une MAJ de compteur si ça ne renvoie pas de count depuis useContext
-          }
-        } catch (error) {
-          console.error(error);
-        }
+      if (response.ok) {
+        const jsonData = await response.json();
+        setViewCountTracker(jsonData.viewCount);
       }
     } catch (error) {
-      console.error(error);
+      console.error(
+        "Erreur lors de l'incrémentation du nombre de vues:",
+        error
+      );
     }
   };
+
+  // const handleAddViews = async () => {
+  //   try {
+  //     const response = await fetch(
+  //       `${import.meta.env.VITE_BACKEND_URL}/videos/${data.video_id}`,
+  //       {
+  //         method: "GET",
+  //         credentials: "include",
+  //         body: JSON.stringify({
+  //           idVideo: data.video_id,
+  //           idUser: data.user_id,
+  //           count: data.count,
+  //         }),
+  //       }
+  //     );
+  //     if (response.status === 200) {
+  //       try {
+  //         const responseUpdate = await fetch(
+  //           `${import.meta.env.VITE_BACKEND_URL}/videos/viewsUpdate/${
+  //             data.video_id
+  //           }/`,
+  //           {
+  //             method: "PUT",
+  //             credentials: "include",
+  //             headers: {
+  //               "Content-Type": "application/json",
+  //             },
+  //             body: JSON.stringify({
+  //               idVideo: data.video_id,
+  //               idUser: data.user_id,
+  //               newCount: response.count + 1,
+  //             }),
+  //           }
+  //         );
+  //         if (responseUpdate.status === 204) {
+  //           // faire une MAJ de compteur si ça ne renvoie pas de count depuis useContext
+  //         }
+  //       } catch (error) {
+  //         console.error(error);
+  //       }
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   return (
     <>
@@ -140,7 +191,10 @@ function VideoCard({ data }) {
               width="38"
               height="38"
             />
-            <span>{formattedViewCount}</span>
+            <span>
+              {formattedViewCount}
+              {data?.view_count}
+            </span>
           </div>
           <div className="like_Icon_Watch_Bloc">
             <div className="like_Icon_Watch_Bloc">

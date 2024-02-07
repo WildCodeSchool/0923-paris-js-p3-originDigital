@@ -150,6 +150,31 @@ const getSearchResults = async (req, res, next) => {
   }
 };
 
+const changeViewCount = async (req, res, next) => {
+  try {
+    const idVideo = req.params.id; // L'ID de la vidéo vient des paramètres de la route
+
+    // Utiliser `findById` pour récupérer le nombre de vues actuel
+    const [result] = await videoModel.findById(idVideo);
+    if (result.length > 0) {
+      // Mise à jour du nombre de vues si la vidéo existe déjà
+      await videoModel.updateViewCount(idVideo);
+    } else {
+      // Insertion d'une nouvelle vue si la vidéo n'a pas de vues enregistrées
+      await videoModel.insertViewCount(idVideo);
+    }
+
+    // Récupérer à nouveau le nombre total de vues pour renvoyer la nouvelle valeur
+    const [updatedResult] = await videoModel.findById(idVideo);
+    const newViewCount =
+      updatedResult.length > 0 ? updatedResult[0].view_count : 0;
+
+    res.json({ success: true, viewCount: newViewCount });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   add,
   getAll,
@@ -161,4 +186,5 @@ module.exports = {
   getAllVideoInfos,
   getAllCommentsbyVideo,
   getSearchResults,
+  changeViewCount,
 };

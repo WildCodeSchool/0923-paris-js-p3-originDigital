@@ -53,6 +53,24 @@ const findById = (id) => {
   );
 };
 
+const getCurrentViewCount = (idVideo) => {
+  return db.query(`SELECT SUM(views.count) FROM views WHERE video_id = ?`, [
+    idVideo,
+  ]);
+};
+
+const updateViewCount = (idVideo) => {
+  return db.query(`UPDATE views SET count = count + 1 WHERE video_id = ?`, [
+    idVideo,
+  ]);
+};
+
+const insertViewCount = (idVideo) => {
+  return db.query(`INSERT INTO views (video_id, count) VALUES (?, 1)`, [
+    idVideo,
+  ]);
+};
+
 const findAll = () => {
   return db.query("SELECT * FROM videos");
 };
@@ -122,4 +140,7 @@ module.exports = {
   findAllVideoInfos,
   findCommentsInfoByVideo,
   findByVideoNameOrCatOrTag,
+  getCurrentViewCount,
+  updateViewCount,
+  insertViewCount,
 };

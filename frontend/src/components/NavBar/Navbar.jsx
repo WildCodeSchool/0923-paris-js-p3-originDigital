@@ -72,7 +72,7 @@ function Navbar() {
       <div
         ref={navbarRef}
         className={`containeur_Body_Navbar ${
-          !toggleNavbarDesktop ? "hiddenNavbar" : ""
+          !toggleNavbarDesktop ? "hiddenNavbar" : "visible"
         }`}
       >
         <Icon

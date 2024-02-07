@@ -140,47 +140,49 @@ function Videos() {
             handleUpdateCommentInState={handleUpdateCommentInState}
           />
         </div>
-        <div className="inputSection">
-          {inputComment ? (
-            <div className="container_Comment">
-              <input
-                className="input_Comment"
-                type="text"
-                placeholder="Add a comment"
-                value={comment}
-                onChange={handleInputChange}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    handleSubmit();
-                  }
-                }}
-              />
-              <Icon
-                id="icon_Search"
-                type="button"
-                onClick={handleSubmit}
-                icon="material-symbols:upload"
-                color="#F3F3E6"
-                width="50"
-                height="50"
-              />
-            </div>
-          ) : (
-            <div
-              role="button"
-              onClick={toggleInputComment}
-              onKeyDown={toggleInputComment}
-              className="addCommentSection"
-              tabIndex="-11"
-            >
-              <img
-                src={AddComment}
-                alt="Add Comment"
-                className="addCommentButton"
-              />
-            </div>
-          )}
-        </div>
+        {auth?.user?.user_id && (
+          <div className="inputSection">
+            {inputComment ? (
+              <div className="container_Comment">
+                <input
+                  className="input_Comment"
+                  type="text"
+                  placeholder="Add a comment"
+                  value={comment}
+                  onChange={handleInputChange}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      handleSubmit();
+                    }
+                  }}
+                />
+                <Icon
+                  id="icon_Search"
+                  type="button"
+                  onClick={handleSubmit}
+                  icon="material-symbols:upload"
+                  color="#F3F3E6"
+                  width="50"
+                  height="50"
+                />
+              </div>
+            ) : (
+              <div
+                role="button"
+                onClick={toggleInputComment}
+                onKeyDown={toggleInputComment}
+                className="addCommentSection"
+                tabIndex="-11"
+              >
+                <img
+                  src={AddComment}
+                  alt="Add Comment"
+                  className="addCommentButton"
+                />
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </main>
   );

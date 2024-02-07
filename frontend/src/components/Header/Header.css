@@ -4,6 +4,17 @@
   justify-content: space-evenly;
   flex-wrap: wrap;
   padding: 1rem 0;
+
+  transition: top 0.3s;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 10;
+  background-color: var(--black);
+}
+
+.hide {
+  top: -100%;
 }
 .header-unregistered {
   display: flex;

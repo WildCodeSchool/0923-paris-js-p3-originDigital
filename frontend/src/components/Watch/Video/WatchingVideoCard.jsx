@@ -9,11 +9,12 @@ import Modal from "../../Modal/Modal";
 import useSelectedVideo from "../../../context/SelectedVideo";
 import authContext from "../../../context/AuthContext";
 import useSelectedUser from "../../../context/SelectedUserContext";
+import useOverview from "../../../context/Overviewcontext";
 
 function VideoCard({ data }) {
   const auth = useContext(authContext);
-  const { isFollowed, setIsFollowed, setFavoriteVideoList, selectedUser } =
-    useSelectedUser();
+  const { isFollowed, setIsFollowed, selectedUser } = useSelectedUser();
+  const { setFavoriteVideoList } = useOverview();
   const [openVideoOptions, setOpenVideoOptions] = useState(false);
   const videoOptionsMenuRef = useRef();
   const [openModal, setOpenModal] = useState(false);

@@ -39,7 +39,7 @@ function Videos() {
           setVideoInfo(data);
         }
       } catch (error) {
-        console.error("Could not fetch video info:", error);
+        console.error(error);
       }
     };
     fetchVideoInfo();
@@ -102,7 +102,7 @@ function Videos() {
       }
     };
     showComments();
-  }, [comments]);
+  }, [inputComment]);
 
   const handleInputChange = (event) => {
     setComment(event.target.value);

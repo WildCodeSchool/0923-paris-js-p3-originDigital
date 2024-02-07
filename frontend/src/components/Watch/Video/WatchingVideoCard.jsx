@@ -17,7 +17,7 @@ function VideoCard({ data }) {
   const [isLiked, setIsLiked] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const { selectedVideo } = useSelectedVideo();
-  const [viewCountTracker, setViewCountTracker] = useState(data?.view_count);
+  const [viewCountTracker, setViewCountTracker] = useState(0);
 
   const isMobile = window.innerWidth < 1024;
   const handleClose = () => {
@@ -62,22 +62,14 @@ function VideoCard({ data }) {
           {
             method: "GET",
             credentials: "include",
-            body: JSON.stringify({
-              idVideo: data.video_id,
-              idUser: data.user_id,
-              count: data.view_count,
-            }),
           }
         );
         if (response.ok) {
           const jsonData = await response.json();
-          setViewCountTracker(jsonData.viewCount);
+          setViewCountTracker(jsonData.view_count);
         }
       } catch (error) {
-        console.error(
-          "Erreur lors de la récupération du nombre de vues:",
-          error
-        );
+        console.error(error);
       }
     };
 
@@ -85,7 +77,6 @@ function VideoCard({ data }) {
   }, [data.video_id]);
 
   const handleAddViews = async () => {
-    // Appelée lors du démarrage de la vidéo pour incrémenter le nombre de vues
     try {
       const response = await fetch(
         `${import.meta.env.VITE_BACKEND_URL}/videos/${
@@ -93,6 +84,14 @@ function VideoCard({ data }) {
         }/viewsUpdate`,
         {
           method: "PUT",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            idVideo: data.video_id,
+            idUser: data.user_id,
+          }),
         }
       );
       if (response.ok) {
@@ -100,10 +99,7 @@ function VideoCard({ data }) {
         setViewCountTracker(jsonData.viewCount);
       }
     } catch (error) {
-      console.error(
-        "Erreur lors de l'incrémentation du nombre de vues:",
-        error
-      );
+      console.error(error);
     }
   };
 
@@ -191,10 +187,7 @@ function VideoCard({ data }) {
               width="38"
               height="38"
             />
-            <span>
-              {formattedViewCount}
-              {data?.view_count}
-            </span>
+            <span>{formattedViewCount}</span>
           </div>
           <div className="like_Icon_Watch_Bloc">
             <div className="like_Icon_Watch_Bloc">

@@ -53,11 +53,11 @@ const findById = (id) => {
   );
 };
 
-const getCurrentViewCount = (idVideo) => {
-  return db.query(`SELECT SUM(views.count) FROM views WHERE video_id = ?`, [
-    idVideo,
-  ]);
-};
+// const getCurrentViewCount = (idVideo) => {
+//   return db.query(`SELECT SUM(views.count) FROM views WHERE video_id = ?`, [
+//     idVideo,
+//   ]);
+// };
 
 const updateViewCount = (idVideo) => {
   return db.query(`UPDATE views SET count = count + 1 WHERE video_id = ?`, [
@@ -140,7 +140,7 @@ module.exports = {
   findAllVideoInfos,
   findCommentsInfoByVideo,
   findByVideoNameOrCatOrTag,
-  getCurrentViewCount,
+  // getCurrentViewCount,
   updateViewCount,
   insertViewCount,
 };

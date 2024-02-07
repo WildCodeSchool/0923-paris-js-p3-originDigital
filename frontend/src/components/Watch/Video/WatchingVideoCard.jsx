@@ -1,26 +1,43 @@
 import ReactPlayer from "react-player";
-import { React, useState, useEffect, useRef } from "react";
+import { React, useState, useEffect, useRef, useContext } from "react";
 import "./WatchingVideoCard.css";
-import Avatar from "@mui/material/Avatar";
 import { Icon } from "@iconify/react";
-import video from "../../../../../backend/public/upload/1706026627893.0.6409657439334755.VID-20231009-WA0012_1.mp4";
+import BackgroundLetterAvatars from "../../Avatar/Avatar";
 import follow from "../../../assets/follow.png";
 import unfollow from "../../../assets/unfollow.png";
 import Modal from "../../Modal/Modal";
 import useOverview from "../../../context/Overviewcontext";
+import useSelectedVideo from "../../../context/SelectedVideo";
+import authContext from "../../../context/AuthContext";
 
-function VideoCard() {
-  const { isFollowed, setIsFollowed } = useOverview();
+function VideoCard({ data }) {
+  const auth = useContext(authContext);
+  const { isFollowed, setIsFollowed, setFavoriteVideoList } = useOverview();
   const [openVideoOptions, setOpenVideoOptions] = useState(false);
   const videoOptionsMenuRef = useRef();
   const [openModal, setOpenModal] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
+  const { selectedVideo } = useSelectedVideo();
+  const [viewCountTracker, setViewCountTracker] = useState(0);
 
   const isMobile = window.innerWidth < 1024;
   const handleClose = () => {
     setOpenModal(false);
   };
+
+  function formatViewCount(viewCount) {
+    if (viewCount < 1000) {
+      return viewCount;
+      // eslint-disable-next-line no-else-return
+    } else if (viewCount >= 1000000) {
+      return `${(viewCount / 1000000).toFixed(1)} M`;
+    } else if (viewCount >= 1000) {
+      return `${(viewCount / 1000).toFixed(1)} K`;
+    }
+    return viewCount;
+  }
+  const formattedViewCount = formatViewCount(viewCountTracker);
 
   const handleFollowClick = () => {
     setIsFollowed(!isFollowed);
@@ -39,23 +56,164 @@ function VideoCard() {
     };
   }, []);
 
+  useEffect(() => {
+    const fetchViewCount = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/videos/${data.video_id}`,
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
+        if (response.ok) {
+          const jsonData = await response.json();
+          setViewCountTracker(jsonData.view_count);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchViewCount();
+  }, [data.video_id]);
+
+  const handleAddViews = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/videos/${
+          data.video_id
+        }/viewsUpdate`,
+        {
+          method: "PUT",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            idVideo: data.video_id,
+            idUser: data.user_id,
+          }),
+        }
+      );
+      if (response.ok) {
+        const jsonData = await response.json();
+        setViewCountTracker(jsonData.viewCount);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    const checkIsVideoFavorite = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/videos/${
+            data.video_id
+          }/isFavorite`,
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
+        if (response.status === 200) setIsFavorite(true);
+        else setIsFavorite(false);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    checkIsVideoFavorite();
+  }, [data.video_id]);
+
+  const handleFavorites = async () => {
+    if (!isFavorite) {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/users/${
+            auth?.user?.user_id
+          }/favorites`,
+          {
+            method: "POST",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              video_id: data.video_id,
+            }),
+          }
+        );
+        if (response.status === 200) {
+          const newFavoriteVideo = await response.json();
+          setFavoriteVideoList((prevList) => [...prevList, newFavoriteVideo]);
+          setIsFavorite(true);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/users/${
+            auth?.user?.user_id
+          }/favorites`,
+          {
+            method: "DELETE",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              video_id: data.video_id,
+            }),
+          }
+        );
+        if (response.status === 200) {
+          const removedFavoriteVideo = await response.json();
+          setFavoriteVideoList((prevList) =>
+            prevList.filter(
+              (video) => video.video_id !== removedFavoriteVideo.video_id
+            )
+          );
+          setIsFavorite(false);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
   return (
     <>
       {isMobile ? (
-        <ReactPlayer controls url={video} height={380} width="100%" />
+        <ReactPlayer
+          controls
+          url={selectedVideo?.URL_video}
+          height={380}
+          width="100%"
+          onStart={handleAddViews}
+        />
       ) : (
-        <ReactPlayer controls url={video} height={543} width={966} />
+        <ReactPlayer
+          controls
+          url={selectedVideo?.URL_video}
+          height={543}
+          width={966}
+          onStart={handleAddViews}
+        />
       )}
       <div className="watch_Video_Card">
         <div className="flex_Watch_Video_Info">
           {!isMobile && (
             <div className="avatar_Container_Watch">
-              <Avatar
-                className="avatar"
-                sx={{ width: 35, height: 35 }}
-                src="https://images.unsplash.com/photo-1561948955-570b270e7c36?q=80&w=1802&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              <BackgroundLetterAvatars
+                width={40}
+                height={40}
+                username={data?.username}
+                userId={data?.user_id}
               />
-              <p className="creator_Username_Watch">Xoxoxoxo45</p>
+              <p className="creator_Username_Watch">{data?.username}</p>
             </div>
           )}
           <div className="view_Icon_Watch_Bloc">
@@ -66,7 +224,7 @@ function VideoCard() {
               width="38"
               height="38"
             />
-            <span>100 K</span>
+            <span>{formattedViewCount}</span>
           </div>
           <div className="like_Icon_Watch_Bloc">
             <div className="like_Icon_Watch_Bloc">
@@ -90,7 +248,7 @@ function VideoCard() {
                   onClick={() => setIsLiked(true)}
                 />
               )}
-              <span>254</span>
+              <span>{data?.like_count}</span>
             </div>
           </div>
           <div className="favorite_Icon_Watch_Bloc">
@@ -101,7 +259,7 @@ function VideoCard() {
                 alt="Favorite Icon"
                 width="34"
                 height="34"
-                onClick={() => setIsFavorite(false)}
+                onClick={handleFavorites}
               />
             ) : (
               <Icon
@@ -111,7 +269,7 @@ function VideoCard() {
                 alt="Favorite Icon"
                 width="34"
                 height="34"
-                onClick={() => setIsFavorite(true)}
+                onClick={handleFavorites}
               />
             )}
           </div>
@@ -151,7 +309,6 @@ function VideoCard() {
               }`}
             >
               <button
-                className="video_dropdown_Btn"
                 type="button"
                 onClick={() => {
                   setOpenVideoOptions(false);
@@ -160,7 +317,6 @@ function VideoCard() {
                 <ul>Edit video</ul>
               </button>
               <button
-                className="video_dropdown_Btn"
                 type="button"
                 onClick={() => {
                   setOpenModal(true);
@@ -203,16 +359,16 @@ function VideoCard() {
           <div className="data_Container_Watch">
             {isMobile && (
               <div className="avatar_Container_Watch_Mobile">
-                <Avatar
-                  className="avatar"
+                <BackgroundLetterAvatars
                   sx={{ width: 35, height: 35 }}
-                  src="https://images.unsplash.com/photo-1561948955-570b270e7c36?q=80&w=1802&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                  username={data?.username}
+                  userId={data?.user_id}
                 />
-                <p className="creator_Username_Watch">Xoxoxoxo45</p>
+                <p className="creator_Username_Watch">{data?.username}</p>
               </div>
             )}
             <div className="channel_Details_Watch">
-              <h3 className="video_Title_Watch">Le chat sympa !</h3>
+              <h3 className="video_Title_Watch">{data?.title}</h3>
             </div>
           </div>
         </div>

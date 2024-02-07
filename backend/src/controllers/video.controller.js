@@ -150,6 +150,40 @@ const getSearchResults = async (req, res, next) => {
   }
 };
 
+const changeViewCount = async (req, res, next) => {
+  try {
+    const idVideo = req.params.id;
+
+    const [result] = await videoModel.findById(idVideo);
+    if (result.length > 0) {
+      await videoModel.updateViewCount(idVideo);
+    } else {
+      await videoModel.insertViewCount(idVideo);
+    }
+
+    const [updatedResult] = await videoModel.findById(idVideo);
+    const newViewCount =
+      updatedResult.length > 0 ? updatedResult[0].view_count : 0;
+
+    res.json({ success: true, viewCount: newViewCount });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const checkVideoInUserFavoriteList = async (req, res, next) => {
+  try {
+    const [[result]] = await videoModel.isInUserFavorites(
+      req.user_id,
+      req.params.id
+    );
+    if (result) res.status(200).json(result);
+    else res.sendStatus(404);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   add,
   getAll,
@@ -161,4 +195,6 @@ module.exports = {
   getAllVideoInfos,
   getAllCommentsbyVideo,
   getSearchResults,
+  changeViewCount,
+  checkVideoInUserFavoriteList,
 };

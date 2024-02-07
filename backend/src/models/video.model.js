@@ -48,18 +48,27 @@ const insertVideoTag = (videoId, tagId) => {
 
 const findById = (id) => {
   return db.query(
-    `SELECT v.*, u.*, c.name, 
-    (SELECT COUNT(*) FROM likes WHERE video_id = v.video_id) AS like_count, 
-    (SELECT SUM(views.count) FROM views WHERE video_id = v.video_id) AS view_count 
-    FROM videos v 
-    LEFT JOIN users u ON v.user_id = u.user_id 
-    LEFT JOIN likes l ON v.video_id = l.video_id 
-    LEFT JOIN views vw ON v.video_id = vw.video_id 
-    JOIN categories AS c ON v.category_id = c.category_id 
-    WHERE v.video_id = ? 
-    GROUP BY v.video_id, u.user_id`,
+    `SELECT v.*, u.*, c.name, (SELECT COUNT(*) FROM likes WHERE video_id = v.video_id) AS like_count, (SELECT SUM(views.count) FROM views WHERE video_id = v.video_id) AS view_count FROM videos v LEFT JOIN users u ON v.user_id = u.user_id LEFT JOIN likes l ON v.video_id = l.video_id LEFT JOIN views vw ON v.video_id = vw.video_id JOIN categories AS c ON v.category_id = c.category_id WHERE v.video_id = ? GROUP BY v.video_id, u.user_id`,
     [id]
   );
+};
+
+// const getCurrentViewCount = (idVideo) => {
+//   return db.query(`SELECT SUM(views.count) FROM views WHERE video_id = ?`, [
+//     idVideo,
+//   ]);
+// };
+
+const updateViewCount = (idVideo) => {
+  return db.query(`UPDATE views SET count = count + 1 WHERE video_id = ?`, [
+    idVideo,
+  ]);
+};
+
+const insertViewCount = (idVideo) => {
+  return db.query(`INSERT INTO views (video_id, count) VALUES (?, 1)`, [
+    idVideo,
+  ]);
 };
 
 const findAll = () => {
@@ -120,6 +129,13 @@ const findByVideoNameOrCatOrTag = (videoName, categoryName, tagName) => {
   );
 };
 
+const isInUserFavorites = (userId, videoId) => {
+  return db.query(
+    "SELECT v.video_id, v.title, v.description, v. URL_video, v.type_video, v.thumbnail, v.date_publication, v.validate, v.category_id, v.user_id AS creator_id, f.user_id AS favorite_user_id FROM videos AS v JOIN favorites AS f ON v.video_id = f.video_id WHERE f.user_id = ? AND f.video_id = ?",
+    [userId, videoId]
+  );
+};
+
 module.exports = {
   insert,
   findById,
@@ -132,4 +148,7 @@ module.exports = {
   findAllVideoInfos,
   findCommentsInfoByVideo,
   findByVideoNameOrCatOrTag,
+  updateViewCount,
+  insertViewCount,
+  isInUserFavorites,
 };

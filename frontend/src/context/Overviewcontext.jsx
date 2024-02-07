@@ -18,6 +18,7 @@ export function OverviewProvider({ children }) {
   const [topTrend, setTopTrend] = useState([]);
   const [topCategory, setTopCategory] = useState([]);
   const [toggleNavbarDesktop, setToggleNavbarDestkop] = useState(false);
+  const [favoriteVideoList, setFavoriteVideoList] = useState([]);
 
   const value = useMemo(
     () => ({
@@ -51,6 +52,8 @@ export function OverviewProvider({ children }) {
       setSearchTerm,
       searchResultList,
       setSearchResultList,
+      favoriteVideoList,
+      setFavoriteVideoList,
     }),
     [
       isAdmin,
@@ -68,6 +71,7 @@ export function OverviewProvider({ children }) {
       user,
       searchTerm,
       searchResultList,
+      favoriteVideoList,
     ]
   );
 

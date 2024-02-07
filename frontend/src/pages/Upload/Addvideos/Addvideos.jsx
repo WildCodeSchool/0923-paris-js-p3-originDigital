@@ -1,16 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import AsyncSelect from "react-select/async";
 import "./Addvideos.css";
 import useOverviewContext from "../../../context/Overviewcontext";
 import Header from "../../../components/Header/Header";
+import authContext from "../../../context/AuthContext";
 
 function Addvideos() {
   const maxCharacters = 255;
   const [errorThumbnail, setErrorThumbnail] = useState(false);
   const [errorFile, setErrorFile] = useState(false);
   const navigate = useNavigate();
+  const auth = useContext(authContext);
 
   const {
     videoTitle,
@@ -48,9 +50,7 @@ function Addvideos() {
       );
 
       if (response.status === 201) {
-        const video = await response.json();
-        console.info(video);
-        navigate("/upload");
+        navigate(`/usersprofile/${auth?.user?.user_id}`);
       }
     } catch (error) {
       console.error(error);

@@ -90,13 +90,14 @@ const update = (id, title, description, thumbnail, category) => {
 };
 
 const findMostViewed = () => {
-  return db.query(`
-    SELECT videos.*, views.views
-    FROM videos
-    JOIN views ON videos.video_id = views.video_id
-    ORDER BY views.views DESC
-    LIMIT 3
-  `);
+  return db.query(`SELECT videos.*, users.*, 
+  (SELECT SUM(views.count) FROM views WHERE video_id = videos.video_id) AS view_count 
+  FROM videos
+  JOIN views ON videos.video_id = views.video_id
+  JOIN users ON videos.user_id = users.user_id
+  GROUP BY videos.video_id
+  ORDER BY view_count DESC
+  LIMIT 4;`);
 };
 
 const findByCategory = (categoryId) => {

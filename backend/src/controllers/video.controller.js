@@ -87,7 +87,7 @@ const edit = async (req, res, next) => {
 
 const getMostViewed = async (req, res) => {
   try {
-    const mostViewedVideos = await videoModel.findMostViewed();
+    const [mostViewedVideos] = await videoModel.findMostViewed();
     res.json(mostViewedVideos);
   } catch (error) {
     console.error(error);

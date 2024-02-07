@@ -18,6 +18,7 @@ router.get(
 );
 router.get("/videos/:id/comments", videoController.getAllCommentsbyVideo);
 router.get("/videos/:id/tags", tagController.getAllByVideoId);
+router.put("/videos/:id/viewsUpdate", videoController.changeViewCount);
 router.put("/videos/:id", fileUpload.any(), videoController.edit);
 router.delete("/videos/:id", videoController.removeOne);
 

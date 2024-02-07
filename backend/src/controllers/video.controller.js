@@ -171,6 +171,19 @@ const changeViewCount = async (req, res, next) => {
   }
 };
 
+const checkVideoInUserFavoriteList = async (req, res, next) => {
+  try {
+    const [[result]] = await videoModel.isInUserFavorites(
+      req.user_id,
+      req.params.id
+    );
+    if (result) res.status(200).json(result);
+    else res.sendStatus(404);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   add,
   getAll,
@@ -183,4 +196,5 @@ module.exports = {
   getAllCommentsbyVideo,
   getSearchResults,
   changeViewCount,
+  checkVideoInUserFavoriteList,
 };

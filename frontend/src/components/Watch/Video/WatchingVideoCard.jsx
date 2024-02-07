@@ -1,5 +1,5 @@
 import ReactPlayer from "react-player";
-import { React, useState, useEffect, useRef } from "react";
+import { React, useState, useEffect, useRef, useContext } from "react";
 import "./WatchingVideoCard.css";
 import { Icon } from "@iconify/react";
 import BackgroundLetterAvatars from "../../Avatar/Avatar";
@@ -8,9 +8,11 @@ import unfollow from "../../../assets/unfollow.png";
 import Modal from "../../Modal/Modal";
 import useOverview from "../../../context/Overviewcontext";
 import useSelectedVideo from "../../../context/SelectedVideo";
+import authContext from "../../../context/AuthContext";
 
 function VideoCard({ data }) {
-  const { isFollowed, setIsFollowed } = useOverview();
+  const auth = useContext(authContext);
+  const { isFollowed, setIsFollowed, setFavoriteVideoList } = useOverview();
   const [openVideoOptions, setOpenVideoOptions] = useState(false);
   const videoOptionsMenuRef = useRef();
   const [openModal, setOpenModal] = useState(false);
@@ -103,50 +105,84 @@ function VideoCard({ data }) {
     }
   };
 
-  // const handleAddViews = async () => {
-  //   try {
-  //     const response = await fetch(
-  //       `${import.meta.env.VITE_BACKEND_URL}/videos/${data.video_id}`,
-  //       {
-  //         method: "GET",
-  //         credentials: "include",
-  //         body: JSON.stringify({
-  //           idVideo: data.video_id,
-  //           idUser: data.user_id,
-  //           count: data.count,
-  //         }),
-  //       }
-  //     );
-  //     if (response.status === 200) {
-  //       try {
-  //         const responseUpdate = await fetch(
-  //           `${import.meta.env.VITE_BACKEND_URL}/videos/viewsUpdate/${
-  //             data.video_id
-  //           }/`,
-  //           {
-  //             method: "PUT",
-  //             credentials: "include",
-  //             headers: {
-  //               "Content-Type": "application/json",
-  //             },
-  //             body: JSON.stringify({
-  //               idVideo: data.video_id,
-  //               idUser: data.user_id,
-  //               newCount: response.count + 1,
-  //             }),
-  //           }
-  //         );
-  //         if (responseUpdate.status === 204) {
-  //           // faire une MAJ de compteur si ça ne renvoie pas de count depuis useContext
-  //         }
-  //       } catch (error) {
-  //         console.error(error);
-  //       }
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
+  useEffect(() => {
+    const checkIsVideoFavorite = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/videos/${
+            data.video_id
+          }/isFavorite`,
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
+        if (response.status === 200) setIsFavorite(true);
+        else setIsFavorite(false);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    checkIsVideoFavorite();
+  }, [data.video_id]);
+
+  const handleFavorites = async () => {
+    if (!isFavorite) {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/users/${
+            auth?.user?.user_id
+          }/favorites`,
+          {
+            method: "POST",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              video_id: data.video_id,
+            }),
+          }
+        );
+        if (response.status === 200) {
+          const newFavoriteVideo = await response.json();
+          setFavoriteVideoList((prevList) => [...prevList, newFavoriteVideo]);
+          setIsFavorite(true);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/users/${
+            auth?.user?.user_id
+          }/favorites`,
+          {
+            method: "DELETE",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              video_id: data.video_id,
+            }),
+          }
+        );
+        if (response.status === 200) {
+          const removedFavoriteVideo = await response.json();
+          setFavoriteVideoList((prevList) =>
+            prevList.filter(
+              (video) => video.video_id !== removedFavoriteVideo.video_id
+            )
+          );
+          setIsFavorite(false);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
 
   return (
     <>
@@ -172,7 +208,8 @@ function VideoCard({ data }) {
           {!isMobile && (
             <div className="avatar_Container_Watch">
               <BackgroundLetterAvatars
-                sx={{ width: 35, height: 35 }}
+                width={40}
+                height={40}
                 username={data?.username}
                 userId={data?.user_id}
               />
@@ -222,7 +259,7 @@ function VideoCard({ data }) {
                 alt="Favorite Icon"
                 width="34"
                 height="34"
-                onClick={() => setIsFavorite(false)}
+                onClick={handleFavorites}
               />
             ) : (
               <Icon
@@ -232,7 +269,7 @@ function VideoCard({ data }) {
                 alt="Favorite Icon"
                 width="34"
                 height="34"
-                onClick={() => setIsFavorite(true)}
+                onClick={handleFavorites}
               />
             )}
           </div>

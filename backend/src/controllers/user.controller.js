@@ -190,6 +190,45 @@ const getFollowingListById = async (req, res, next) => {
   }
 };
 
+const getFavoriteVideosByUserId = async (req, res, next) => {
+  try {
+    const [result] = await userModel.getFavoriteVideosPerUserByVideoType(
+      req.user_id,
+      req.query.type_video
+    );
+    if (result) res.status(200).json(result);
+    else res.sendStatus(404);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const addVideoToFavoritesByUserId = async (req, res, next) => {
+  try {
+    const [result] = await userModel.addVideoToFavorites(
+      req.user_id,
+      req.body.video_id
+    );
+    if (result) res.status(200).json(result);
+    else res.sendStatus(404);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const removeVideoToFavoritesByUserId = async (req, res, next) => {
+  try {
+    const [result] = await userModel.removeVideoFromFavorites(
+      req.user_id,
+      req.body.video_id
+    );
+    if (result) res.status(200).json(result);
+    else res.sendStatus(404);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   add,
   login,
@@ -206,4 +245,7 @@ module.exports = {
   checkFollowUser,
   getFollowingListById,
   getFollowerListById,
+  getFavoriteVideosByUserId,
+  addVideoToFavoritesByUserId,
+  removeVideoToFavoritesByUserId,
 };

@@ -128,6 +128,13 @@ const findByVideoNameOrCatOrTag = (videoName, categoryName, tagName) => {
   );
 };
 
+const isInUserFavorites = (userId, videoId) => {
+  return db.query(
+    "SELECT v.video_id, v.title, v.description, v. URL_video, v.type_video, v.thumbnail, v.date_publication, v.validate, v.category_id, v.user_id AS creator_id, f.user_id AS favorite_user_id FROM videos AS v JOIN favorites AS f ON v.video_id = f.video_id WHERE f.user_id = ? AND f.video_id = ?",
+    [userId, videoId]
+  );
+};
+
 module.exports = {
   insert,
   findById,
@@ -140,7 +147,7 @@ module.exports = {
   findAllVideoInfos,
   findCommentsInfoByVideo,
   findByVideoNameOrCatOrTag,
-  // getCurrentViewCount,
   updateViewCount,
   insertViewCount,
+  isInUserFavorites,
 };

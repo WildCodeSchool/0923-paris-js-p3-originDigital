@@ -15,7 +15,11 @@ function VideoCard({
   videoThumbnail,
   videoDate,
   videoViews,
-  onDeleteVideo,
+  canEdit, // Default to true if the prop is not provided
+  canDelete, // Default to true if the prop is not provided
+  canRemoveFavorite, // Default to true if the prop is not provided
+  onDeleteVideo, // Default to true if the prop is not provided
+  onRemoveFavorite, // Default to true if the prop is not provided
   showVideoIcon, // Default to true if the prop is not provided
   isInSlider, //  Default to true if the prop is not provided
 }) {
@@ -39,6 +43,29 @@ function VideoCard({
       );
       if (response.status === 204) {
         onDeleteVideo(videoId);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleRemoveFavorite = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/users/${videoUserId}/favorites`,
+        {
+          method: "DELETE",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            video_id: videoId,
+          }),
+        }
+      );
+      if (response.status === 200) {
+        onRemoveFavorite(videoId);
       }
     } catch (error) {
       console.error(error);
@@ -135,26 +162,42 @@ function VideoCard({
               openVideoOptions ? "active" : "inactive"
             }`}
           >
-            <button
-              className="settings_dropdown_Btn"
-              type="button"
-              onClick={() => {
-                setOpenVideoOptions(false);
-                navigate(`/videos/${videoId}/edit`);
-              }}
-            >
-              <ul>Edit video details</ul>
-            </button>
-            <button
-              className="settings_dropdown_Btn"
-              type="button"
-              onClick={() => {
-                setOpenModal(true);
-                setOpenVideoOptions(false);
-              }}
-            >
-              <ul>Delete video</ul>
-            </button>
+            {canEdit && (
+              <button
+                className="settings_dropdown_Btn"
+                type="button"
+                onClick={() => {
+                  setOpenVideoOptions(false);
+                  navigate(`/videos/${videoId}/edit`);
+                }}
+              >
+                <ul>Edit video details</ul>
+              </button>
+            )}
+            {canDelete && (
+              <button
+                className="settings_dropdown_Btn"
+                type="button"
+                onClick={() => {
+                  setOpenModal(true);
+                  setOpenVideoOptions(false);
+                }}
+              >
+                <ul>Delete video</ul>
+              </button>
+            )}
+            {canRemoveFavorite && (
+              <button
+                className="settings_dropdown_Btn"
+                type="button"
+                onClick={() => {
+                  setOpenVideoOptions(false);
+                  handleRemoveFavorite();
+                }}
+              >
+                <ul>Remove from favorites</ul>
+              </button>
+            )}
           </div>
         </div>
       )}

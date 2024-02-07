@@ -89,11 +89,33 @@ const getFollowerList = (userId) => {
     [userId]
   );
 };
+
 const getFollowedList = (userId) => {
   return db.query(
     "SELECT u.*, s.* FROM users AS u JOIN subscribe AS s ON s.followed_id = u.user_id WHERE s.follower_id = ? ",
     [userId]
   );
+};
+
+const getFavoriteVideosPerUserByVideoType = (userId, videoType) => {
+  return db.query(
+    "SELECT v.video_id, v.title, v.description, v. URL_video, v.type_video, v.thumbnail, v.date_publication, v.validate, v.category_id, SUM(vw.count) AS view_count, v.user_id AS creator_id, u.username AS creator_username, u.avatar AS creator_avatar, f.user_id AS favorite_user_id FROM users AS u JOIN videos AS v ON u.user_id = v.user_id LEFT JOIN views AS vw ON vw.video_id = v.video_id LEFT JOIN favorites AS f ON v.video_id = f.video_id WHERE f.user_id = ? AND v.type_video = ? GROUP BY v.video_id",
+    [userId, videoType]
+  );
+};
+
+const addVideoToFavorites = (userId, videoId) => {
+  return db.query("INSERT INTO favorites (user_id, video_id) VALUES (?,?)", [
+    userId,
+    videoId,
+  ]);
+};
+
+const removeVideoFromFavorites = (userId, videoId) => {
+  return db.query("DELETE FROM favorites WHERE user_id = ? AND video_id = ?", [
+    userId,
+    videoId,
+  ]);
 };
 
 module.exports = {
@@ -111,4 +133,7 @@ module.exports = {
   isFollowedByUser,
   getFollowerList,
   getFollowedList,
+  getFavoriteVideosPerUserByVideoType,
+  addVideoToFavorites,
+  removeVideoFromFavorites,
 };

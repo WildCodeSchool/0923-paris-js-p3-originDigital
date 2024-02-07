@@ -193,6 +193,7 @@ CREATE TABLE `videos` (
   `validate` tinyint NOT NULL DEFAULT '0',
   `category_id` int NOT NULL,
   `user_id` int NOT NULL,
+   `view_count` int DEFAULT '0',
   PRIMARY KEY (`video_id`),
   KEY `fk_Videos_Categories1_idx` (`category_id`),
   KEY `fk_Videos_User_idx` (`user_id`),

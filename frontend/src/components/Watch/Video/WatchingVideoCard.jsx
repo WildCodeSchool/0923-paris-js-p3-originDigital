@@ -6,13 +6,14 @@ import BackgroundLetterAvatars from "../../Avatar/Avatar";
 import follow from "../../../assets/follow.png";
 import unfollow from "../../../assets/unfollow.png";
 import Modal from "../../Modal/Modal";
-import useOverview from "../../../context/Overviewcontext";
 import useSelectedVideo from "../../../context/SelectedVideo";
 import authContext from "../../../context/AuthContext";
+import useSelectedUser from "../../../context/SelectedUserContext";
 
 function VideoCard({ data }) {
   const auth = useContext(authContext);
-  const { isFollowed, setIsFollowed, setFavoriteVideoList } = useOverview();
+  const { isFollowed, setIsFollowed, setFavoriteVideoList, selectedUser } =
+    useSelectedUser();
   const [openVideoOptions, setOpenVideoOptions] = useState(false);
   const videoOptionsMenuRef = useRef();
   const [openModal, setOpenModal] = useState(false);
@@ -39,9 +40,9 @@ function VideoCard({ data }) {
   }
   const formattedViewCount = formatViewCount(viewCountTracker);
 
-  const handleFollowClick = () => {
-    setIsFollowed(!isFollowed);
-  };
+  // const handleFollowClick = () => {
+  //   setIsFollowed(!isFollowed);
+  // };
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -178,6 +179,54 @@ function VideoCard({ data }) {
           );
           setIsFavorite(false);
         }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
+  const handleFollowClick = async () => {
+    if (!isFollowed) {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/users/${
+            selectedUser?.user_id
+          }/follow`,
+          {
+            method: "POST",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              follower_id: auth?.user?.user_id,
+              followed_id: selectedUser?.user_id,
+            }),
+          }
+        );
+        if (response.status === 204) setIsFollowed(true);
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/users/${
+            selectedUser?.user_id
+          }/unfollow`,
+          {
+            method: "DELETE",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              follower_id: auth?.user?.user_id,
+              followed_id: selectedUser?.user_id,
+            }),
+          }
+        );
+        if (response.status === 204) setIsFollowed(false);
       } catch (error) {
         console.error(error);
       }

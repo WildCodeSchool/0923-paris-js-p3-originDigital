@@ -102,14 +102,6 @@ function UserProfile() {
     }
   };
 
-  // useEffect(() => {
-  //   console.info("user", auth.user);
-  // }, [auth.user]);
-
-  useEffect(() => {
-    console.info("userVideos", userVideos);
-  }, [userVideos]);
-
   const handleEditUsername = () => {
     setIsEditingUsername(true);
     setNewUsername(auth?.user?.username);
@@ -528,7 +520,7 @@ function UserProfile() {
           </div>
         </section>
         <section className="video_Section">
-          {userVideos.map((video) => (
+          {[...userVideos].reverse().map((video) => (
             <VideoCard
               key={video.video_id}
               videoId={video.video_id}
@@ -539,6 +531,9 @@ function UserProfile() {
               videoDate={video.date_publication}
               videoViews={video.view_count}
               videoUserAvatar={selectedUser.avatar}
+              canDelete={auth?.user?.user_id === selectedUser?.user_id}
+              canEdit={auth?.user?.user_id === selectedUser?.user_id}
+              canRemoveFavorite={false}
               onDeleteVideo={handleDeleteVideoFromState}
               showVideoIcon={auth?.user?.user_id === selectedUser?.user_id}
             />

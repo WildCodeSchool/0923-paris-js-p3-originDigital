@@ -6,7 +6,7 @@
   color: var(--white);
   min-height: calc(100vh - 5.5rem);
   justify-content: flex-start;
-  margin: 0 2rem;
+  /* margin: 0 2rem; */
 }
 
 .container_Body_Home {
@@ -24,20 +24,24 @@
 .title_Top {
   margin-bottom: 0.5rem;
   font-size: 20px;
+  margin: 0 2rem;
 }
 
 .title_Short {
   margin-top: 1.5rem;
   margin-bottom: 0.5rem;
-  /* margin-left: 1rem; */
   font-size: 20px;
+  margin: 0 2rem;
 }
 
 .container_Short {
   display: flex;
   flex-direction: column;
   margin-top: 1rem;
-  /* padding: 1rem; */
+}
+
+[class^="title_Category"] {
+  margin: 0 2rem;
 }
 
 .title_Category_Animal {

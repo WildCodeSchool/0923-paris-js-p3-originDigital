@@ -97,7 +97,7 @@ const findMostViewed = () => {
   JOIN users ON videos.user_id = users.user_id
   GROUP BY videos.video_id
   ORDER BY view_count DESC
-  LIMIT 3;`);
+  LIMIT 4;`);
 };
 
 const findByCategory = (categoryId) => {

@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import AddComment from "../../assets/AddComment.png";
 import Description from "../../components/Description/Description";
@@ -26,7 +26,7 @@ function Videos() {
     const year = date.getFullYear();
     return `${day}/${month}/${year}`;
   }
-
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchVideoInfo = async () => {
       try {
@@ -37,6 +37,8 @@ function Videos() {
         if (response.status === 200) {
           const data = await response.json();
           setVideoInfo(data);
+        } else {
+          navigate("/*");
         }
       } catch (error) {
         console.error(error);

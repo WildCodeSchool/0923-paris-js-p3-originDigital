@@ -32,6 +32,19 @@ function VideoCard({
     setOpenModal(false);
   };
 
+  function formatViewCount(viewCount) {
+    if (viewCount < 1000) {
+      return viewCount;
+      // eslint-disable-next-line no-else-return
+    } else if (viewCount >= 1000000) {
+      return `${(viewCount / 1000000).toFixed(1)} M`;
+    } else if (viewCount >= 1000) {
+      return `${(viewCount / 1000).toFixed(1)} K`;
+    }
+    return viewCount;
+  }
+  const formattedViewCount = formatViewCount(videoViews);
+
   const handleDeleteVideo = async () => {
     try {
       const response = await fetch(
@@ -244,7 +257,7 @@ function VideoCard({
             </div>
 
             <p>
-              {videoViews} views &bull;{" "}
+              {formattedViewCount} views &bull;{" "}
               <TimeAgo date={videoDate} minPeriod={60} />
             </p>
           </div>

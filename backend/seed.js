@@ -135,6 +135,247 @@ const seed = async () => {
         category_id: 7,
         user_id: 2,
       },
+      {
+        title: "Apero Fiesta",
+        description: "Tuto cuisine",
+        URL_video:
+          env === "production"
+            ? `${prodURL}/upload/1706175389843.0.8841004398270393.VID-20231009-WA0012_1.mp4`
+            : "http://localhost:3310/upload/1706175389843.0.8841004398270393.VID-20231009-WA0012_1.mp4",
+        type_video: 1,
+        thumbnail:
+          env === "production"
+            ? `${prodURL}/upload/1707218588142.0.32350308952277085.Design sans titre (1).png`
+            : "http://localhost:3310/upload/1707218588142.0.32350308952277085.Design sans titre (1).png",
+        date_publication: "2024-02-06 15:20:00",
+        validate: 0,
+        category_id: 4,
+        user_id: 1,
+      },
+      {
+        title: "Recette Magique",
+        description: "Meilleures recettes a découvrir",
+        URL_video:
+          env === "production"
+            ? `${prodURL}/upload/1706175389843.0.8841004398270393.VID-20231009-WA0012_1.mp4`
+            : "http://localhost:3310/upload/1706175389843.0.8841004398270393.VID-20231009-WA0012_1.mp4",
+        type_video: 1,
+        thumbnail:
+          env === "production"
+            ? `${prodURL}/upload/1707218955788.0.5248968479396601.pexels-robin-stickel-70497.jpg`
+            : "http://localhost:3310/upload/1707218955788.0.5248968479396601.pexels-robin-stickel-70497.jpg",
+        date_publication: "2024-02-06 12:29:15",
+        validate: 0,
+        category_id: 4,
+        user_id: 1,
+      },
+      {
+        title: "Pain comme a la boulangeire",
+        description: "Comment faire son pain !",
+        URL_video:
+          env === "production"
+            ? `${prodURL}/upload/1706175389843.0.8841004398270393.VID-20231009-WA0012_1.mp4`
+            : "http://localhost:3310/upload/1706175389843.0.8841004398270393.VID-20231009-WA0012_1.mp4",
+        type_video: 1,
+        thumbnail:
+          env === "production"
+            ? `${prodURL}/upload/1707219041746.0.7611171796842462.pexels-malidate-van-784633.jpg`
+            : "http://localhost:3310/upload/1707219041746.0.7611171796842462.pexels-malidate-van-784633.jpg",
+        date_publication: "2024-02-06 12:30:41",
+        validate: 0,
+        category_id: 4,
+        user_id: 1,
+      },
+      {
+        title: "Apero Fiesta",
+        description: "Tuto cuisine",
+        URL_video:
+          env === "production"
+            ? `${prodURL}/upload/1706175389843.0.8841004398270393.VID-20231009-WA0012_1.mp4`
+            : "http://localhost:3310/upload/1706175389843.0.8841004398270393.VID-20231009-WA0012_1.mp4",
+        type_video: 1,
+        thumbnail:
+          env === "production"
+            ? `${prodURL}/upload/1707218588142.0.32350308952277085.Design sans titre (1).png`
+            : "http://localhost:3310/upload/1707218588142.0.32350308952277085.Design sans titre (1).png",
+        date_publication: "2024-02-06 15:20:00",
+        validate: 0,
+        category_id: 4,
+        user_id: 1,
+      },
+      {
+        title: "Recette Magique",
+        description: "Meilleures recettes a découvrir",
+        URL_video:
+          env === "production"
+            ? `${prodURL}/upload/1706175389843.0.8841004398270393.VID-20231009-WA0012_1.mp4`
+            : "http://localhost:3310/upload/1706175389843.0.8841004398270393.VID-20231009-WA0012_1.mp4",
+        type_video: 1,
+        thumbnail:
+          env === "production"
+            ? `${prodURL}/upload/1707218955788.0.5248968479396601.pexels-robin-stickel-70497.jpg`
+            : "http://localhost:3310/upload/1707218955788.0.5248968479396601.pexels-robin-stickel-70497.jpg",
+        date_publication: "2024-02-06 12:29:15",
+        validate: 0,
+        category_id: 4,
+        user_id: 1,
+      },
+      {
+        title: "Mexico Art !",
+        description: "Le meilleur de l'art mexicain",
+        URL_video:
+          env === "production"
+            ? `${prodURL}/upload/1706175389843.0.8841004398270393.VID-20231009-WA0012_1.mp4`
+            : "http://localhost:3310/upload/1706175389843.0.8841004398270393.VID-20231009-WA0012_1.mp4",
+        type_video: 1,
+        thumbnail:
+          env === "production"
+            ? `${prodURL}/upload/1707227402918.0.6681351614987376.pexels-chait-goli-1918290.jpg`
+            : "http://localhost:3310/upload/1707227402918.0.6681351614987376.pexels-chait-goli-1918290.jpg",
+        date_publication: "2024-02-06 14:50:02",
+        validate: 0,
+        category_id: 2,
+        user_id: 1,
+      },
+      {
+        title: "24heures au Louvres",
+        description: "Visite intégrale du Louvre pendant 24heures.",
+        URL_video:
+          env === "production"
+            ? `${prodURL}/upload/1706175389843.0.8841004398270393.VID-20231009-WA0012_1.mp4`
+            : "http://localhost:3310/upload/1706175389843.0.8841004398270393.VID-20231009-WA0012_1.mp4",
+        type_video: 1,
+        thumbnail:
+          env === "production"
+            ? `${prodURL}/upload/1707227663405.0.6069045066377712.pexels-una-laurencic-20967.jpg`
+            : "http://localhost:3310/upload/1707227663405.0.6069045066377712.pexels-una-laurencic-20967.jpg",
+        date_publication: "2024-02-06 14:50:02",
+        validate: 0,
+        category_id: 2,
+        user_id: 1,
+      },
+      {
+        title: "Leçon de dessin ",
+        description: "Apprendre le dessin facilement avec nos videos",
+        URL_video:
+          env === "production"
+            ? `${prodURL}/upload/1706175389843.0.8841004398270393.VID-20231009-WA0012_1.mp4`
+            : "http://localhost:3310/upload/1706175389843.0.8841004398270393.VID-20231009-WA0012_1.mp4",
+        type_video: 1,
+        thumbnail:
+          env === "production"
+            ? `${prodURL}/upload/1707228057552.0.48343636778585664.pexels-gÃ¼l-iÅÄ±k-3246665.jpg`
+            : "http://localhost:3310/upload/1707228057552.0.48343636778585664.pexels-gÃ¼l-iÅÄ±k-3246665.jpg",
+        date_publication: "2024-02-06 15:00:57",
+        validate: 0,
+        category_id: 2,
+        user_id: 1,
+      },
+      {
+        title: "2024 la tendance des marchés",
+        description: "Review des marchés 2024",
+        URL_video:
+          env === "production"
+            ? `${prodURL}/upload/1706175389843.0.8841004398270393.VID-20231009-WA0012_1.mp4`
+            : "http://localhost:3310/upload/1706175389843.0.8841004398270393.VID-20231009-WA0012_1.mp4",
+        type_video: 1,
+        thumbnail:
+          env === "production"
+            ? `${prodURL}/upload/1707228305016.0.0694249309277295.entrepreneur-1340649_1280.jpg`
+            : "http://localhost:3310/upload/1707228305016.0.0694249309277295.entrepreneur-1340649_1280.jpg",
+        date_publication: "2024-02-06 15:00:57",
+        validate: 0,
+        category_id: 3,
+        user_id: 1,
+      },
+      {
+        title: "Epargnez intelligemment en 2024",
+        description:
+          "Toutes les clés de l'épargne en 2024 , toutes nos astuces pour fructifier votre argent !",
+        URL_video:
+          env === "production"
+            ? `${prodURL}/upload/1706175389843.0.8841004398270393.VID-20231009-WA0012_1.mp4`
+            : "http://localhost:3310/upload/1706175389843.0.8841004398270393.VID-20231009-WA0012_1.mp4",
+        type_video: 1,
+        thumbnail:
+          env === "production"
+            ? `${prodURL}/upload/1707234830639.0.30918347929685575.money-2724241_1280.jpg`
+            : "http://localhost:3310/upload/1707234830639.0.30918347929685575.money-2724241_1280.jpg",
+        date_publication: "2024-02-06 16:53:50",
+        validate: 0,
+        category_id: 3,
+        user_id: 1,
+      },
+      {
+        title: "Le Dollar le nerf de la guerre ?",
+        description:
+          "Documentaire sur le Dollar et son emprise sur l'économie mondiale.",
+        URL_video:
+          env === "production"
+            ? `${prodURL}/upload/1706175389843.0.8841004398270393.VID-20231009-WA0012_1.mp4`
+            : "http://localhost:3310/upload/1706175389843.0.8841004398270393.VID-20231009-WA0012_1.mp4",
+        type_video: 1,
+        thumbnail:
+          env === "production"
+            ? `${prodURL}/upload/1707234830639.0.30918347929685575.money-2724241_1280.jpg`
+            : "http://localhost:3310/upload/1707234830639.0.30918347929685575.money-2724241_1280.jpg",
+        date_publication: "2024-02-06 16:53:50",
+        validate: 0,
+        category_id: 3,
+        user_id: 1,
+      },
+      {
+        title: "Sur le toit du Monde !",
+        description:
+          "A 8849m on voit la vie autrement ! Plongez dans cette incroyable expédition.",
+        URL_video:
+          env === "production"
+            ? `${prodURL}/upload/1706175389843.0.8841004398270393.VID-20231009-WA0012_1.mp4`
+            : "http://localhost:3310/upload/1706175389843.0.8841004398270393.VID-20231009-WA0012_1.mp4",
+        type_video: 1,
+        thumbnail:
+          env === "production"
+            ? `${prodURL}/upload/1707235918358.0.613052199082393.nepal-4710522_1280.jpg`
+            : "http://localhost:3310/upload/1707235918358.0.613052199082393.nepal-4710522_1280.jpg",
+        date_publication: "2024-02-06 16:53:50",
+        validate: 0,
+        category_id: 5,
+        user_id: 2,
+      },
+      {
+        title: "Au coeur des chutes du Niagara",
+        description: "Sensation au coeur des plus grandes chutes du monde .",
+        URL_video:
+          env === "production"
+            ? `${prodURL}/upload/1706175389843.0.8841004398270393.VID-20231009-WA0012_1.mp4`
+            : "http://localhost:3310/upload/1706175389843.0.8841004398270393.VID-20231009-WA0012_1.mp4",
+        type_video: 1,
+        thumbnail:
+          env === "production"
+            ? `${prodURL}/upload/1707236309712.0.08532545048838491.niagara-falls-2186816_1280.jpg`
+            : "http://localhost:3310/upload/1707236309712.0.08532545048838491.niagara-falls-2186816_1280.jpg",
+        date_publication: "2024-02-06 17:18:29",
+        validate: 0,
+        category_id: 5,
+        user_id: 2,
+      },
+      {
+        title: "Ticket pour le Paradis",
+        description: "Voyage sensationnel au cœur de la foret Amazonienne.",
+        URL_video:
+          env === "production"
+            ? `${prodURL}/upload/1706175389843.0.8841004398270393.VID-20231009-WA0012_1.mp4`
+            : "http://localhost:3310/upload/1706175389843.0.8841004398270393.VID-20231009-WA0012_1.mp4",
+        type_video: 1,
+        thumbnail:
+          env === "production"
+            ? `${prodURL}/upload/1707236437270.0.3725089461104818.amazonia-5406522_1280.jpg`
+            : "http://localhost:3310/upload/1707236437270.0.3725089461104818.amazonia-5406522_1280.jpg",
+        date_publication: "2024-02-06 17:18:29",
+        validate: 0,
+        category_id: 5,
+        user_id: 2,
+      },
     ];
     const associatedVideoTags = [
       {
@@ -190,12 +431,27 @@ const seed = async () => {
       {
         mail: "alex@gmail.com",
         password: "alex",
-        username: "alex",
+        username: "Alex",
       },
       {
         mail: "toto@gmail.com",
         password: "toto",
         username: "toto",
+      },
+      {
+        mail: "lulu@gmail.com",
+        password: "lulu",
+        username: "Lulu94",
+      },
+      {
+        mail: "Aurel@gmail.com",
+        password: "aure",
+        username: "Aurel",
+      },
+      {
+        mail: "admin@gmail.com",
+        password: "admin",
+        username: "Admin",
       },
     ];
     const tags = [
@@ -235,6 +491,23 @@ const seed = async () => {
       { name: "Travel" },
       { name: "Sport" },
     ];
+    const views = [
+      {
+        user_id: 1,
+        video_id: 1,
+        count: 4243,
+      },
+      {
+        user_id: 1,
+        video_id: 21,
+        count: 1540,
+      },
+      {
+        user_id: 2,
+        video_id: 10,
+        count: 2541,
+      },
+    ];
     const hashingOptions = {
       type: argon.argon2id,
       memoryCost: 19 * 2 ** 10 /* 19 Mio en kio (19 * 1024 kio) */,
@@ -261,6 +534,14 @@ const seed = async () => {
         database.query("insert into categories(name) values (?)", [
           categories[i].name,
         ])
+      );
+    }
+    for (let i = 0; i < views.length; i += 1) {
+      queries.push(
+        database.query(
+          "insert into views(user_id, video_id, count) values (?, ?, ?)",
+          [views[i].user_id, views[i].video_id, views[i].count]
+        )
       );
     }
     for (let i = 0; i < videos.length; i += 1) {

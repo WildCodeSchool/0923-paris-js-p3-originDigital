@@ -6,7 +6,7 @@
   color: var(--white);
   min-height: calc(100vh - 5.5rem);
   justify-content: flex-start;
-  margin: 0 1rem;
+  margin: 0 2rem;
 }
 
 .container_Body_Home {
@@ -56,8 +56,6 @@
 .categoryContainer {
   display: flex;
   flex-direction: column;
-  /* margin: 1rem; */
-  gap: 5px;
   font-size: 20px;
 }
 

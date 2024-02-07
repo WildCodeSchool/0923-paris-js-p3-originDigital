@@ -13,7 +13,7 @@ function CarouselShort() {
   return (
     <section>
       <Slider
-        className="slider_Home"
+        className="slider_Short"
         infinite
         speed={500}
         slidesToShow={6}

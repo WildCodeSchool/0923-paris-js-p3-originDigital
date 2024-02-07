@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Icon } from "@iconify/react";
 import { useNavigate } from "react-router-dom";
 import "./Header.css";
@@ -15,6 +15,19 @@ function Header() {
     setSearchResultList,
   } = useOverview();
   const auth = useContext(authContext);
+
+  const [showHeader, setShowHeader] = useState(true);
+  let lastScrollY = window.scrollY;
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      setShowHeader(lastScrollY > currentScrollY || currentScrollY < 10);
+      lastScrollY = currentScrollY;
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const handleInputChange = (event) => {
     setSearchTerm(event.target.value);
@@ -65,7 +78,11 @@ function Header() {
   };
 
   return (
-    <header className={auth.user ? "header" : "header-unregistered"}>
+    <header
+      className={`${auth.user ? "header" : "header-unregistered"} ${
+        showHeader ? "" : "hide"
+      }`}
+    >
       <div
         className="container_Logo"
         onClick={handleLogoClick}

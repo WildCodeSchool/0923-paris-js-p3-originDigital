@@ -1,5 +1,7 @@
 .search_Result_Section_Wrapper {
   min-height: calc(100vh + 6rem);
+  padding-top: 6rem;
+  padding-bottom: 5rem;
 }
 
 .search_Result_Section {
@@ -23,5 +25,10 @@
     grid-template-columns: repeat(auto-fit, minmax(295px, auto));
     justify-content: start;
     margin: 2rem;
+  }
+  .search_Result_Section_Wrapper {
+    min-height: calc(100vh + 6rem);
+    padding-top: 6rem;
+    padding-bottom: 0;
   }
 }

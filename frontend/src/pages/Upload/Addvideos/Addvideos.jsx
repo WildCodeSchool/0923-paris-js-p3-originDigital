@@ -221,7 +221,7 @@ function Addvideos() {
     <>
       <Header />
       <section className="container_Body_Add_Video">
-        <h1 className="upload_Main_Title_Video">Short upload settings</h1>
+        <h1 className="upload_Main_Title_Video">Video upload settings</h1>
         <div className="grid_Container">
           <label htmlFor="fileInput">
             <div

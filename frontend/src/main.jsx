@@ -10,7 +10,6 @@ import {
 } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Favorites from "./pages/Favorites/Favorites";
-import Categories from "./pages/Categories/Categories";
 import SettingsCategories from "./pages/SettingsCategories/SettingsCategories";
 import Videos from "./pages/Videos/Videos";
 import Shorts from "./pages/Shorts/Shorts";
@@ -82,7 +81,6 @@ const routes = createBrowserRouter(
           </PrivateRoute>
         }
       />
-      <Route path="/categories/:id" element={<Categories />} />
       <Route
         path="/settingscategories"
         element={

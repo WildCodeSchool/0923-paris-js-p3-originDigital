@@ -4,6 +4,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
+  padding-bottom: 7rem;
 }
 
 /* #logo_Sign {
@@ -197,6 +198,7 @@
 @media only screen and (min-width: 1024px) {
   .container_Body_Header {
     min-height: 100vh;
+    padding-bottom: 0rem;
   }
 
   #logo_Sign {

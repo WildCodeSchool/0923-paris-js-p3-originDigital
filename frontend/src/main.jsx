@@ -28,6 +28,7 @@ import UpdateVideo from "./pages/Update/UpdateVideo/UpdateVideo";
 import SearchResult from "./pages/SearchResult/SearchResult";
 import App from "./App";
 import useAuthContext from "./context/AuthContext";
+import Preloader from "./components/Preloader/Preloader";
 
 function PrivateRoute({ children }) {
   const location = useLocation();
@@ -35,9 +36,16 @@ function PrivateRoute({ children }) {
   const navigate = useNavigate();
   const [page, setPage] = useState(null);
   useEffect(() => {
-    if (isLoading) setPage("...loading");
-    else if (user) setPage(children);
-    else navigate("/login");
+    if (isLoading) setPage(<Preloader />);
+    else if (user) {
+      setTimeout(() => {
+        setPage(children);
+      }, 1100);
+    } else {
+      setTimeout(() => {
+        navigate("/login");
+      }, 1100);
+    }
   }, [user, location, isLoading]);
   return page;
 }
@@ -48,7 +56,7 @@ function PublicRoute({ children }) {
   const navigate = useNavigate();
   const [page, setPage] = useState(null);
   useEffect(() => {
-    if (isLoading) setPage("...loading");
+    if (isLoading) setPage(<Preloader />);
     else if (!user) setPage(children);
     else navigate(-1);
   }, [user, location, isLoading]);
@@ -61,7 +69,7 @@ function AdminRoute({ children }) {
   const navigate = useNavigate();
   const [page, setPage] = useState(null);
   useEffect(() => {
-    if (isLoading) setPage("...loading");
+    if (isLoading) setPage(<Preloader />);
     else if (!user || user.admin !== "1") navigate("/");
     else setPage(children);
   }, [user, location, isLoading]);

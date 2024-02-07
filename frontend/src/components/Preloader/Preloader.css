@@ -1,19 +1,7 @@
-*,
-*::before,
-*::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  background-color: #1b1b1b;
-}
-
-.App {
-  width: 100vw;
-  height: 100vh;
+.preloader_container {
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100vh;
+  width: 100vw;
 }

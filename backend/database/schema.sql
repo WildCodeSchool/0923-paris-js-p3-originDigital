@@ -211,7 +211,7 @@ DROP TABLE IF EXISTS `views`;
 CREATE TABLE `views` (
   `users_id` int NOT NULL,
   `video_id` int NOT NULL,
-  `count` int DEFAULT NULL,
+  `count` int DEFAULT 0,
   PRIMARY KEY (`users_id`,`video_id`),
   KEY `fk_Users_has_Videos_Videos4_idx` (`video_id`),
   KEY `fk_Users_has_Videos_Users3_idx` (`users_id`),

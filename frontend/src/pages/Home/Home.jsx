@@ -38,8 +38,8 @@ function Home() {
 
   return (
     <main className="container_Home">
+      <Header />
       <div className="container_Body_Home">
-        <Header />
         <h1 className="title_Top">TOP VIEWS THIS WEEK</h1>
         <div className="container_Carousel">
           <CarouselTrend />

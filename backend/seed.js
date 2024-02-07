@@ -38,8 +38,8 @@ const seed = async () => {
         description: "This is test 1",
         URL_video:
           env === "production"
-            ? `${prodURL}/upload/1706026627893.0.6409657439334755.VID-20231009-WA0012_1.mp4`
-            : "http://localhost:3310/upload/1706026627893.0.6409657439334755.VID-20231009-WA0012_1.mp4",
+            ? `${prodURL}/upload/1707314821202.0.5938972316732665.20240202_144630.mp4`
+            : "http://localhost:3310/upload/1707314821202.0.5938972316732665.20240202_144630.mp4",
         type_video: 1,
         thumbnail:
           env === "production"
@@ -294,8 +294,8 @@ const seed = async () => {
           "Toutes les clés de l'épargne en 2024 , toutes nos astuces pour fructifier votre argent !",
         URL_video:
           env === "production"
-            ? `${prodURL}/upload/1706175389843.0.8841004398270393.VID-20231009-WA0012_1.mp4`
-            : "http://localhost:3310/upload/1706175389843.0.8841004398270393.VID-20231009-WA0012_1.mp4",
+            ? `${prodURL}/upload/1707314821202.0.5938972316732665.20240202_144630.mp4`
+            : "http://localhost:3310/upload/1707314821202.0.5938972316732665.20240202_144630.mp4",
         type_video: 1,
         thumbnail:
           env === "production"
@@ -493,17 +493,17 @@ const seed = async () => {
     ];
     const views = [
       {
-        user_id: 1,
+        users_id: 1,
         video_id: 1,
         count: 4243,
       },
       {
-        user_id: 1,
-        video_id: 21,
+        users_id: 1,
+        video_id: 5,
         count: 1540,
       },
       {
-        user_id: 2,
+        users_id: 2,
         video_id: 10,
         count: 2541,
       },
@@ -536,14 +536,7 @@ const seed = async () => {
         ])
       );
     }
-    for (let i = 0; i < views.length; i += 1) {
-      queries.push(
-        database.query(
-          "insert into views(user_id, video_id, count) values (?, ?, ?)",
-          [views[i].user_id, views[i].video_id, views[i].count]
-        )
-      );
-    }
+
     for (let i = 0; i < videos.length; i += 1) {
       queries.push(
         database.query(
@@ -562,12 +555,22 @@ const seed = async () => {
         )
       );
     }
+
     for (let i = 0; i < associatedVideoTags.length; i += 1) {
       queries.push(
         database.query("insert into add_tags(video_id,tag_id) values (?,?)", [
           associatedVideoTags[i].video_id,
           associatedVideoTags[i].tag_id,
         ])
+      );
+    }
+
+    for (let i = 0; i < views.length; i += 1) {
+      queries.push(
+        database.query(
+          "insert into views(users_id, video_id, count) values (?, ?, ?)",
+          [views[i].users_id, views[i].video_id, views[i].count]
+        )
       );
     }
     /* ************************************************************************* */

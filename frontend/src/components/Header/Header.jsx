@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Icon } from "@iconify/react";
 import { useNavigate } from "react-router-dom";
 import "./Header.css";
@@ -7,27 +7,82 @@ import authContext from "../../context/AuthContext";
 import imageSign from "../../assets/logo_Mobile.svg";
 
 function Header() {
-  const Navigate = useNavigate();
-  const { setToggleNavbarDestkop, searchTerm, setSearchTerm } = useOverview();
-
+  const navigate = useNavigate();
+  const {
+    setToggleNavbarDestkop,
+    searchTerm,
+    setSearchTerm,
+    setSearchResultList,
+  } = useOverview();
   const auth = useContext(authContext);
+
+  const [showHeader, setShowHeader] = useState(true);
+  let lastScrollY = window.scrollY;
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      setShowHeader(lastScrollY > currentScrollY || currentScrollY < 10);
+      lastScrollY = currentScrollY;
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const handleInputChange = (event) => {
     setSearchTerm(event.target.value);
   };
-  const handleSearch = () => {
-    Navigate(`/search`);
+
+  const loadSearchResult = async () => {
+    try {
+      const response = await fetch(
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }/videos/search?videoTitle=${searchTerm}&catName=${searchTerm}&tagName=${searchTerm}`,
+        {
+          method: "GET",
+          credentials: "include",
+        }
+      );
+      if (response.status === 200) {
+        const videos = await response.json();
+        setSearchResultList(videos);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
+
+  const handleSearch = () => {
+    if (searchTerm.trim() !== "") {
+      loadSearchResult();
+      navigate(`/search`);
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      if (searchTerm.trim() !== "") {
+        loadSearchResult();
+        navigate(`/search`);
+      }
+    }
+  };
+
   const handleNavbarClick = (e) => {
     e.stopPropagation();
     setToggleNavbarDestkop(true);
   };
   const handleLogoClick = () => {
-    Navigate("/");
+    navigate("/");
   };
 
   return (
-    <header className={auth.user ? "header" : "header-unregistered"}>
+    <header
+      className={`${auth.user ? "header" : "header-unregistered"} ${
+        showHeader ? "" : "hide"
+      }`}
+    >
       <div
         className="container_Logo"
         onClick={handleLogoClick}
@@ -44,6 +99,7 @@ function Header() {
           placeholder="SEARCH"
           value={searchTerm}
           onChange={handleInputChange}
+          onKeyDown={handleKeyPress}
         />
         <Icon
           id="icon_Search"
@@ -70,7 +126,7 @@ function Header() {
         <button
           type="button"
           className="logIn_Btn"
-          onClick={() => Navigate("/login")}
+          onClick={() => navigate("/login")}
         >
           Log In
         </button>

@@ -18,6 +18,8 @@
   display: flex;
   width: 85%;
   margin-left: 1rem;
+  color: var(--white);
+  font-size: 16px;
 }
 .avatar_Container {
   display: flex;
@@ -71,7 +73,7 @@
   visibility: hidden;
   transition: var(--speed) cubic-bezier(0.6, -0.28, 0.735, 0.045);
 }
-.dropdown_Menu button {
+.settings_dropdown_Btn {
   border: none;
   background-color: transparent;
   width: 100%;
@@ -96,11 +98,13 @@
 .video_Title {
   font-size: 1.2rem;
   cursor: pointer;
+  color: var(--white);
 }
 .creator_Username {
   font-size: 1rem;
   line-height: 1.5rem;
   cursor: pointer;
+  color: var(--white);
 }
 
 .hidden {
@@ -137,7 +141,7 @@
   }
 }
 
-@media (preferes-reduced-motion) {
+@media (prefers-reduced-motion) {
   .hidden {
     transition: none;
   }

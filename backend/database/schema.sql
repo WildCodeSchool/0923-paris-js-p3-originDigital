@@ -172,7 +172,7 @@ CREATE TABLE `users` (
   `validate` tinyint DEFAULT '0',
   `avatar` text,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -193,12 +193,14 @@ CREATE TABLE `videos` (
   `validate` tinyint NOT NULL DEFAULT '0',
   `category_id` int NOT NULL,
   `user_id` int NOT NULL,
+  `view_count` int DEFAULT '0',
+  `like_count` int DEFAULT '0',
   PRIMARY KEY (`video_id`),
   KEY `fk_Videos_Categories1_idx` (`category_id`),
   KEY `fk_Videos_User_idx` (`user_id`),
   CONSTRAINT `fk_Videos_Categories1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`category_id`) ON DELETE CASCADE,
   CONSTRAINT `fk_Videos_User1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -211,7 +213,7 @@ DROP TABLE IF EXISTS `views`;
 CREATE TABLE `views` (
   `users_id` int NOT NULL,
   `video_id` int NOT NULL,
-  `count` int DEFAULT NULL,
+  `count` int DEFAULT '0',
   PRIMARY KEY (`users_id`,`video_id`),
   KEY `fk_Users_has_Videos_Videos4_idx` (`video_id`),
   KEY `fk_Users_has_Videos_Users3_idx` (`users_id`),
@@ -229,4 +231,4 @@ CREATE TABLE `views` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-02-04 16:38:50
+-- Dump completed on 2024-02-08 10:29:52

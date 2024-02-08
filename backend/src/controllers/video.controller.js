@@ -87,7 +87,7 @@ const edit = async (req, res, next) => {
 
 const getMostViewed = async (req, res) => {
   try {
-    const mostViewedVideos = await videoModel.findMostViewed();
+    const [mostViewedVideos] = await videoModel.findMostViewed();
     res.json(mostViewedVideos);
   } catch (error) {
     console.error(error);
@@ -150,6 +150,70 @@ const getSearchResults = async (req, res, next) => {
   }
 };
 
+const changeViewCount = async (req, res, next) => {
+  try {
+    const videoId = req.params.id;
+    await videoModel.updateViewCount(videoId);
+    const [[updatedVideo]] = await videoModel.findById(videoId);
+    if (updatedVideo) {
+      res.json({ success: true, viewCount: updatedVideo.view_count });
+    } else {
+      res.status(404).json({ message: "Video not found" });
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+const likeVideo = async (req, res, next) => {
+  try {
+    const videoId = req.params.id;
+    const userId = req.user_id;
+    const [result] = await videoModel.addLike(videoId, userId);
+    if (result.affectedRows > 0)
+      res.status(200).json({ message: "Video liked successfully." });
+    else res.sendStatus(404);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const unlikeVideo = async (req, res, next) => {
+  try {
+    const videoId = req.params.id;
+    const userId = req.user_id;
+    const [result] = await videoModel.removeLike(videoId, userId);
+    if (result.affectedRows > 0)
+      res.status(200).json({ message: "Video unliked successfully." });
+    else res.sendStatus(404);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const checkVideoInUserFavoriteList = async (req, res, next) => {
+  try {
+    const [[result]] = await videoModel.isInUserFavorites(
+      req.user_id,
+      req.params.id
+    );
+    if (result) res.status(200).json(result);
+    else res.sendStatus(404);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const checkLikedVideoForUser = async (req, res, next) => {
+  try {
+    const [[result]] = await videoModel.isInLike(req.user_id, req.params.id);
+    if (result) res.status(200).json(result);
+    else res.sendStatus(404);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   add,
   getAll,
@@ -161,4 +225,9 @@ module.exports = {
   getAllVideoInfos,
   getAllCommentsbyVideo,
   getSearchResults,
+  changeViewCount,
+  likeVideo,
+  unlikeVideo,
+  checkVideoInUserFavoriteList,
+  checkLikedVideoForUser,
 };

@@ -13,11 +13,12 @@ export function OverviewProvider({ children }) {
   const [category, setCategory] = useState("");
   const [tag, setTag] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-
+  const [searchResultList, setSearchResultList] = useState([]);
   const [videoStats, setVideoStats] = useState([]);
   const [topTrend, setTopTrend] = useState([]);
   const [topCategory, setTopCategory] = useState([]);
   const [toggleNavbarDesktop, setToggleNavbarDestkop] = useState(false);
+  const [favoriteVideoList, setFavoriteVideoList] = useState([]);
 
   const value = useMemo(
     () => ({
@@ -49,6 +50,10 @@ export function OverviewProvider({ children }) {
       setUser,
       searchTerm,
       setSearchTerm,
+      searchResultList,
+      setSearchResultList,
+      favoriteVideoList,
+      setFavoriteVideoList,
     }),
     [
       isAdmin,
@@ -65,6 +70,8 @@ export function OverviewProvider({ children }) {
       videoThumbnail,
       user,
       searchTerm,
+      searchResultList,
+      favoriteVideoList,
     ]
   );
 

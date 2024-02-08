@@ -1,13 +1,14 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Header from "../../components/Header/Header";
 import "./Home.css";
 import CarouselTrend from "../../components/Carousel_Trend/Carousel_Trend";
 import CarouselShort from "../../components/Carousel_Short/Carousel_Short";
 import CategoryCarousel from "../../components/Carousel_Category/Carousel_Category";
+import authContext from "../../context/AuthContext";
 
 function Home() {
   const [categories, setCategories] = useState([]);
-
+  const auth = useContext(authContext);
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -38,8 +39,12 @@ function Home() {
 
   return (
     <main className="container_Home">
-      <div className="container_Body_Home">
-        <Header />
+      <Header />
+      <div
+        className={`container_Body_Home ${
+          auth?.user ? "connectedHome" : "notConnectedHome"
+        }`}
+      >
         <h1 className="title_Top">TOP VIEWS THIS WEEK</h1>
         <div className="container_Carousel">
           <CarouselTrend />

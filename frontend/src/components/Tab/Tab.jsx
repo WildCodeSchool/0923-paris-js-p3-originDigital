@@ -10,6 +10,7 @@ function MyTabs({ tabValue, handleChange }) {
       <Tabs
         sx={{
           fontFamily: "poppins",
+          fontSize: "20px",
           borderBottom: "1px solid white",
           "& .MuiTabs-scroller": {},
           "& .Mui-selected": {
@@ -18,6 +19,10 @@ function MyTabs({ tabValue, handleChange }) {
           },
           "& .MuiTabs-indicator": {
             backgroundColor: "var(--orange)",
+          },
+          "& .MuiTab-root[aria-selected=false]": {
+            color: "var(--white)",
+            fontSize: "20px",
           },
         }}
         value={tabValue}

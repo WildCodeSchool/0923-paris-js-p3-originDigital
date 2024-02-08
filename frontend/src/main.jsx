@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import {
   createBrowserRouter,
@@ -6,10 +6,10 @@ import {
   Route,
   RouterProvider,
   useNavigate,
+  useLocation,
 } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Favorites from "./pages/Favorites/Favorites";
-import Categories from "./pages/Categories/Categories";
 import SettingsCategories from "./pages/SettingsCategories/SettingsCategories";
 import Videos from "./pages/Videos/Videos";
 import Shorts from "./pages/Shorts/Shorts";
@@ -28,34 +28,52 @@ import UpdateVideo from "./pages/Update/UpdateVideo/UpdateVideo";
 import SearchResult from "./pages/SearchResult/SearchResult";
 import App from "./App";
 import useAuthContext from "./context/AuthContext";
+import Preloader from "./components/Preloader/Preloader";
 
 function PrivateRoute({ children }) {
-  const { user } = useContext(useAuthContext);
+  const location = useLocation();
+  const { user, isLoading } = useContext(useAuthContext);
   const navigate = useNavigate();
+  const [page, setPage] = useState(null);
   useEffect(() => {
-    if (!user) navigate("/login");
-  }, [user]);
-  return children;
+    if (isLoading) setPage(<Preloader />);
+    else if (user) {
+      setTimeout(() => {
+        setPage(children);
+      }, 1100);
+    } else {
+      setTimeout(() => {
+        navigate("/login");
+      }, 1100);
+    }
+  }, [user, location, isLoading]);
+  return page;
 }
 
 function PublicRoute({ children }) {
-  const { user } = useContext(useAuthContext);
+  const location = useLocation();
+  const { user, isLoading } = useContext(useAuthContext);
   const navigate = useNavigate();
+  const [page, setPage] = useState(null);
   useEffect(() => {
-    if (user) navigate(-2);
-  }, [user]);
-  return children;
+    if (isLoading) setPage(<Preloader />);
+    else if (!user) setPage(children);
+    else navigate(-1);
+  }, [user, location, isLoading]);
+  return page;
 }
 
 function AdminRoute({ children }) {
-  const { user } = useContext(useAuthContext);
+  const location = useLocation();
+  const { user, isLoading } = useContext(useAuthContext);
   const navigate = useNavigate();
+  const [page, setPage] = useState(null);
   useEffect(() => {
-    if (!user && user.admin !== "1") {
-      navigate("/");
-    }
-  }, [user]);
-  return children;
+    if (isLoading) setPage(<Preloader />);
+    else if (!user || user.admin !== "1") navigate("/");
+    else setPage(children);
+  }, [user, location, isLoading]);
+  return page;
 }
 
 const routes = createBrowserRouter(
@@ -71,7 +89,6 @@ const routes = createBrowserRouter(
           </PrivateRoute>
         }
       />
-      <Route path="/categories/:id" element={<Categories />} />
       <Route
         path="/settingscategories"
         element={

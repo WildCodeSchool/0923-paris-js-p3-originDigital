@@ -1,51 +1,33 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import "./SearchResult.css";
 import VideoCard from "../../components/Videocard/VideoCard";
 import Header from "../../components/Header/Header";
 import useOverview from "../../context/Overviewcontext";
+import authContext from "../../context/AuthContext";
 
 function SearchResult() {
-  const [searchResultList, setSearchResultList] = useState([]);
-  const { searchTerm } = useOverview();
-  console.info(searchTerm);
-  // console.log("search result list", searchResultList);
+  const { searchTerm, searchResultList } = useOverview();
+  const [resultText, setResultText] = useState("");
+  const auth = useContext(authContext);
+
   useEffect(() => {
-    const loadSearchResult = async () => {
-      try {
-        const response = await fetch(
-          `${
-            import.meta.env.VITE_BACKEND_URL
-          }/videos/search?videoTitle=${searchTerm}&catName=${searchTerm}&tagName=${searchTerm}`,
-          {
-            method: "GET",
-            credentials: "include",
-          }
-        );
-        if (response.status === 200) {
-          const videos = await response.json();
-          console.info(videos);
-          setSearchResultList(videos);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    loadSearchResult();
-  }, []);
+    if (searchResultList.length === 0) {
+      setResultText(`Oops ! No results found for '${searchTerm}'`);
+    } else if (searchResultList.length === 1) {
+      setResultText(`1 result for '${searchTerm}'`);
+    } else {
+      setResultText(`${searchResultList.length} results for '${searchTerm}'`);
+    }
+  }, [searchResultList]);
 
-  let resultText = "";
-
-  if (searchResultList.length === 0) {
-    resultText = `No results found for '${searchTerm}'`;
-  } else if (searchResultList.length === 1) {
-    resultText = `1 result for '${searchTerm}'`;
-  } else {
-    resultText = `${searchResultList.length} results for '${searchTerm}'`;
-  }
   return (
     <>
       <Header />
-      <div className="search_Result_Section_Wrapper">
+      <div
+        className={`search_Result_Section_Wrapper ${
+          auth?.user ? "connectedSearch" : "notConnectedSearch"
+        }`}
+      >
         <div className="searched_Text_Container">
           <p>{resultText}</p>
         </div>
@@ -60,6 +42,7 @@ function SearchResult() {
               videoThumbnail={video.thumbnail}
               videoDate={video.date_publication}
               videoViews={video.views}
+              videoUserAvatar={video.avatar}
               onDeleteVideo={undefined}
               showVideoIcon={false}
             />

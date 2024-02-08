@@ -102,18 +102,6 @@ function UserProfile() {
     }
   };
 
-  // useEffect(() => {
-  //   console.info("user", auth.user);
-  // }, [auth.user]);
-
-  // useEffect(() => {
-  //   console.info("selected", selectedUser);
-  // }, [selectedUser]);
-
-  // useEffect(() => {
-  //   console.info("userVideos", userVideos);
-  // }, [userVideos]);
-
   const handleEditUsername = () => {
     setIsEditingUsername(true);
     setNewUsername(auth?.user?.username);
@@ -372,7 +360,8 @@ function UserProfile() {
                     width={70}
                     height={70}
                     username={selectedUser?.username}
-                    imgsrc={selectedUser.avatar}
+                    imgsrc={selectedUser?.avatar}
+                    userId={selectedUser?.user_id}
                   />
                 ) : null}
               </div>
@@ -409,89 +398,89 @@ function UserProfile() {
                 )}
               </div>
             </div>
-
-            {auth?.user?.user_id === selectedUser?.user_id ? (
-              <div className="settings_General_Wrapper">
-                <div
-                  className={`settings_Container ${
-                    openUserSettings ? "active" : "inactive"
-                  }`}
-                  ref={settingsMenuRef}
-                >
+            {auth?.user &&
+              (auth?.user?.user_id === selectedUser?.user_id ? (
+                <div className="settings_General_Wrapper">
                   <div
-                    className="icon_Settings_Container"
-                    onClick={() => {
-                      setOpenUserSettings(!openUserSettings);
-                    }}
-                    onKeyDown={() => {
-                      setOpenUserSettings(!openUserSettings);
-                    }}
-                    role="button"
-                    tabIndex={0}
-                    aria-label="Toggle User Settings"
-                  >
-                    <Icon
-                      id="icon_Settings"
-                      type="button"
-                      icon="material-symbols:settings"
-                      color="#f3f3e6"
-                      width="35"
-                      height="35"
-                    />
-                  </div>
-                  <div
-                    className={`dropdown_Settings ${
+                    className={`settings_Container ${
                       openUserSettings ? "active" : "inactive"
                     }`}
+                    ref={settingsMenuRef}
                   >
-                    <button onClick={logOut} type="button">
-                      <ul>Log out</ul>
-                    </button>
-                    <button onClick={handleEditUsername} type="button">
-                      <ul>Edit username</ul>
-                    </button>
-                    <button
-                      type="button"
+                    <div
+                      className="icon_Settings_Container"
                       onClick={() => {
-                        setOpenAvatarModal(true);
-                        setOpenUserSettings(false);
+                        setOpenUserSettings(!openUserSettings);
                       }}
-                    >
-                      <ul>Edit profile picture</ul>
-                    </button>
-                    <button
-                      onClick={() => {
-                        handleEditUserDescription();
+                      onKeyDown={() => {
+                        setOpenUserSettings(!openUserSettings);
                       }}
-                      type="button"
+                      role="button"
+                      tabIndex={0}
+                      aria-label="Toggle User Settings"
                     >
-                      <ul>Edit profile description</ul>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setOpenModal(true);
-                        setOpenUserSettings(false);
-                      }}
+                      <Icon
+                        id="icon_Settings"
+                        type="button"
+                        icon="material-symbols:settings"
+                        color="#f3f3e6"
+                        width="35"
+                        height="35"
+                      />
+                    </div>
+                    <div
+                      className={`dropdown_Settings ${
+                        openUserSettings ? "active" : "inactive"
+                      }`}
                     >
-                      <ul>Delete account</ul>
-                    </button>
+                      <button onClick={logOut} type="button">
+                        <ul>Log out</ul>
+                      </button>
+                      <button onClick={handleEditUsername} type="button">
+                        <ul>Edit username</ul>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setOpenAvatarModal(true);
+                          setOpenUserSettings(false);
+                        }}
+                      >
+                        <ul>Edit profile picture</ul>
+                      </button>
+                      <button
+                        onClick={() => {
+                          handleEditUserDescription();
+                        }}
+                        type="button"
+                      >
+                        <ul>Edit profile description</ul>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setOpenModal(true);
+                          setOpenUserSettings(false);
+                        }}
+                      >
+                        <ul>Delete account</ul>
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ) : (
-              <div className="follow_Btn_Container">
-                <button
-                  type="button"
-                  className={
-                    isFollowed ? "follow_Btn inactive" : "follow_Btn active"
-                  }
-                  onClick={handleFollowClick}
-                >
-                  {isFollowed ? "Unfollow" : "Follow"}
-                </button>
-              </div>
-            )}
+              ) : (
+                <div className="follow_Btn_Container">
+                  <button
+                    type="button"
+                    className={
+                      isFollowed ? "follow_Btn inactive" : "follow_Btn active"
+                    }
+                    onClick={handleFollowClick}
+                  >
+                    {isFollowed ? "Unfollow" : "Follow"}
+                  </button>
+                </div>
+              ))}
           </div>
           <div className="user_Description_Container">
             {isEditingUserDescription ? (
@@ -531,7 +520,7 @@ function UserProfile() {
           </div>
         </section>
         <section className="video_Section">
-          {userVideos.map((video) => (
+          {[...userVideos].reverse().map((video) => (
             <VideoCard
               key={video.video_id}
               videoId={video.video_id}
@@ -540,8 +529,11 @@ function UserProfile() {
               videoTitle={video.title}
               videoThumbnail={video.thumbnail}
               videoDate={video.date_publication}
-              videoViews={video.views}
+              videoViews={video.view_count}
               videoUserAvatar={selectedUser.avatar}
+              canDelete={auth?.user?.user_id === selectedUser?.user_id}
+              canEdit={auth?.user?.user_id === selectedUser?.user_id}
+              canRemoveFavorite={false}
               onDeleteVideo={handleDeleteVideoFromState}
               showVideoIcon={auth?.user?.user_id === selectedUser?.user_id}
             />

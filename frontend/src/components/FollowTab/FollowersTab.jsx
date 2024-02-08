@@ -4,7 +4,7 @@ import useSelectedUser from "../../context/SelectedUserContext";
 
 function FollowersTab() {
   const [followers, setFollowers] = useState([]);
-  const { selectedUser } = useSelectedUser();
+  const { selectedUser, isFollowed, setIsFollowed } = useSelectedUser();
 
   useEffect(() => {
     const fetchFollowers = async () => {
@@ -31,13 +31,31 @@ function FollowersTab() {
     };
 
     fetchFollowers();
-  }, []);
+  }, [isFollowed]);
+
+  const handleRemoveFollower = (followerId) => {
+    setFollowers((prevFollowers) =>
+      prevFollowers.filter((follower) => follower.user_id !== followerId)
+    );
+    setIsFollowed(false);
+  };
 
   return (
     <div className="container_Sub">
-      {followers.map((follower) => (
-        <Subcard key={follower.id} follower={follower} />
-      ))}
+      {followers
+        ? followers.map((follow) => (
+            <Subcard
+              key={follow.user_id}
+              userId={follow.user_id}
+              username={follow.username}
+              avatar={follow.avatar}
+              width={50}
+              height={50}
+              followType
+              onRemoveFollower={() => handleRemoveFollower(follow.user_id)}
+            />
+          ))
+        : ""}
     </div>
   );
 }

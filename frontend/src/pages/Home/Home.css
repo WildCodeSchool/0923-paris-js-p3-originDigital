@@ -14,6 +14,14 @@
   flex-direction: column;
   justify-content: center;
   color: var(--white);
+  padding-bottom: 5.5rem;
+}
+.connectedHome {
+  padding-top: 7rem;
+}
+
+.notConnectedHome {
+  padding-top: 12rem;
 }
 
 .container_Carousel {
@@ -22,17 +30,25 @@
 
 .title_Top {
   margin-bottom: 0.5rem;
+  font-size: 20px;
+  margin: 0 2rem;
 }
 
 .title_Short {
   margin-top: 1.5rem;
   margin-bottom: 0.5rem;
+  font-size: 20px;
+  margin: 0 2rem;
 }
 
 .container_Short {
   display: flex;
   flex-direction: column;
   margin-top: 1rem;
+}
+
+[class^="title_Category"] {
+  margin: 0 2rem;
 }
 
 .title_Category_Animal {
@@ -51,7 +67,11 @@
 .categoryContainer {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  font-size: 20px;
+}
+
+.categoryContainer:hover {
+  color: var(--orange);
 }
 
 @media only screen and (min-width: 1024px) {
@@ -61,5 +81,8 @@
 
   .slider_Home {
     width: 100%;
+  }
+  .container_Home {
+    padding-bottom: 0;
   }
 }

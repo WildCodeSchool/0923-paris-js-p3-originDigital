@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import AddComment from "../../assets/AddComment.png";
 import Description from "../../components/Description/Description";
@@ -18,6 +18,7 @@ function Videos() {
   const [inputComment, setInputComment] = useState(false);
   const auth = useContext(authContext);
   const { selectedVideo } = useSelectedVideo();
+
   function formatDate(dateString) {
     const date = new Date(dateString);
     const day = date.getDate().toString().padStart(2, "0");
@@ -25,33 +26,27 @@ function Videos() {
     const year = date.getFullYear();
     return `${day}/${month}/${year}`;
   }
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchVideoInfo = async () => {
       try {
-        const response = await fetch(
-          `http://localhost:3310/api/videos/${id}/info`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            credentials: "include",
-          }
-        );
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+        const response = await fetch(`http://localhost:3310/api/videos/${id}`, {
+          method: "GET",
+          credentials: "include",
+        });
+        if (response.status === 200) {
+          const data = await response.json();
+          setVideoInfo(data);
+        } else {
+          navigate("/*");
         }
-        const data = await response.json();
-        setVideoInfo(data[0]);
       } catch (error) {
-        console.error("Could not fetch video info:", error);
+        console.error(error);
       }
     };
     fetchVideoInfo();
   }, [id]);
-  if (!videoInfo) {
-    return <div>Loading...</div>;
-  }
+
   const handleSubmit = async () => {
     try {
       if (comment.trim() !== "") {
@@ -85,6 +80,7 @@ function Videos() {
       console.error(error);
     }
   };
+
   useEffect(() => {
     const showComments = async () => {
       try {
@@ -92,9 +88,6 @@ function Videos() {
           `${import.meta.env.VITE_BACKEND_URL}/videos/${id}/comments`,
           {
             method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
             credentials: "include",
           }
         );
@@ -111,13 +104,16 @@ function Videos() {
       }
     };
     showComments();
-  }, [comments]);
+  }, [inputComment]);
+
   const handleInputChange = (event) => {
     setComment(event.target.value);
   };
+
   const toggleInputComment = () => {
     setInputComment(!inputComment);
   };
+
   const handleDeleteCommentFromState = (deletedCommentId) => {
     setComments((prevComments) =>
       prevComments.filter((com) => com.comment_id !== deletedCommentId)
@@ -126,14 +122,21 @@ function Videos() {
   const handleUpdateCommentInState = (updatedComment) => {
     setComments((prevComments) =>
       prevComments.map((com) =>
-        com.comment_id === updatedComment.comment_id ? updatedComment : com
+        com.comment_id === updatedComment.comment_id
+          ? { ...updatedComment }
+          : com
       )
     );
   };
+
   return (
     <main>
       <Header />
-      <div className="containeur_Body_Video">
+      <div
+        className={`container_Body_Video ${
+          auth?.user ? "connectedVideo" : "notConnecteVideo"
+        }`}
+      >
         <WatchingVideoCard data={videoInfo} />
         <div className="desc_N_Coms">
           <Description data={videoInfo} />
@@ -143,47 +146,49 @@ function Videos() {
             handleUpdateCommentInState={handleUpdateCommentInState}
           />
         </div>
-        <div className="inputSection">
-          {inputComment ? (
-            <div className="container_Comment">
-              <input
-                className="input_Comment"
-                type="text"
-                placeholder="Add a comment"
-                value={comment}
-                onChange={handleInputChange}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    handleSubmit();
-                  }
-                }}
-              />
-              <Icon
-                id="icon_Search"
-                type="button"
-                onClick={handleSubmit}
-                icon="material-symbols:upload"
-                color="#F3F3E6"
-                width="50"
-                height="50"
-              />
-            </div>
-          ) : (
-            <div
-              role="button"
-              onClick={toggleInputComment}
-              onKeyDown={toggleInputComment}
-              className="addCommentSection"
-              tabIndex="-11"
-            >
-              <img
-                src={AddComment}
-                alt="Add Comment"
-                className="addCommentButton"
-              />
-            </div>
-          )}
-        </div>
+        {auth?.user?.user_id && (
+          <div className="inputSection">
+            {inputComment ? (
+              <div className="container_Comment">
+                <input
+                  className="input_Comment"
+                  type="text"
+                  placeholder="Add a comment"
+                  value={comment}
+                  onChange={handleInputChange}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      handleSubmit();
+                    }
+                  }}
+                />
+                <Icon
+                  id="icon_Search"
+                  type="button"
+                  onClick={handleSubmit}
+                  icon="material-symbols:upload"
+                  color="#F3F3E6"
+                  width="50"
+                  height="50"
+                />
+              </div>
+            ) : (
+              <div
+                role="button"
+                onClick={toggleInputComment}
+                onKeyDown={toggleInputComment}
+                className="addCommentSection"
+                tabIndex="-11"
+              >
+                <img
+                  src={AddComment}
+                  alt="Add Comment"
+                  className="addCommentButton"
+                />
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </main>
   );

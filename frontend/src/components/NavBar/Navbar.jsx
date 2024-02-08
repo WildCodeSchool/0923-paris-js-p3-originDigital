@@ -11,7 +11,6 @@ function Navbar() {
   const { isAdmin, toggleNavbarDesktop, setToggleNavbarDestkop } =
     useOverview();
   const navbarRef = useRef(null);
-
   const handleFavoritesClick = () => {
     Navigate("/favorites");
     setToggleNavbarDestkop(false);
@@ -28,7 +27,6 @@ function Navbar() {
     Navigate(`/usersprofile/${auth?.user.user_id}`);
     setToggleNavbarDestkop(false);
   };
-
   const handleSettingsCategoriesClick = () => {
     Navigate(`/settingscategories}`);
     setToggleNavbarDestkop(false);
@@ -37,7 +35,6 @@ function Navbar() {
     Navigate("/adminreviews");
     setToggleNavbarDestkop(false);
   };
-
   const logOut = async () => {
     try {
       const response = await fetch(
@@ -49,13 +46,13 @@ function Navbar() {
       );
       if (response.status === 200) {
         auth.setUser(null);
+        setToggleNavbarDestkop(false);
         Navigate("/");
       }
     } catch (error) {
       console.error(error);
     }
   };
-
   useEffect(() => {
     const handleDocumentClick = (e) => {
       if (!toggleNavbarDesktop) {
@@ -70,13 +67,12 @@ function Navbar() {
       document.body.removeEventListener("click", handleDocumentClick);
     };
   }, [toggleNavbarDesktop]);
-
   return (
     <section className="main_Navbar">
       <div
         ref={navbarRef}
         className={`containeur_Body_Navbar ${
-          !toggleNavbarDesktop ? "hiddenNavbar" : ""
+          !toggleNavbarDesktop ? "hiddenNavbar" : "visible"
         }`}
       >
         <Icon
@@ -147,10 +143,9 @@ function Navbar() {
               />
               <span className="text_Subscription_Navbar">Subscriptions</span>
             </div>
-
             <div
               className="logOut_Navbar_bloc"
-              onClick={handleSettingsCategoriesClick}
+              onClick={logOut}
               onKeyDown={logOut}
               tabIndex="-8"
               role="button"
@@ -164,7 +159,6 @@ function Navbar() {
               />
               <span className="text_LogOut_Navbar">Log out</span>
             </div>
-
             <div
               className="profil_Navbar_bloc"
               onClick={handleUserProfileClick}
@@ -248,5 +242,4 @@ function Navbar() {
     </section>
   );
 }
-
 export default Navbar;

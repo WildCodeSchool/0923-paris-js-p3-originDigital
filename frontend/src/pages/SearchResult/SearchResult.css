@@ -1,5 +1,14 @@
 .search_Result_Section_Wrapper {
-  min-height: calc(100vh - 5.5rem);
+  min-height: calc(100vh + 6rem);
+  padding-bottom: 5rem;
+}
+
+.connectedSearch {
+  padding-top: 5rem;
+}
+
+.notConnectedSearch {
+  padding-top: 0;
 }
 
 .search_Result_Section {
@@ -23,5 +32,17 @@
     grid-template-columns: repeat(auto-fit, minmax(295px, auto));
     justify-content: start;
     margin: 2rem;
+  }
+  .search_Result_Section_Wrapper {
+    min-height: calc(100vh + 6rem);
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  .connectedSearch {
+    padding-top: 6rem;
+  }
+
+  .notConnectedSearch {
+    padding-top: 0;
   }
 }

@@ -4,6 +4,7 @@ const authContext = createContext();
 
 function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const getCurrentUser = async () => {
@@ -19,15 +20,22 @@ function AuthProvider({ children }) {
         if (response.status === 200) {
           const currentUser = await response.json();
           setUser(currentUser);
+          setIsLoading(false);
+        } else {
+          setIsLoading(false);
         }
       } catch (error) {
         console.error(error);
+        setIsLoading(false);
       }
     };
     getCurrentUser();
   }, []);
 
-  const auth = useMemo(() => ({ user, setUser }), [user]);
+  const auth = useMemo(
+    () => ({ user, setUser, isLoading, setIsLoading }),
+    [user, isLoading]
+  );
 
   return <authContext.Provider value={auth}>{children}</authContext.Provider>;
 }

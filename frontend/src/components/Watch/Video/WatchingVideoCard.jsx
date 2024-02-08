@@ -312,7 +312,11 @@ function VideoCard({ data }) {
                   alt="Like Icon Number"
                   width="38"
                   height="38"
-                  onClick={() => setIsLiked(true)}
+                  onClick={() => {
+                    if (auth.user && auth.user.user_id === data.user_id) {
+                      setIsLiked(true);
+                    }
+                  }}
                 />
               )}
               <span>{data?.like_count}</span>

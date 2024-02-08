@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import Slider from "react-slick";
-// import VideocardHome from "../VideoCard Home/VideocardHome";
 import VideoCard from "../Videocard/VideoCard";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -44,10 +43,10 @@ function CategoryCarousel({ categoryId }) {
       <Slider
         className="slider_Home"
         dots
-        finite
+        infinite
         speed={500}
-        slidesToShow={3}
-        slidesToScroll={3}
+        slidesToShow={4}
+        slidesToScroll={4}
         arrows={false}
         responsive={[
           {
@@ -55,13 +54,14 @@ function CategoryCarousel({ categoryId }) {
             settings: {
               slidesToShow: 1,
               slidesToScroll: 1,
+              infinite: true,
             },
           },
           {
             breakpoint: 1024,
             settings: {
-              slidesToShow: 3,
-              slidesToScroll: 3,
+              slidesToShow: 4,
+              slidesToScroll: 4,
             },
           },
         ]}

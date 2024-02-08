@@ -22,13 +22,10 @@
   width: 100%;
 }
 
-.tab_Sub {
-  color: blueviolet;
-}
-
 @media only screen and (min-width: 1024px) {
   * .container_Body_Sub {
     min-height: 100vh;
     padding-bottom: 0;
+    padding-top: 5rem;
   }
 }

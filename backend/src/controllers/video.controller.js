@@ -87,7 +87,7 @@ const edit = async (req, res, next) => {
 
 const getMostViewed = async (req, res) => {
   try {
-    const mostViewedVideos = await videoModel.findMostViewed();
+    const [mostViewedVideos] = await videoModel.findMostViewed();
     res.json(mostViewedVideos);
   } catch (error) {
     console.error(error);
@@ -152,20 +152,42 @@ const getSearchResults = async (req, res, next) => {
 
 const changeViewCount = async (req, res, next) => {
   try {
-    const idVideo = req.params.id;
-
-    const [result] = await videoModel.findById(idVideo);
-    if (result.length > 0) {
-      await videoModel.updateViewCount(idVideo);
+    const videoId = req.params.id;
+    await videoModel.updateViewCount(videoId);
+    const [[updatedVideo]] = await videoModel.findById(videoId);
+    if (updatedVideo) {
+      res.json({ success: true, viewCount: updatedVideo.view_count });
     } else {
-      await videoModel.insertViewCount(idVideo);
+      res.status(404).json({ message: "Video not found" });
     }
+  } catch (error) {
+    next(error);
+  }
+};
 
-    const [updatedResult] = await videoModel.findById(idVideo);
-    const newViewCount =
-      updatedResult.length > 0 ? updatedResult[0].view_count : 0;
+const likeVideo = async (req, res, next) => {
+  try {
+    const videoId = req.params.id;
+    const userId = req.user_id;
+    const result = await videoModel.addLike(videoId, userId);
+    if (result) {
+      await videoModel.incrementLikeCount(videoId);
+      res.status(200).json({ message: "Video liked successfully." });
+    }
+  } catch (error) {
+    next(error);
+  }
+};
 
-    res.json({ success: true, viewCount: newViewCount });
+const unlikeVideo = async (req, res, next) => {
+  try {
+    const videoId = req.params.id;
+    const userId = req.user_id;
+    const result = await videoModel.removeLike(videoId, userId);
+    if (result) {
+      await videoModel.decrementLikeCount(videoId);
+      res.status(200).json({ message: "Video unliked successfully." });
+    }
   } catch (error) {
     next(error);
   }
@@ -196,5 +218,7 @@ module.exports = {
   getAllCommentsbyVideo,
   getSearchResults,
   changeViewCount,
+  likeVideo,
+  unlikeVideo,
   checkVideoInUserFavoriteList,
 };

@@ -59,7 +59,7 @@
 
 .data_Container_Watch {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-around;
   flex-direction: column;
   width: 100%;
   padding-left: 3.5%;
@@ -86,10 +86,12 @@
   transition: var(--speed) cubic-bezier(0.6, -0.28, 0.735, 0.045);
   height: 0rem;
 }
+
 .like_Icon_Watch:hover,
 .favorite_Icon_Watch:hover,
 .follow_Icon_Watch:hover {
   transform: scale(1.1);
+  cursor: pointer;
 }
 
 #icon_More_Vertical {

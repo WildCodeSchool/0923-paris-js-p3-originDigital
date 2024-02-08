@@ -15,13 +15,13 @@ function VideoCard({
   videoThumbnail,
   videoDate,
   videoViews,
-  canEdit, // Default to true if the prop is not provided
-  canDelete, // Default to true if the prop is not provided
-  canRemoveFavorite, // Default to true if the prop is not provided
-  onDeleteVideo, // Default to true if the prop is not provided
-  onRemoveFavorite, // Default to true if the prop is not provided
-  showVideoIcon, // Default to true if the prop is not provided
-  isInSlider, //  Default to true if the prop is not provided
+  canEdit,
+  canDelete,
+  canRemoveFavorite,
+  onDeleteVideo,
+  onRemoveFavorite,
+  showVideoIcon,
+  isInSlider,
 }) {
   const [openVideoOptions, setOpenVideoOptions] = useState(false);
   const navigate = useNavigate();
@@ -31,6 +31,19 @@ function VideoCard({
   const handleClose = () => {
     setOpenModal(false);
   };
+
+  function formatViewCount(viewCount) {
+    if (viewCount < 1000) {
+      return viewCount;
+      // eslint-disable-next-line no-else-return
+    } else if (viewCount >= 1000000) {
+      return `${(viewCount / 1000000).toFixed(1)} M`;
+    } else if (viewCount >= 1000) {
+      return `${(viewCount / 1000).toFixed(1)} K`;
+    }
+    return viewCount;
+  }
+  const formattedViewCount = formatViewCount(videoViews);
 
   const handleDeleteVideo = async () => {
     try {
@@ -244,7 +257,7 @@ function VideoCard({
             </div>
 
             <p>
-              {videoViews} views &bull;{" "}
+              {formattedViewCount} views &bull;{" "}
               <TimeAgo date={videoDate} minPeriod={60} />
             </p>
           </div>

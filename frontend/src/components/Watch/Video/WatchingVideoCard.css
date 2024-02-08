@@ -25,9 +25,9 @@
 
 .flex_Watch_Video_Info {
   display: flex;
-  justify-content: flex-end;
   margin-right: 7.5%;
   margin-top: 0.2rem;
+  justify-content: space-evenly;
 }
 .avatar_Container_Watch {
   padding-top: 0.6rem;
@@ -42,7 +42,7 @@
   display: flex;
 }
 .view_Icon_Watch_Bloc {
-  margin-left: auto;
+  margin-left: 0;
   padding-right: 3%;
   padding-top: 0.29rem;
   gap: 0.09rem;
@@ -80,6 +80,7 @@
   transform: translateY(0);
   transition: var(--speed) ease;
   border-radius: 10px;
+  padding: 1rem;
 }
 
 .moreVert_Icon_Container_Watch.inactive {
@@ -177,5 +178,12 @@
 
   .flex_Watch_Video_Info {
     margin-right: 5%;
+    justify-content: flex-end;
+  }
+  .view_Icon_Watch_Bloc {
+    margin-left: auto;
+    padding-right: 3%;
+    padding-top: 0.29rem;
+    gap: 0.09rem;
   }
 }

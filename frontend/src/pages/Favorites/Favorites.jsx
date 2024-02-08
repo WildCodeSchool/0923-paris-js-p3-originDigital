@@ -24,6 +24,7 @@ function Favorites() {
       <div className="container_Title_Sub">
         <h1 className="title_Sub">FAVORITES</h1>
       </div>
+
       <div className="container_Tab_Sub">
         <MyVideoTabs tabValue={tabValue} handleChange={handleChange} />
       </div>

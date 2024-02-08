@@ -20,6 +20,8 @@ router.get("/videos/:id/comments", videoController.getAllCommentsbyVideo);
 router.get("/videos/:id/tags", tagController.getAllByVideoId);
 router.put("/videos/:id/viewsUpdate", videoController.changeViewCount);
 router.put("/videos/:id", fileUpload.any(), videoController.edit);
+router.put("/videos/:id/like", auth.isAuth, videoController.likeVideo);
+router.put("/videos/:id/unlike", auth.isAuth, videoController.unlikeVideo);
 router.delete("/videos/:id", videoController.removeOne);
 
 module.exports = router;

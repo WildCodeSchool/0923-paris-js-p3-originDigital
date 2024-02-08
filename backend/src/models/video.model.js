@@ -70,21 +70,21 @@ const insertViewCount = (idVideo) => {
   ]);
 };
 
-const addLike = (videoId, userId) => {
-  return db.query(
-    `INSERT INTO likes (video_id, user_id) VALUES (?, ?) ON DUPLICATE KEY UPDATE video_id = video_id; 
-    UPDATE videos SET like_count = like_count + 1 WHERE video_id = ?`,
-    [videoId, userId, videoId]
-  );
-};
+// const addLike = (videoId, userId) => {
+//   return db.query(
+//     `INSERT INTO likes (video_id, user_id) VALUES (?, ?) ON DUPLICATE KEY UPDATE video_id = video_id;
+//     UPDATE videos SET like_count = like_count + 1 WHERE video_id = ?`,
+//     [videoId, userId, videoId]
+//   );
+// };
 
-const removeLike = (videoId, userId) => {
-  return db.query(
-    `DELETE FROM likes WHERE video_id = ? AND user_id = ?; 
-    UPDATE videos SET like_count = like_count - 1 WHERE video_id = ?`,
-    [videoId, userId, videoId]
-  );
-};
+// const removeLike = (videoId, userId) => {
+//   return db.query(
+//     `DELETE FROM likes WHERE video_id = ? AND user_id = ?;
+//     UPDATE videos SET like_count = like_count - 1 WHERE video_id = ?`,
+//     [videoId, userId, videoId]
+//   );
+// };
 
 const findAll = () => {
   return db.query("SELECT * FROM videos");
@@ -151,6 +151,27 @@ const isInUserFavorites = (userId, videoId) => {
   );
 };
 
+const addLike = (videoId, userId) => {
+  return db.query(`INSERT INTO likes (video_id, user_id) VALUES (?,?)`, [
+    videoId,
+    userId,
+  ]);
+};
+
+const removeLike = (userId, videoId) => {
+  return db.query(`DELETE FROM likes WHERE user_id = ? AND video_id = ?`, [
+    videoId,
+    userId,
+  ]);
+};
+
+const isInLike = (userId, videoId) => {
+  return db.query(
+    `SELECT u.*, l.video_id AS liked_video_id FROM users AS u JOIN likes AS l ON u.user_id = l.user_id WHERE l.user_id = ? AND l.video_id = ?`,
+    [userId, videoId]
+  );
+};
+
 module.exports = {
   insert,
   findById,
@@ -166,6 +187,7 @@ module.exports = {
   updateViewCount,
   insertViewCount,
   isInUserFavorites,
+  isInLike,
   addLike,
   removeLike,
 };

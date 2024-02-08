@@ -132,7 +132,11 @@ function Videos() {
   return (
     <main>
       <Header />
-      <div className="containeur_Body_Video">
+      <div
+        className={`container_Body_Video ${
+          auth?.user ? "connectedVideo" : "notConnecteVideo"
+        }`}
+      >
         <WatchingVideoCard data={videoInfo} />
         <div className="desc_N_Coms">
           <Description data={videoInfo} />

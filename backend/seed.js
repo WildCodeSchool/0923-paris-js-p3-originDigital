@@ -837,7 +837,7 @@ const seed = async () => {
     const views = [
       {
         users_id: 2,
-        video_id: 46,
+        video_id: 11,
         count: 1414243,
       },
       {
@@ -852,7 +852,7 @@ const seed = async () => {
       },
       {
         users_id: 1,
-        video_id: 55,
+        video_id: 17,
         count: 2145980,
       },
     ];

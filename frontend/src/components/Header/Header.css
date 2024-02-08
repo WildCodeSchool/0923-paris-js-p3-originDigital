@@ -3,8 +3,7 @@
   align-items: center;
   justify-content: space-evenly;
   flex-wrap: wrap;
-  padding: 1rem 0;
-
+  padding-top: 1rem;
   transition: top 0.3s;
   position: fixed;
   width: 100%;
@@ -20,11 +19,9 @@
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  padding: 1rem 0;
+  padding-top: 1rem;
   flex-wrap: wrap;
   border-bottom: 0.0002rem solid var(--white);
-  margin-bottom: 1rem;
-
   transition: top 0.3s;
   position: fixed;
   width: 100%;

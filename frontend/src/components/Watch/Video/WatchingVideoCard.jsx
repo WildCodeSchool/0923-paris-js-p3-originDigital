@@ -20,10 +20,11 @@ function VideoCard({ data }) {
   const [openVideoOptions, setOpenVideoOptions] = useState(false);
   const videoOptionsMenuRef = useRef();
   const [openModal, setOpenModal] = useState(false);
-  const [isLiked, setIsLiked] = useState(false);
+  const [isLiked, setIsLiked] = useState(null);
   const [isFavorite, setIsFavorite] = useState(false);
   const { selectedVideo } = useSelectedVideo();
   const [viewCountTracker, setViewCountTracker] = useState(0);
+  const [likeCount, setLikeCount] = useState(data?.like_count);
 
   const isMobile = window.innerWidth < 1024;
   const handleClose = () => {
@@ -60,7 +61,7 @@ function VideoCard({ data }) {
     const fetchViewCount = async () => {
       try {
         const response = await fetch(
-          `${import.meta.env.VITE_BACKEND_URL}/videos/${data.video_id}`,
+          `${import.meta.env.VITE_BACKEND_URL}/videos/${data?.video_id}`,
           {
             method: "GET",
             credentials: "include",
@@ -104,6 +105,25 @@ function VideoCard({ data }) {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    const checkIsLiked = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/videos/${data.video_id}/isLiked`,
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
+        if (response.status === 200) setIsLiked(true);
+        else setIsLiked(false);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    checkIsLiked();
+  }, [data.video_id]);
 
   useEffect(() => {
     const checkIsVideoFavorite = async () => {
@@ -184,13 +204,79 @@ function VideoCard({ data }) {
     }
   };
 
+  const handleLike = async () => {
+    if (!isLiked) {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/videos/${data?.user_id}/like`,
+          {
+            method: "POST",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              video_id: data.video_id,
+            }),
+          }
+        );
+        if (response.status === 200) {
+          setIsLiked(true);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/videos/${data?.user_id}/like`,
+          {
+            method: "DELETE",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              video_id: data.video_id,
+            }),
+          }
+        );
+        if (response.status === 200) {
+          setIsLiked(false);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    const fetchVideoLikes = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:3310/api/videos/${data?.video_id}`,
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
+        if (response.status === 200) {
+          const likedData = await response.json();
+          // console.log("like count", likedData)
+          setLikeCount(likedData?.like_count);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchVideoLikes();
+  }, [isLiked]);
+
   const handleFollowClick = async () => {
     if (!isFollowed) {
       try {
         const response = await fetch(
-          `${import.meta.env.VITE_BACKEND_URL}/users/${
-            selectedUser?.user_id
-          }/follow`,
+          `${import.meta.env.VITE_BACKEND_URL}/users/${data?.user_id}/follow`,
           {
             method: "POST",
             credentials: "include",
@@ -199,7 +285,7 @@ function VideoCard({ data }) {
             },
             body: JSON.stringify({
               follower_id: auth?.user?.user_id,
-              followed_id: selectedUser?.user_id,
+              followed_id: data?.user_id,
             }),
           }
         );
@@ -250,7 +336,9 @@ function VideoCard({ data }) {
       console.error(error);
     }
   };
-
+  // useEffect(() => {
+  //   console.log("lik", isLiked);
+  // }, [isLiked]);
   return (
     <>
       {isMobile ? (
@@ -303,7 +391,7 @@ function VideoCard({ data }) {
                   alt="Like Icon Number"
                   width="38"
                   height="38"
-                  onClick={() => setIsLiked(false)}
+                  onClick={handleLike}
                 />
               ) : (
                 <Icon
@@ -312,14 +400,10 @@ function VideoCard({ data }) {
                   alt="Like Icon Number"
                   width="38"
                   height="38"
-                  onClick={() => {
-                    if (auth.user) {
-                      setIsLiked(true);
-                    }
-                  }}
+                  onClick={handleLike}
                 />
               )}
-              <span>{data?.like_count}</span>
+              <span>{likeCount}</span>
             </div>
           </div>
           <div className="favorite_Icon_Watch_Bloc">
@@ -344,19 +428,22 @@ function VideoCard({ data }) {
               />
             )}
           </div>
-          <div
-            className="simple-line-icons:user-following "
-            tabIndex="-17"
-            role="button"
-            onClick={handleFollowClick}
-            onKeyDown={handleFollowClick}
-          >
-            <img
-              src={isFollowed ? unfollow : follow}
-              className="follow_Icon_Watch"
-              alt="Follow Icon"
-            />
-          </div>
+          {auth?.user?.user_id !== data.user_id && (
+            <div
+              className="simple-line-icons:user-following "
+              tabIndex="-17"
+              role="button"
+              onClick={handleFollowClick}
+              onKeyDown={handleFollowClick}
+            >
+              <img
+                src={isFollowed ? unfollow : follow}
+                className="follow_Icon_Watch"
+                alt="Follow Icon"
+              />
+            </div>
+          )}
+
           {auth.user && auth.user.user_id === data.user_id && (
             <div
               className={`moreVert_Icon_Container_Watch ${

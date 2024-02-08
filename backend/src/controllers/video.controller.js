@@ -169,11 +169,10 @@ const likeVideo = async (req, res, next) => {
   try {
     const videoId = req.params.id;
     const userId = req.user_id;
-    const result = await videoModel.addLike(videoId, userId);
-    if (result) {
-      await videoModel.incrementLikeCount(videoId);
+    const [result] = await videoModel.addLike(videoId, userId);
+    if (result.affectedRows > 0)
       res.status(200).json({ message: "Video liked successfully." });
-    }
+    else res.sendStatus(404);
   } catch (error) {
     next(error);
   }
@@ -183,11 +182,10 @@ const unlikeVideo = async (req, res, next) => {
   try {
     const videoId = req.params.id;
     const userId = req.user_id;
-    const result = await videoModel.removeLike(videoId, userId);
-    if (result) {
-      await videoModel.decrementLikeCount(videoId);
+    const [result] = await videoModel.removeLike(videoId, userId);
+    if (result.affectedRows > 0)
       res.status(200).json({ message: "Video unliked successfully." });
-    }
+    else res.sendStatus(404);
   } catch (error) {
     next(error);
   }
@@ -199,6 +197,16 @@ const checkVideoInUserFavoriteList = async (req, res, next) => {
       req.user_id,
       req.params.id
     );
+    if (result) res.status(200).json(result);
+    else res.sendStatus(404);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const checkLikedVideoForUser = async (req, res, next) => {
+  try {
+    const [[result]] = await videoModel.isInLike(req.user_id, req.params.id);
     if (result) res.status(200).json(result);
     else res.sendStatus(404);
   } catch (error) {
@@ -221,4 +229,5 @@ module.exports = {
   likeVideo,
   unlikeVideo,
   checkVideoInUserFavoriteList,
+  checkLikedVideoForUser,
 };

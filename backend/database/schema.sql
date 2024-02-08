@@ -193,13 +193,14 @@ CREATE TABLE `videos` (
   `validate` tinyint NOT NULL DEFAULT '0',
   `category_id` int NOT NULL,
   `user_id` int NOT NULL,
-   `view_count` int DEFAULT '0',
+  `view_count` int DEFAULT '0',
+  `like_count` int DEFAULT '0',
   PRIMARY KEY (`video_id`),
   KEY `fk_Videos_Categories1_idx` (`category_id`),
   KEY `fk_Videos_User_idx` (`user_id`),
   CONSTRAINT `fk_Videos_Categories1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`category_id`) ON DELETE CASCADE,
   CONSTRAINT `fk_Videos_User1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -230,4 +231,4 @@ CREATE TABLE `views` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-02-07 19:36:18
+-- Dump completed on 2024-02-08 10:29:52

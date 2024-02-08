@@ -167,6 +167,7 @@
   .container_Body_Signup {
     min-height: 100vh;
     padding-bottom: 0;
+    padding-top: 7rem;
   }
   /* .text_Title_Sign {
     margin-bottom: 4rem;

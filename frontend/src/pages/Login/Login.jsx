@@ -69,6 +69,11 @@ function Login() {
               placeholder="Username"
               name="username"
               ref={username}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleSubmit();
+                }
+              }}
             />
           </div>
           <div className="container_Password">
@@ -79,6 +84,11 @@ function Login() {
               placeholder="Password"
               name="password"
               ref={password}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleSubmit();
+                }
+              }}
             />
             <a className="link_Log" href="/signup">
               Forgot your password?{" "}

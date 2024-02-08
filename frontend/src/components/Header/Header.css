@@ -14,21 +14,29 @@
 }
 
 .hide {
-  top: -100%;
+  top: -100% !important;
 }
 .header-unregistered {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  margin-top: 1rem;
+  padding: 1rem 0;
   flex-wrap: wrap;
   border-bottom: 0.0002rem solid var(--white);
   margin-bottom: 1rem;
+
+  transition: top 0.3s;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 10;
+  background-color: var(--black);
 }
 
 #logo_Sign {
   width: 63px;
   height: 63px;
+  cursor: pointer;
 }
 
 .container_Search {
@@ -103,6 +111,7 @@
   }
   .header-unregistered {
     justify-content: space-around;
+    border-bottom: none;
   }
 
   #icon_Sign {
@@ -132,9 +141,7 @@
     font-size: 15px;
     border-radius: 50px;
   }
-  .header-unregistered {
-    border-bottom: none;
-  }
+
   .logIn_Btn {
     width: 17%;
   }

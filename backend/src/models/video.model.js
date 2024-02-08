@@ -48,27 +48,42 @@ const insertVideoTag = (videoId, tagId) => {
 
 const findById = (id) => {
   return db.query(
-    `SELECT v.*, u.*, c.name, (SELECT COUNT(*) FROM likes WHERE video_id = v.video_id) AS like_count, (SELECT SUM(views.count) FROM views WHERE video_id = v.video_id) AS view_count FROM videos v LEFT JOIN users u ON v.user_id = u.user_id LEFT JOIN likes l ON v.video_id = l.video_id LEFT JOIN views vw ON v.video_id = vw.video_id JOIN categories AS c ON v.category_id = c.category_id WHERE v.video_id = ? GROUP BY v.video_id, u.user_id`,
+    `SELECT v.*, u.*, c.name, (SELECT COUNT(*) FROM likes WHERE video_id = v.video_id) AS like_count, v.view_count 
+    FROM videos v 
+    LEFT JOIN users u ON v.user_id = u.user_id 
+    LEFT JOIN categories c ON v.category_id = c.category_id 
+    WHERE v.video_id = ?`,
     [id]
   );
 };
 
-// const getCurrentViewCount = (idVideo) => {
-//   return db.query(`SELECT SUM(views.count) FROM views WHERE video_id = ?`, [
-//     idVideo,
-//   ]);
-// };
-
 const updateViewCount = (idVideo) => {
-  return db.query(`UPDATE views SET count = count + 1 WHERE video_id = ?`, [
-    idVideo,
-  ]);
+  return db.query(
+    `UPDATE videos SET view_count = view_count +1 WHERE video_id = ?`,
+    [idVideo]
+  );
 };
 
 const insertViewCount = (idVideo) => {
   return db.query(`INSERT INTO views (video_id, count) VALUES (?, 1)`, [
     idVideo,
   ]);
+};
+
+const addLike = (videoId, userId) => {
+  return db.query(
+    `INSERT INTO likes (video_id, user_id) VALUES (?, ?) ON DUPLICATE KEY UPDATE video_id = video_id; 
+    UPDATE videos SET like_count = like_count + 1 WHERE video_id = ?`,
+    [videoId, userId, videoId]
+  );
+};
+
+const removeLike = (videoId, userId) => {
+  return db.query(
+    `DELETE FROM likes WHERE video_id = ? AND user_id = ?; 
+    UPDATE videos SET like_count = like_count - 1 WHERE video_id = ?`,
+    [videoId, userId, videoId]
+  );
 };
 
 const findAll = () => {
@@ -151,4 +166,6 @@ module.exports = {
   updateViewCount,
   insertViewCount,
   isInUserFavorites,
+  addLike,
+  removeLike,
 };

@@ -15,13 +15,13 @@ function VideoCard({
   videoThumbnail,
   videoDate,
   videoViews,
-  canEdit, // Default to true if the prop is not provided
-  canDelete, // Default to true if the prop is not provided
-  canRemoveFavorite, // Default to true if the prop is not provided
-  onDeleteVideo, // Default to true if the prop is not provided
-  onRemoveFavorite, // Default to true if the prop is not provided
-  showVideoIcon, // Default to true if the prop is not provided
-  isInSlider, //  Default to true if the prop is not provided
+  canEdit,
+  canDelete,
+  canRemoveFavorite,
+  onDeleteVideo,
+  onRemoveFavorite,
+  showVideoIcon,
+  isInSlider,
 }) {
   const [openVideoOptions, setOpenVideoOptions] = useState(false);
   const navigate = useNavigate();

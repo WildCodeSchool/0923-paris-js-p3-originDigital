@@ -29,6 +29,7 @@
 #logo_Sign {
   width: 63px;
   height: 63px;
+  cursor: pointer;
 }
 
 .container_Search {

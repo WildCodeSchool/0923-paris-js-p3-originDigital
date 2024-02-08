@@ -24,6 +24,13 @@
   flex-wrap: wrap;
   border-bottom: 0.0002rem solid var(--white);
   margin-bottom: 1rem;
+
+  transition: top 0.3s;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 10;
+  background-color: var(--black);
 }
 
 #logo_Sign {

@@ -313,7 +313,7 @@ function VideoCard({ data }) {
                   width="38"
                   height="38"
                   onClick={() => {
-                    if (auth.user && auth.user.user_id === data.user_id) {
+                    if (auth.user) {
                       setIsLiked(true);
                     }
                   }}

@@ -1,5 +1,6 @@
 import ReactPlayer from "react-player";
 import { React, useState, useEffect, useRef, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import "./WatchingVideoCard.css";
 import { Icon } from "@iconify/react";
 import BackgroundLetterAvatars from "../../Avatar/Avatar";
@@ -12,6 +13,7 @@ import useSelectedUser from "../../../context/SelectedUserContext";
 import useOverview from "../../../context/Overviewcontext";
 
 function VideoCard({ data }) {
+  const navigate = useNavigate();
   const auth = useContext(authContext);
   const { isFollowed, setIsFollowed, selectedUser } = useSelectedUser();
   const { setFavoriteVideoList } = useOverview();
@@ -40,10 +42,6 @@ function VideoCard({ data }) {
     return viewCount;
   }
   const formattedViewCount = formatViewCount(viewCountTracker);
-
-  // const handleFollowClick = () => {
-  //   setIsFollowed(!isFollowed);
-  // };
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -234,6 +232,25 @@ function VideoCard({ data }) {
     }
   };
 
+  const handleDeleteVideo = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/videos/${data.video_id}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        }
+      );
+      if (response.status === 204) {
+        navigate("/");
+      } else {
+        console.error("Failed to delete video");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <>
       {isMobile ? (
@@ -336,47 +353,50 @@ function VideoCard({ data }) {
               alt="Follow Icon"
             />
           </div>
-          <div
-            className={`moreVert_Icon_Container_Watch ${
-              openVideoOptions ? "active" : "inactive"
-            }`}
-            ref={videoOptionsMenuRef}
-          >
-            <Icon
-              id="icon_More_Vertical"
-              type="button"
-              icon="pepicons-pop:dots-y"
-              color="#f3f3e6"
-              width="37"
-              height="37"
-              onClick={() => {
-                setOpenVideoOptions(!openVideoOptions);
-              }}
-            />
+          {auth.user && auth.user.user_id === data.user_id && (
             <div
-              className={`dropdown_Menu ${
+              className={`moreVert_Icon_Container_Watch ${
                 openVideoOptions ? "active" : "inactive"
               }`}
+              ref={videoOptionsMenuRef}
             >
-              <button
+              <Icon
+                id="icon_More_Vertical"
                 type="button"
+                icon="pepicons-pop:dots-y"
+                color="#f3f3e6"
+                width="37"
+                height="37"
                 onClick={() => {
-                  setOpenVideoOptions(false);
+                  setOpenVideoOptions(!openVideoOptions);
                 }}
+              />
+              <div
+                className={`dropdown_Menu ${
+                  openVideoOptions ? "active" : "inactive"
+                }`}
               >
-                <ul>Edit video</ul>
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setOpenModal(true);
-                  setOpenVideoOptions(false);
-                }}
-              >
-                <ul>Delete video</ul>
-              </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setOpenVideoOptions(false);
+                    navigate(`/videos/${data?.video_id}/edit`);
+                  }}
+                >
+                  <ul>Edit video</ul>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setOpenModal(true);
+                    setOpenVideoOptions(false);
+                  }}
+                >
+                  <ul>Delete video</ul>
+                </button>
+              </div>
             </div>
-          </div>
+          )}
         </div>
         {openModal && (
           <Modal onClose={handleClose}>
@@ -388,6 +408,7 @@ function VideoCard({ data }) {
                 type="button"
                 className="modal_Btn"
                 onClick={() => {
+                  handleDeleteVideo();
                   setOpenModal(false);
                 }}
               >
